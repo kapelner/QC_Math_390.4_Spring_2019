@@ -84,11 +84,8 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 * Lecture 1 [(audio)](https://youtu.be/lpohkUOOn8I) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf)
 
-## R Notes
-* 
-
 ## Labs
-
+* [(Lab 1)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab01.Rmd)
 
 ## Theory Homeworks
 
@@ -98,10 +95,9 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 * Homework 3p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03p.Rmd) (due 4/13)
 * Homework 3t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03t.pdf) (due 3/23)
 * Homework 2t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02t.pdf) (due 3/6)
-* Homework 2p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02p.Rmd) (due 3/6)
-* Homework 1t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01t.pdf) (due 2/26)
-* Homework 1p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01p.Rmd) (due 2/24)
--->
+* Homework 2p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02p.Rmd) (due 3/6)-->
+* Homework 1 [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01t.pdf) (due 2/12)
+
 * Homework 0 [(see midway through syllabus)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/syllabus/syllabus.pdf?raw=true) (due 2/1)
 
 ## Exams
