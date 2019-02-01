@@ -144,5 +144,3 @@ Location: Kiely Hall 5th floor math lounge
 
 You can check your grades in realtime at [http://qc.gradesly.com](http://qc.gradesly.com). You type in your email address and the password (which was emailed to you at the beginning of the semester).
 
-
-=100000+'coop mortgage'!$D$23+(280000-267415
