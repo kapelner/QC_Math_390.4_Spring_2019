@@ -76,17 +76,21 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
   - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec04takhalov.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec04patel.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec04kondi.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec04kap.pdf)
 * Lecture 3 [(audio)](https://youtu.be/TnQGJqgFm1M)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec03.Rmd)
-  - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03takhalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kondi.pdf) [(Joseph Peltroche)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03peltroche.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kap.pdf)
-* Lecture 2 [(audio)](https://youtu.be/5oPPucZ5VME)  
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec02.Rmd)	
-  - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02takhalov.pdf) [(Karina Aponte)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02aponte.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02patel.pdf) [(Joseph Peltroche)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02peltroche.pdf) [(Joseph Huaynate)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02huaynate.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kondi.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kap.pdf)
+  - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03takhalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kondi.pdf) [(Joseph Peltroche)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03peltroche.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kap.pdf)-->
+* Lecture 2 [(audio)](https://youtu.be/QTdOB63WB3g)
+  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec01.Rmd)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kap.pdf)
 
-* Lecture 1 [(audio)](https://youtu.be/yHW4xy5pgL4)
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec01.Rmd) 
-  - Theory Notes [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01patel.pdf) [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01takhalov.pdf) [(Joseph Huaynate)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01huaynate.pdf) [(Joseph Peltroche)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01peltroche.pdf) [(Karina Aponte)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01aponte.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kondi.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf)
--->
+* Lecture 1 [(audio)](https://youtu.be/lpohkUOOn8I) 
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf)
 
-## Homeworks
+## R Notes
+* 
+
+## Labs
+
+
+## Theory Homeworks
 
 <!--
 * Homework 5t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw05/hw05t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw05/hw05t.pdf) (due 5/18)
@@ -143,3 +147,6 @@ Location: Kiely Hall 5th floor math lounge
 ## Grades and Class Standing
 
 You can check your grades in realtime at [http://qc.gradesly.com](http://qc.gradesly.com). You type in your email address and the password (which was emailed to you at the beginning of the semester).
+
+
+=100000+'coop mortgage'!$D$23+(280000-267415

@@ -265,6 +265,7 @@ x && y #vector AND - confusing - recommend not to use this
 x || y #vector OR - confusing - recommend not to use this
 as.numeric(x)
 sum(x) #does the numeric conversion for you
+prod(x) #does the numeric conversion for you
 any(x) #convenient function
 all(x)
 #sometimes a useful function

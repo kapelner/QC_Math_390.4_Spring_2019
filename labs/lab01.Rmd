@@ -1,0 +1,131 @@
+---
+title: "Lab 1"
+author: "Your Name Here"
+output: pdf_document
+---
+
+This lab is due 11:59 PM Satuday 2/9/19. 
+
+You should have RStudio installed to edit this file. You will write code in places marked "TO-DO" to complete the problems. Some of this will be a pure programming assignment. The tools for the solutions to these problems can be found in the class practice lectures. I want you to use the methods I taught you, not for you to google and come up with whatever works. You won't learn that way.
+
+To "hand in" the homework, you should compile or publish this file into a PDF that includes output of your code. Once it's done, push by the deadline to your repository in a directory called "labs".
+
+* Print out the numerical constant pi with ten digits after the decimal point using the internal constant `pi`.
+
+```{r}
+#TO-DO
+```
+
+* Sum up the first 100 terms of the series 1 + 1/2 + 1/4 + 1/8 + ...
+
+```{r}
+#TO-DO
+```
+
+* Find the product of the first 100 terms of `1 * 1/2 * 1/4 * 1/8 *` ...
+
+```{r}
+#TO-DO
+```
+
+
+* Find the product of the first 500 terms of `1 * 1/2 * 1/4 * 1/8 *` ... Answer in English: is this answer correct? 
+
+```{r}
+#TO-DO
+```
+
+* Figure out a means to express the answer more exactly. Not compute exactly, but express more exactly.
+
+```{r}
+#TO-DO
+```
+
+
+* Use the left rectangle method to numerically integrate x^2 from 0 to 1 with rectangle size 1e-6.
+
+```{r}
+#TO-DO
+```
+
+
+* Calculate the average of 100 realizations of standard Bernoullis in one line using the `sample` function.
+
+```{r}
+#TO-DO
+```
+
+
+* Calculate the average of 500 realizations of Bernoullis with p = 0.9 in one line using the `sample` function.
+
+```{r}
+#TO-DO
+```
+
+
+* Calculate the average of 1000 realizations of Bernoullis with p = 0.9 in one line using `rbinom`.
+
+```{r}
+#TO-DO
+```
+
+* Use the `strsplit` function and `sample` to put the sentences below in random order.
+
+```{r}
+lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi posuere varius volutpat. Morbi faucibus ligula id massa ultricies viverra. Donec vehicula sagittis nisi non semper. Donec at tempor erat. Integer dapibus mi lectus, eu posuere arcu ultricies in. Cras suscipit id nibh lacinia elementum. Curabitur est augue, congue eget quam in, scelerisque semper magna. Aenean nulla ante, iaculis sed vehicula ac, finibus vel arcu. Mauris at sodales augue. "
+#TO-DO
+```
+
+* In class we generated the variable criminality with levels "none", "infraction", "misdimeanor" and "felony". Create a variable `x_2` here with 100 random elements (equally probable) and ensure the proper ordinal ordering.
+
+```{r}
+#TO-DO
+```
+
+* Convert this variable to binary where 0 is no crime and 1 is any crime. Answer in English: is this the proper binary threshold?
+
+```{r}
+#TO-DO
+```
+
+* Convert this variable to an unordered, nominal factor variable.
+
+```{r}
+#TO-DO
+```
+
+* Convert this variable into three binary variables without any information loss and put them into a data matrix.
+
+```{r}
+#TO-DO
+```
+
+* What should the sum of each row be (in English)? Verify that. 
+
+
+```{r}
+#TO-DO
+```
+
+* How should the column sum look (in English)? Verify that.
+
+
+```{r}
+#TO-DO
+```
+
+* Generate a matrix with 100 rows where the first column is realization from a normal with mean 17 and variance 38, the second column is uniform between -10 and 10, the third column is poisson with mean 6, the fourth column in exponential with lambda of 9, the fifth column is binomial with n = 20 and p = 0.12 and the sixth column is a binary variable with 24% 1's.
+
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+
+
+
+
