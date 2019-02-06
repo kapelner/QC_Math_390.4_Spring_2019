@@ -1,0 +1,181 @@
+---
+title: "Lab 2"
+author: "Your Name Here"
+output: pdf_document
+---
+
+## Basic R Skills
+
+First, install the package `testthat` (a widely accepted testing suite for R) from https://github.com/r-lib/testthat using `pacman`. If you are using Windows, this will be a long install, but you have to go through it for some of the stuff we are doing in class. LINUX (or MAC) is preferred for coding. If you can't get it to work, install this package from CRAN (still using `pacman`), but this is not recommended long term.
+
+```{r}
+#TO-DO
+```
+
+* Use the `seq` function to create vector `v` consisting of all numbers from -100 to 100. 
+
+```{r}
+#TO-DO
+```
+
+Test using the following code:
+
+```{r}
+expect_equal(v, -100 : 100)
+```
+
+If there are any errors, the `expect_equal` function will tell you about them. If there are no errors, then it will be silent.
+
+* Create a function `my_reverse` which takes as required input a vector and returns the vector in reverse where the first entry is the last entry, etc. No function calls are allowed inside your function (otherwise that would defeat the purpose of the exercise).
+
+```{r}
+#TO-DO
+```
+
+Test using the following code:
+
+```{r}
+expect_equal(my_reverse(c("A", "B", "C")), c("C", "B", "A"))
+expect_equal(my_reverse(v), rev(v))
+```
+
+* Let `n = 50`. Create a nxn matrix `R` of exactly 50% entries 0's, 25% 1's 25% 2's in random locations.
+
+```{r}
+n = 50
+#TO-DO
+```
+
+Test using the following and write two more tests as specified below:
+
+```{r}
+expect_equal(dim(R), c(n, n))
+#TO-DO test that the only unique values are 0, 1, 2
+#TO-DO test that there are exactly 625 2's
+```
+
+* Randomly punch holes (i.e. `NA`) values in this matrix so that approximately 30% of the entries are missing.
+
+```{r}
+#TO-DO
+```
+
+Use the testthat library to test that this worked correctly by ensuring the number of missing entries is between the 0.5%ile and 99.5%ile of the appropriate binomial.
+
+```{r}
+#TO-DO
+```
+
+* Sort the rows matrix `R` by the largest row sum to lowest.
+
+```{r}
+#TO-DO
+```
+
+Test using the following code.
+
+```{r}
+for (i in 2 : n){
+  expect_gte(sum(R[i - 1, ], na.rm = TRUE), sum(R[i, ], na.rm = TRUE))  
+}
+
+```
+
+* Create a vector `v` consisting of a sample of 1,000 iid normal realizations with mean -10 and variance 10.
+
+```{r}
+#TO-DO
+```
+
+* Find the average of `v` and the standard error of `v`.
+
+```{r}
+#TO-DO
+```
+
+* Find the 5%ile of `v` and use the `qnorm` function as part of a test to ensure it is correct based on probability theory.
+
+```{r}
+#TO-DO
+```
+
+
+* Create a list named `my_list` with keys "A", "B", ... where the entries are arrays of size 1, 2 x 2, 3 x 3 x 3, etc. Fill the array with the numbers 1, 2, 3, etc. Make 8 entries.
+
+
+```{r}
+#TO-DO
+```
+
+Test with the following uncomprehensive tests:
+
+
+```{r}
+expect_equal(my_list$A, 1)
+expect_equal(my_list[[2]][, 1], 1 : 2)
+expect_equal(dim(my_list[["H"]]), rep(8, 8))
+```
+
+Run the following code:
+
+```{r}
+lapply(my_list, object.size)
+```
+
+Use `?lapply` and `?object.size` to read about what these functions do. Then explain the output you see above. For the later arrays, does it make sense given the dimensions of the arrays?
+
+Answer here in English.
+
+Now cleanup the namespace by deleting all stored objects and functions:
+
+```{r}
+#TO-DO
+```
+
+## Basic Binary Classification Modeling
+
+* Load the famous `iris` data frame into the namespace. Provide a summary of the columns and write a few descriptive sentences about the distributions using the code below and in English.
+
+```{r}
+#TO-DO
+```
+
+The outcome metric is `Species`. This is what we will be trying to predict. However, we have only done binary classification in class (i.e. two classes). Thus the first order of business is to drop one class. Let's drop the level "virginica" from the data frame.
+
+```{r}
+#TO-DO
+```
+
+Now create a vector `y` that is length the number of remaining rows in the data frame whose entries are 0 if "setosa" and 1 if "versicolor".
+
+```{r}
+#TO-DO
+```
+
+* Fit a threshold model to `y` using the feature `Sepal.Length`. Try to write your own code to do this. What is the estimated value of the threshold parameter? What is the total number of errors this model makes?
+
+```{r}
+#TO-DO
+```
+
+Does this make sense given the following summaries:
+
+```{r}
+summary(iris[iris$Species == "setosa", "Sepal.Length"])
+summary(iris[iris$Species == "virginica", "Sepal.Length"])
+```
+
+Write your answer here in English.
+
+* Fit a perceptron model explaining `y` using all three features. Try to write your own code to do this even though I will do this in class. Provide the estimated parameters (i.e. the four entries of the weight vector). 
+
+```{r}
+#TO-DO
+```
+
+* What is the total number of errors this model makes?
+
+```{r}
+#TO-DO
+```
+

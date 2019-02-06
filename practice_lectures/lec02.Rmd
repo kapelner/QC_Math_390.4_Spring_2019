@@ -154,6 +154,97 @@ tot
 
 Note: "real" R programmers avoid loops since they are slow. Instead they use the "apply" function (but not "sapply" or "lapply" which are not faster). We will cover these in the future. The latest trend is to use in-line C++ code (we probably won't get to this).
 
+## More data types
+
+Before we get back to modeling, it is worth knowing a couple more data structures in R. These are not "data [science] types", these are "[computer science] data types" that are used frequently in data science applications. 
+
+The first are "lists" which are "ordered hashmaps" or "ordered dictionaries" or "hash tables". if You don't know what this is, you should read about this online as it should have been covered in a intro to CS class.
+
+```{r}
+dict = list()
+dict$a = "first"
+dict$b = "second"
+dict$c = "third"
+dict
+length(dict)
+names(dict) #keys
+dict_unlisted = unlist(dict) #values
+dict_unlisted
+class(dict_unlisted) #i.e. a vector
+#three ways to access values by key / ordered location
+dict$a
+dict[["a"]]
+dict[[1]] #value of first entered key
+class(dict[[1]])
+dict[[1 : 2]] #bombs
+#now let's try to access a value for a non-existent key / ordered location
+dict$q
+dict[["q"]]
+dict[[4]] #bombs
+#convenient means to subset the list
+dict[1]
+class(dict[1])
+dict[1 : 2]
+dict[1 : 4] #this is the reason this type of access is not recommended
+dict = list("first", "second", "third") #no key => value... what happens?
+dict #default keys are the numbers 1, 2, ...
+dict[[1]]
+dict = list("a" = "first", "b" = "second", "c" = "third") #key => value
+dict
+```
+
+Lists conveniently allow all sorts of data types.
+
+```{r}
+varied_dict = list()
+varied_dict$a = "first"
+varied_dict$b = 2
+varied_dict$c = 1 : 7
+varied_dict$d = matrix(NA, nrow = 2, ncol = 2)
+varied_dict[["some function"]] = function(x){x^2} #this key is not recommended
+varied_dict
+varied_dict$`some function` #note the tick marks (sometimes seen) needed due to spaces in key name
+length(varied_dict)
+names(varied_dict)
+```
+
+They have lots of uses in data science applications. We will likely see them in class and if not, you'll definitely see them in the real world. Note that data.frame objects are implemented as lists as well as many other common R objects.
+
+
+The second is arrays i.e. are multidimensional vectors
+
+```{r}
+x = array(1 : 5, 5)
+x
+X = array(1 : 25, dim = c(5, 5))
+X
+X = array(1 : 125, dim = c(5, 5, 5))
+X
+X[1, , ]
+X[, 1, ]
+X[, , 1]
+X[1, 1, 1]
+```
+
+These can be associative arrays too and operate like a hash of vectors across arbitrary dimensions:
+
+```{r}
+X = array(1 : 125, 
+          dim = c(5, 5, 5),
+          dimnames = list(
+            c("A", "B", "C", "D", "E"),
+            c("I", "II", "III", "IV", "V"),
+            c("blue", "red", "green", "yellow", "orange")
+          ))
+X
+X["A", , ]
+X[, "III", ]
+X[, , "orange"]
+X["C", , "orange"]
+X["C", "IV", "orange"]
+```
+
+
 * Functions
 
 ```{r}
@@ -196,9 +287,6 @@ my_function(0) #required argument specified
 my_function(0, q = 7) #required argument specified and one optional argument
 rm(my_function) #can be deleted since it's an object
 ```
-
-
-Now back to the in-class example...
 
 ## First modeling exercise
 
@@ -410,3 +498,131 @@ summary(X) #much better now!
 ```
 
 Conceptually - why does this make no sense at all??? y is independent of X --- what happens then? No function f can ever have any predictive / explanatory power! This is just a silly example to show you the data types. We will work with real data soon. Don't worry.
+
+## Libraries in R
+
+So far we've only made use of "base R". This is the funcionality included from a vanilla installation of R. 
+
+R has a huge worldwide community of contributors. Some contribute to newer version of base R, but most create open-source "R packages" or "libraries". Many libraries come preinstalled. For instance, the MASS library which stands for "Modern Applied Statistics with S" (a famous textbook of R). We can call a function from the MASS library via the following:
+
+```{r}
+MASS::as.fractions(0.99)
+MASS::as.fractions(pi)
+```
+
+Note we cannot just
+
+```{r}
+as.fractions(pi)
+```
+
+We made use of the scope operator "::" to access a namespace beyond the usual "global namespace" which we've been used to. 
+
+If we are using the MASS library a lot, using the scope operator may get annoying. So similar to the "with" command, we can call
+
+```{r}
+library(MASS)
+```
+
+which loads all public methods (aka "exported" functions) into the public namespace. Bonus: you can use the ":::" to access the private / internal functions and variables. Java developers would cringe!
+
+Now, after the library invocation we can do the following and treat it as a normal function:
+
+```{r}
+as.fractions(pi)
+```
+
+The content for the MASS package was sitting on the hard drive since it comes with R. But what if you want to use a package that does not come with R? We'll have to install the package just like pip for Python, Rubygems for Ruby, R has a package management system built in. For example, here's a useful package for time series / finance stuff:
+
+```{r}
+install.packages("tseries")
+```
+
+Note that it knew where to go online - it went to a CRAN mirror. CRAN is the official repository for R packages.
+
+Might as well load it:
+
+```{r}
+library(tseries)
+```
+This is its welcome message.
+
+This library is really cool e.g.
+
+```{r}
+ibm_stock_history = get.hist.quote(instrument = "IBM", start = "2018-01-01", end = "2018-02-01")
+ibm_stock_history
+```
+
+Is this a data frame?
+
+```{r}
+class(ibm_stock_history)
+```
+
+Nope - they made their own data type. We will get there if I choose to do the unit on "writing your own R packages".
+
+Let's say you're sharing your code with someone and one of your lines is loading a library e.g.
+
+```{r}
+library(doParallel)
+```
+
+And my computer doesn't have this library. Then we need to stop what we're doing and install. This could be annoying. Here is a convenience: use the pacman package that installs if necessary:
+
+```{r}
+if (!require("pacman")){install.packages("pacman")} #installs pacman if necessary but does not load it!
+pacman::p_load(devtools) #ensures that devtools gets installed and loaded into the workspace but pacman does not (very tidy)!
+```
+
+It is typical to then have a few lines declaring all packages on top of your R/Rmd script file. Here is an example header from one of my projects:
+
+```{r}
+#if (!require("pacman")){install.packages("pacman")}
+#pacman::p_load(knitr, randomForest, dplyr, tidyverse, doParallel, xtable, pracma, yaml)
+```
+
+I'm going to require this for HW / projects, etc.
+
+The devtools package is important for modern R usage. It allows downloading R packages directly from source that are not even on CRAN. This allows you to get "bleeding edge" features. For example:
+
+```{r}
+install_github("yihui/knitr")
+```
+
+However this doesn't always work!
+
+```{r}
+install_github("hadley/ggplot2")
+```
+
+Why did this fail? Because this computer is not setup for compiling C++. This is one of the big advantages of using Linux and MAC over Windows - Windows just is more buggy when it comes to "real coding" and it gets in the way when you're out there trying to get stuff done.
+
+Note, you can use the pacman library for this type of installation too. So your header becomes:
+
+```{r}
+if (!require("pacman")){install.packages("pacman")}
+pacman::p_load(devtools)
+pacman::p_load_gh("hadley/ggplot2")
+```
+
+
+## Loading datasets from R packages
+
+Since R is a language built for data and statistics, it has a ton of interesting data sets by default and even more that are contained in packages. There is really just one command to know:
+
+```{r}
+rm(list = ls())
+data(iris) #load the iris dataset (as a data frame)
+class(iris)
+#3 things I always do immediately upon getting a dataset
+head(iris)
+str(iris)
+summary(iris)
+```
+
+R has so many datasets. Here they all are by package installed:
+
+```{r}
+data(package = .packages(all.available = TRUE))
+```

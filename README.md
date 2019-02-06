@@ -79,10 +79,10 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
   - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03takhalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kondi.pdf) [(Joseph Peltroche)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03peltroche.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kap.pdf)-->
 * Lecture 2 [(audio)](https://youtu.be/QTdOB63WB3g)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec01.Rmd)
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kap.pdf)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kap.pdf) [(Karen Lopez)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02lopez.pdf) [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02sham.pdf) [(Moshe Weiss)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02weiss.pdf)
 
 * Lecture 1 [(audio)](https://youtu.be/lpohkUOOn8I) 
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf) [(Karen Lopez)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01lopez.pdf) [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01sham.pdf) [(Moshe Weiss)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01weiss.pdf)
 
 ## Labs
 * [(Lab 1)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab01.Rmd)
