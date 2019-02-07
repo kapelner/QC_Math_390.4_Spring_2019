@@ -66,7 +66,7 @@ Use the testthat library to test that this worked correctly by ensuring the numb
 #TO-DO
 ```
 
-* Sort the rows matrix `R` by the largest row sum to lowest.
+* Sort the rows matrix `R` by the largest row sum to lowest. Be careful about the NA's!
 
 ```{r}
 #TO-DO
@@ -78,8 +78,32 @@ Test using the following code.
 for (i in 2 : n){
   expect_gte(sum(R[i - 1, ], na.rm = TRUE), sum(R[i, ], na.rm = TRUE))  
 }
-
 ```
+
+* We will now learn the `apply` function. This is a handy function that saves writing for loops which should be eschewed in R. Use the apply function to compute a vector whose entries are the standard deviation of each row. Use the apply function to compute a vector whose entries are the standard deviation of each column. Be careful about the NA's!
+
+```{r}
+#TO-DO
+```
+
+* Use the `apply` function to compute a vector whose entries are the count of entries that are 1 or 2 in each column. Try to do this in one line.
+
+```{r}
+#TO-DO
+```
+
+* Use the `split` function to create a list whose keys are the column number and values are the vector of the columns. Look at the last example in the documentation `?split`.
+
+```{r}
+#TO-DO
+```
+
+* In one statement, use the `lapply` function to create a list whose keys are the column number and values are themselves a list with keys: "min" whose value is the minimum of the column, "max" whose value is the maximum of the column, "pct_missing" is the proportion of missingness in the column and "first_NA" whose value is the row number of the first time the NA appears. Use the `which` function.
+
+```{r}
+#TO-DO
+```
+
 
 * Create a vector `v` consisting of a sample of 1,000 iid normal realizations with mean -10 and variance 10.
 
@@ -93,7 +117,7 @@ for (i in 2 : n){
 #TO-DO
 ```
 
-* Find the 5%ile of `v` and use the `qnorm` function as part of a test to ensure it is correct based on probability theory.
+* Find the 5%ile of `v` and use the `qnorm` function to compute what it theoretically should be.
 
 ```{r}
 #TO-DO
@@ -122,7 +146,7 @@ Run the following code:
 lapply(my_list, object.size)
 ```
 
-Use `?lapply` and `?object.size` to read about what these functions do. Then explain the output you see above. For the later arrays, does it make sense given the dimensions of the arrays?
+Use `?object.size` to read about what these functions do. Then explain the output you see above. For the later arrays, does it make sense given the dimensions of the arrays?
 
 Answer here in English.
 
@@ -167,13 +191,9 @@ summary(iris[iris$Species == "virginica", "Sepal.Length"])
 
 Write your answer here in English.
 
-* Fit a perceptron model explaining `y` using all three features. Try to write your own code to do this even though I will do this in class. Provide the estimated parameters (i.e. the four entries of the weight vector). 
+TO-DO
 
-```{r}
-#TO-DO
-```
-
-* What is the total number of errors this model makes?
+* What is the total number of errors this model makes (in-sample)?
 
 ```{r}
 #TO-DO

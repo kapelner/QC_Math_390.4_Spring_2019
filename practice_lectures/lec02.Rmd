@@ -261,7 +261,7 @@ my_function = function(x){
 * We don't need to declare type since R is not "statically typed" (higher level languages usually are not statically typed). Objects can be coerced into different types on the fly (R is "dynamically typed").
 * No need for a "return" statement as the last line is the data that is returned. It is considered bad style to use "return" in R.
 
-Let's make sure this works
+Let's make sure this works:
 
 ```{r}
 my_function(3)
