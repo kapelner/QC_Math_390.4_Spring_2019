@@ -1,0 +1,347 @@
+---
+title: "Practice Lecture 3 MATH 390.4 Queens College"
+author: "Professor Adam Kapelner"
+date: "February 14, 2019"
+---
+
+## Continue discussion concerning data frames and the modeling from class
+
+We quickly recreate our data frame from last class:
+
+```{r}
+n = 100
+X = data.frame(
+  salary = round(rnorm(n, 50000, 20000)),
+  has_past_unpaid_loan = rbinom(n, size = 1, prob = 0.2),
+  past_crime_severity = sample(
+    c("no crime", "infraction", "misdimeanor", "felony"),
+    size = n,
+    replace = TRUE,
+    prob = c(.50, .40, .08, .02)
+  )
+)
+row.names(X) = c(
+  "Sophia", "Emma", "Olivia", "Ava", "Mia", "Isabella", "Riley", 
+  "Aria", "Zoe", "Charlotte", "Lily", "Layla", "Amelia", "Emily", 
+  "Madelyn", "Aubrey", "Adalyn", "Madison", "Chloe", "Harper", 
+  "Abigail", "Aaliyah", "Avery", "Evelyn", "Kaylee", "Ella", "Ellie", 
+  "Scarlett", "Arianna", "Hailey", "Nora", "Addison", "Brooklyn", 
+  "Hannah", "Mila", "Leah", "Elizabeth", "Sarah", "Eliana", "Mackenzie", 
+  "Peyton", "Maria", "Grace", "Adeline", "Elena", "Anna", "Victoria", 
+  "Camilla", "Lillian", "Natalie", "Jackson", "Aiden", "Lucas", 
+  "Liam", "Noah", "Ethan", "Mason", "Caden", "Oliver", "Elijah", 
+  "Grayson", "Jacob", "Michael", "Benjamin", "Carter", "James", 
+  "Jayden", "Logan", "Alexander", "Caleb", "Ryan", "Luke", "Daniel", 
+  "Jack", "William", "Owen", "Gabriel", "Matthew", "Connor", "Jayce", 
+  "Isaac", "Sebastian", "Henry", "Muhammad", "Cameron", "Wyatt", 
+  "Dylan", "Nathan", "Nicholas", "Julian", "Eli", "Levi", "Isaiah", 
+  "Landon", "David", "Christian", "Andrew", "Brayden", "John", 
+  "Lincoln"
+)
+X
+```
+
+Remember our cross tab? Now we can get fancier using our new libary skills. Any Stata fans out there?
+
+```{r}
+pacman::p_load(gmodels)
+CrossTable(X$has_past_unpaid_loan, X$past_crime_severity, chisq = TRUE)
+```
+
+
+And add a new variable, the response to the data frame:
+
+```{r}
+X$paid_back_loan = factor(rbinom(n, size = 1, prob = 0.9), labels = c("No", "Yes"))
+```
+
+Note that our matrix is now no longer just $X$; it includes $y$. I could make a renamed copy, but I want to show off dropping this column and create a new object that's both features and response column-binded together:
+
+```{r}
+y = X$paid_back_loan
+X$paid_back_loan = NULL #drop column
+Xy = cbind(X, y) #an aside: what do you think the "rbind" function does?
+head(Xy) #make sure that worked
+summary(Xy) #much better now!
+#Note: Xy = X; rm(X) would've been easier
+```
+
+I prefer calling the full training set ${X, y}$ a data frame called $Xy$. 
+
+Most data sets are names some descriptive name like "loandata" or "cars". Here are undoubtedly some of the most famous datasets:
+
+```{r}
+data(Boston, package = "MASS") #package argument not needed if package loaded 
+head(Boston)
+data(iris)
+head(iris)
+```
+
+
+The object $X$ is now extraneous, so we should clean up our workspace now.
+
+```{r}
+rm(list = setdiff(ls(), "Xy"))
+```
+
+
+## The Threshold Model
+
+Let's compute the threshold model and see what happens. Here's an inefficent but quite pedagogical way to do this:
+
+```{r}
+n = nrow(Xy)
+num_errors_by_parameter = matrix(NA, nrow = n, ncol = 2)
+colnames(num_errors_by_parameter) = c("threshold_param", "num_errors")
+y_logical = Xy$y == "Yes"
+for (i in 1 : n){
+  threshold = Xy$salary[i]
+  num_errors = sum((Xy$salary > threshold) != y_logical)
+  num_errors_by_parameter[i, ] = c(threshold, num_errors)
+}
+num_errors_by_parameter
+
+#now grab the smallest num errors
+best_row = order(num_errors_by_parameter[, "num_errors"])[1]
+x_star = c(num_errors_by_parameter[best_row, "threshold_param"], use.names = FALSE)
+x_star
+```
+
+Let's program `g`, the model that is shipped as the prediction function for future `x_*`
+
+```{r}
+g = function(x){
+  ifelse(x > x_star, 1, 0)
+} 
+
+g(5000)
+```
+
+
+
+## Matrix operations in R
+
+R can do all the standard matrix operations. Let's go through them quickly. First initialize two example matrices:
+
+```{r}
+A = matrix(rep(1, 4), nrow = 2)
+A
+B = array(seq(1, 4), dim = c(2, 2))
+B
+I = diag(2) #create an identity matrix of size 2x2
+I
+```
+
+Now we show off some operations:
+
+```{r}
+A * B #element-wise multiplication
+A %*% B #matrix multiplication
+B %*% I
+t(B) #transpose
+solve(B)
+solve(A) #BOOM - why?
+solve(I)
+#rank(A) = 1 #no such function... but... there are tons of add-on libraries for matrix computations e.g.
+pacman::p_load(Matrix) #load the Matrix library
+rankMatrix(B)
+rankMatrix(A)
+rankMatrix(I)
+```
+
+Note that vectors and matrices are not the same:
+
+```{r}
+v = c(1, 2, 3) #3-d vector
+t(v) #converts to 1x3 vector... unsure why
+t(t(v))
+v %*% v #seems to default to dot product
+t(v) %*% t(t(v)) #dot product
+I = diag(3)
+I %*% v #seems to default correctly!
+I %*% t(v) #actually uncomformable
+```
+
+
+## The Perceptron
+
+Time for some new data first... we are bored of the fabricated creditworthiness data.
+
+```{r}
+Xy = na.omit(MASS::biopsy) #The "breast cancer" data
+?MASS::biopsy
+head(Xy)
+X = Xy[, 2 : 10] #V1, V2, ..., V9
+head(X)
+y_binary = as.numeric(Xy$class == "malignant")
+table(y_binary)
+```
+
+First question. Let $\mathcal{H}$ be the set $\{0, 1\}$ meaning $g = 0$ or $g = 1$. What are the error rates then on $\mathbb{D}$? 
+
+```{r}
+#If always 0, all the 1's are errors
+239 / (444 + 239)
+#If always 1, all the 0's are errors
+444 / (444 + 239)
+```
+
+If your $g$ can't beat that, either your features $x_1, \ldots, x_p$ are terrible, and/or $\mathcal{H}$ was a terrible choice and/or $\mathcal{A}$ can't pull its weight.
+
+Okay... back to the "perceptron learning algorithm".
+
+Let's do so for one dimension - just "V1" in the breast cancer data. You will do an example with more features for homework.
+
+```{r}
+y_binary = ifelse(y_binary == 1, 0, 1)
+MAX_ITER = 1000
+w_vec = rep(0, 2) #intialize a 2-dim vector
+
+X1 = as.matrix(cbind(1, X[, 1, drop = FALSE]))
+
+for (iter in 1 : MAX_ITER){  
+  for (i in 1 : nrow(X1)){
+    x_i = X1[i, ]
+    yhat_i = ifelse(sum(x_i * w_vec) > 0, 1, 0)
+    y_i = y_binary[i]
+    w_vec = w_vec + (y_i - yhat_i) * x_i
+  }
+}
+w_vec
+```
+
+What is our error rate?
+
+```{r}
+yhat = ifelse(X1 %*% w_vec > 0, 1, 0)
+sum(y_binary != yhat) / length(y_binary)
+```
+
+## The linear threshold model
+
+Using the algorithm $\mathcal{A}$ discussed previously, this model was dubbed the "perceptron". However, there are other algorithms $\mathcal{A}$ we can use to fit the "best" model in $\mathcal{H}$.
+
+We spoke about how the `w` vector is in a large space, $R^p$. A course in optimization will describe methods how to find optimal and approximately optimal solutions for `w` based on an "objective function" or "fitness function" or "cost function". Here that target is the number of total errors of the `n` examples in the training data set.
+
+```{r}
+SAE = function(w_vec){
+  yhat = ifelse(X1 %*% w_vec > 0, 1, 0)
+  sum(y_binary != yhat)
+}
+```
+
+
+Here are some off-the-shelf solvers in R in action. Note: this is not the classic "perceptron learning algorithm". Also: this is complete junk made-up data so it's only an illustration. You will see real data for your homework.
+
+The first is `nlm` which uses some sort of Newton-like algorithm.
+
+```{r}
+?nlm
+w_vec = nlm(SAE, c(1, 1))$estimate #doesn't work at all ... I think because our cost function is not continuous
+w_vec
+```
+That didn't seem to work at all!
+
+What is our error rate?
+
+```{r}
+yhat = ifelse(X1 %*% w_vec > 0, 1, 0)
+sum(y_binary != yhat) / length(y_binary)
+```
+
+Garbage... because it didn't work. Anyone know why?
+
+Let's try another optimization algorithm called Nelder-Mead developed by John Nelder and Roger Mead (both were famous statisticians) in 1965.
+
+```{r}
+pacman::p_load(optimx)
+?optimx
+optim_output = optimx(c(50, -10), SAE, method = "Nelder-Mead")
+optim_output
+w_vec = t(as.matrix(optim_output[1:2]))
+
+```
+
+What is our error rate using the Nelder-Mead local optimum?
+
+```{r}
+yhat = ifelse(X1 %*% w_vec > 0, 1, 0)
+sum(y_binary != yhat) / length(y_binary)
+```
+
+Not good. Let's try again with the perceptron input as a starting point.
+
+Lesson: perceptron learning algorithm maybe not so great. Also - different $\mathcal{A}$'s give you wildly different models $g$ even with the same allowable functions provided in $\mathcal{H}$. 
+
+Most of the really creative work in modeling is within $\mathcal{A}$ although specifying $\mathcal{H}$ suitably flexible is very important too.
+
+## Nearest Neighbor algorithm
+
+Load up the breast cancer data set again.
+
+```{r}
+Xy = na.omit(MASS::biopsy) #The "breast cancer" data with all observations with missing values dropped
+X = Xy[, 2 : 10] #V1, V2, ..., V9
+y_binary = as.numeric(Xy$class == "malignant")
+```
+
+In one dimension, we are looking for the closest x. Here is a simple function that does it:
+
+```{r}
+nn_function = function(x_star){
+  best_sqd_distance = Inf #good place to begin
+  i_star = NA
+  for (i in 1 : nrow(X)){
+    dsqd = (X[i, 1] - x_star)^2
+    if (dsqd < best_sqd_distance){
+      best_sqd_distance = dsqd
+      i_star = i
+    }
+  }
+  y_binary[i_star]
+}
+nn_function(7.8)
+nn_function(5.2)
+```
+
+Why is this silly for this dataset?
+
+```{r}
+str(X)
+```
+
+The features are not truly continuous. Would it make sense in higher dimensions? Your homework...
+
+Has this been coded before? Definitely...
+
+```{r}
+pacman::p_load(class)
+?knn
+```
+
+We can fit a knn model *and* predict in one shot via:
+
+```{r}
+y_hat = knn(X, c(4, 2, 1, 1, 2, 1, 2, 1, 1), y_binary, k = 1)
+y_hat
+```
+
+Why is build model and predict in one shot natural in knn?
+
+Now for an interesting exercise that will setup future classes:
+
+```{r}
+y_hat = knn(X, X, y_binary, k = 1)
+y_hat
+all.equal(y_hat, factor(y_binary))
+```
+
+No errors! Can this be a good model? No... "something" must be wrong! It is too good to be true.
+
+Something is wrong. This is the first example of "overfitting". We will explore this in depth.
+
+```{r}
+rm(list = ls())
+```
+
+
