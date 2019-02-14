@@ -345,3 +345,100 @@ rm(list = ls())
 ```
 
 
+## Support Vector Machines (SVM)
+
+You will code a basic SVM for homework. Here we use the `e1071` library.
+
+```{r}
+pacman::p_load(e1071)
+```
+
+We make a simple dataset first.
+
+```{r}
+Xy_simple = data.frame(
+ response = factor(c(0, 0, 0, 1, 1, 1)), #nominal
+ first_feature = c(1, 1, 2, 3, 3, 4),    #continuous
+ second_feature = c(1, 2, 1, 3, 4, 3)    #continuous
+)
+```
+
+We haven't spoken about visualization yet, but it is important we do some of it now. First we load the visualization library we're going to use:
+
+```{r}
+pacman::p_load(ggplot2)
+```
+
+And let's plot the data:
+
+```{r}
+simple_viz_obj = ggplot(Xy_simple, aes(x = first_feature, y = second_feature, color = response)) + 
+  geom_point(size = 5)
+simple_viz_obj
+```
+
+Now we fit a linear SVM. Since it is linearly separable, we can make $\lambda = 0$. Since the package doesn't allow zero, we make it trivially small. 
+
+```{r}
+Xy_simple_feature_matrix = as.matrix(Xy_simple[, 2 : 3])
+lambda = 1e-9
+n = nrow(Xy_simple_feature_matrix)
+svm_model = svm(Xy_simple_feature_matrix, Xy_simple$response, kernel = "linear", cost = (2 * n * lambda)^-1, scale = FALSE)
+```
+
+Now we calculate the weight vector. This is technical and not covered in the class yet (or maybe never):
+
+```{r}
+w_vec_simple_svm = c(
+  svm_model$rho, #the b term
+  -t(svm_model$coefs) %*% Xy_simple_feature_matrix[svm_model$index, ] # the other terms
+)
+w_vec_simple_svm
+```
+
+and plot it:
+
+```{r}
+simple_svm_line = geom_abline(
+    intercept = -w_vec_simple_svm[1] / w_vec_simple_svm[3], 
+    slope = -w_vec_simple_svm[2] / w_vec_simple_svm[3], 
+    color = "purple")
+simple_viz_obj + simple_svm_line
+```
+
+To understand the hyperparameter, let's introduce another data point so the training data is no longer linearly separable.
+
+```{r}
+Xy_simple = rbind(Xy_simple, c(0, 3.2, 3.2))
+```
+
+and plot it:
+
+```{r}
+simple_viz_obj = ggplot(Xy_simple, aes(x = first_feature, y = second_feature, color = response)) + 
+  geom_point(size = 5)
+simple_viz_obj
+```
+
+Let's try SVM at different $\lambda$ values.
+
+```{r}
+Xy_simple_feature_matrix = as.matrix(Xy_simple[, 2 : 3])
+lambda = 1.3
+n = nrow(Xy_simple_feature_matrix)
+svm_model = svm(Xy_simple_feature_matrix, Xy_simple$response, kernel = "linear", cost = (2 * n * lambda)^-1, scale = FALSE)
+w_vec_simple_svm = c(
+  svm_model$rho, #the b term
+  -t(svm_model$coefs) %*% Xy_simple_feature_matrix[svm_model$index, ] # the other terms
+)
+
+simple_svm_line = geom_abline(
+    intercept = -w_vec_simple_svm[1] / w_vec_simple_svm[3], 
+    slope = -w_vec_simple_svm[2] / w_vec_simple_svm[3], 
+    color = "purple")
+simple_viz_obj + simple_svm_line
+```
+
+What lesson did we learn here? This hyperparameter really matters! We need to figure out a way to deal with this later. So far neither the perceptron nor the SVM is an algorithm without flaws.
+
+
