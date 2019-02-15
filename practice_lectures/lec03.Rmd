@@ -204,7 +204,8 @@ for (iter in 1 : MAX_ITER){
     x_i = X1[i, ]
     yhat_i = ifelse(sum(x_i * w_vec) > 0, 1, 0)
     y_i = y_binary[i]
-    w_vec = w_vec + (y_i - yhat_i) * x_i
+    w_vec[1] = w_vec[1] + (y_i - yhat_i) * x_i[1]
+    w_vec[2] = w_vec[2] + (y_i - yhat_i) * x_i[2]
   }
 }
 w_vec
@@ -442,3 +443,48 @@ simple_viz_obj + simple_svm_line
 What lesson did we learn here? This hyperparameter really matters! We need to figure out a way to deal with this later. So far neither the perceptron nor the SVM is an algorithm without flaws.
 
 
+## Errors and Warnings
+
+You can write better functions if you make use of errors and warnings. Java forces you to catch likely errors via the "throws" designation for a method but there is no such requirement in R.
+
+* Errors are unrecoverable, they halt execution i.e. red lights
+* Warnings (under usual execution) do not halt execution, but they display a message, i.e. yellow lights
+
+Here's how they work:
+
+```{r}
+my_vector_sum = function(xs){
+  
+  if (!(class(xs) %in% c("numeric", "integer"))){ #short for class(xs) == "numeric" | class(xs) == "integer"
+    stop("You need to pass in a vector of numbers not a vector of type \"", class(xs), "\".\n") #throw error!
+    #warning("Your vector of type \"", class(xs), "\" will be coerced to numbers.\n") #throw warning!
+    xs = as.numeric(as.factor(xs))
+  }
+  
+  tot = 0
+  for (x in xs){
+    tot = tot + x
+  }
+  tot
+}
+my_vector_sum(c(1, 2, 3))
+my_vector_sum(c("a", "b", "c"))
+```
+
+There is a try-catch as well:
+
+```{r}
+xs = c("a", "b", "c")
+tot = my_vector_sum(xs)
+
+tot = tryCatch(
+  {
+    my_vector_sum(xs)
+  },
+  error = function(e){
+    print("xs was non-numeric... coercing xs to numeric...")
+    my_vector_sum(as.numeric(as.factor(xs)))
+  }
+)
+tot
+```
