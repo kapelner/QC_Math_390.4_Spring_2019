@@ -204,7 +204,8 @@ for (iter in 1 : MAX_ITER){
     x_i = X1[i, ]
     yhat_i = ifelse(sum(x_i * w_vec) > 0, 1, 0)
     y_i = y_binary[i]
-    w_vec = w_vec + (y_i - yhat_i) * x_i
+    w_vec[1] = w_vec[1] + (y_i - yhat_i) * x_i[1]
+    w_vec[2] = w_vec[2] + (y_i - yhat_i) * x_i[2]
   }
 }
 w_vec
