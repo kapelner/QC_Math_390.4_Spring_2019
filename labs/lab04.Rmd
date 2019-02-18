@@ -1,0 +1,8 @@
+---
+title: "Lab 4"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM March 9, 2019"
+---
+
+Note: the content of this lab is on the midterm exam (March 5) even though the lab itself is due after the midterm exam.
