@@ -64,26 +64,27 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
   - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08tachalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kondi.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kap.pdf)
 * Lecture 7 [(audio)](https://youtu.be/3zbCPB3pxa0)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec07.Rmd) 
-  - Theory Notes [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07patel.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kondi.pdf) [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07takhalov.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kap.pdf)
-* Lecture 6 [(audio)](https://youtu.be/-47jbhZfiNQ)
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec06.Rmd) 
-  - Theory Notes [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06patel.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06kondi.pdf) [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06takhalov.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06kap.pdf)
-* Lecture 5 [(audio)](https://youtu.be/PVNhndKiT70)
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec05.Rmd) 
-  - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05takhalov.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05patel.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05kondi.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05kap.pdf)-->
+  - Theory Notes [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07patel.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kondi.pdf) [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07takhalov.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kap.pdf)-->
+* Lecture 6 [(audio)](https://youtu.be/wyA5wm1wVG4)
+  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec04.Rmd) 
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06kap.pdf)
+* Lecture 5 [(audio)](https://youtu.be/x2OCEAxIWvw)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05kap.pdf)
 * Lecture 4 [(audio)](https://youtu.be/2GfCHfuv4ao)
+  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec03.Rmd) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec04kap.pdf)
 * Lecture 3 [(audio)](https://youtu.be/g7nHg-GkQYI)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec02.Rmd)
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kap.pdf)
+  - Theory Notes [(Juan Astudillo)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03astudillo.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec03kap.pdf)
 * Lecture 2 [(audio)](https://youtu.be/QTdOB63WB3g)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec01.Rmd)
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kap.pdf) [(Karen Lopez)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02lopez.pdf) [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02sham.pdf) [(Moshe Weiss)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02weiss.pdf)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02kap.pdf) [(Juan Astudillo)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02astudillo.pdf) [(Karen Lopez)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02lopez.pdf) [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02sham.pdf) [(Moshe Weiss)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec02weiss.pdf)
 * Lecture 1 [(audio)](https://youtu.be/lpohkUOOn8I) 
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf) [(Karen Lopez)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01lopez.pdf) [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01sham.pdf) [(Moshe Weiss)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01weiss.pdf)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01kap.pdf) [(Juan Astudillo)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01astudillo.pdf) [(Karen Lopez)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01lopez.pdf) [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01sham.pdf) [(Moshe Weiss)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec01weiss.pdf)
 
 ## Labs
 
+* [(Lab 3)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab03.Rmd)
 * [(Lab 2)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab02.Rmd)
 * [(Lab 1)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab01.Rmd)
 
@@ -103,13 +104,7 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 ## Exams
 
 * Midterm I is Tues, March 5 (in class).
-
-
-
 * Midterm II is Thurs, April 11 (in class).
-
-
-
 * Final Exam is ...  (in class, KY283)
 
 
