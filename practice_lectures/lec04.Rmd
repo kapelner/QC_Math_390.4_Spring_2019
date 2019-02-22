@@ -352,6 +352,16 @@ summary(simple_linear_model)$sigma
 
 62\% is pretty good $R^2$! But the RMSE is about \$6,000. Using the empirical rule heuristic, that means you can only predict within $\pm \$12,000$ around 95\% of the time. Not so good!
 
+# Predictions with linear models in R
+
+After the model is fit, you may want to predict with it using the $g$ function. Of course R can do this:
+
+```{r}
+predict(simple_linear_model, data.frame(Horsepower = 400)) #i.e. g(400)
+predict(simple_linear_model, data.frame(Horsepower = c(400, 450, 500))) #i.e. g(400), g(450), g(500)
+```
+
+
 
 
 

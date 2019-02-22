@@ -61,15 +61,14 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
   - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09tachalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09kondi.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09kap.pdf) 
 * Lecture 8 [(audio)](https://youtu.be/ldKaoMtOuns)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec08.Rmd) 
-  - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08tachalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kondi.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kap.pdf)
-* Lecture 7 [(audio)](https://youtu.be/3zbCPB3pxa0)
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec07.Rmd) 
-  - Theory Notes [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07patel.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kondi.pdf) [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07takhalov.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kap.pdf)-->
+  - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08tachalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kondi.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kap.pdf)-->
+* Lecture 7 [(audio)](https://youtu.be/)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec07kap.pdf)
 * Lecture 6 [(audio)](https://youtu.be/wyA5wm1wVG4)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec04.Rmd) 
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06kap.pdf)
+  - Theory Notes [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06sham.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec06kap.pdf)
 * Lecture 5 [(audio)](https://youtu.be/x2OCEAxIWvw)
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05kap.pdf)
+  - Theory Notes [(Adriana Sham)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05sham.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec05kap.pdf)
 * Lecture 4 [(audio)](https://youtu.be/2GfCHfuv4ao)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec03.Rmd) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec04kap.pdf)
@@ -84,9 +83,10 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 
 ## Labs
 
-* [(Lab 3)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab03.Rmd)
-* [(Lab 2)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab02.Rmd)
-* [(Lab 1)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab01.Rmd)
+* [(Lab 4, due 3/09)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab04.Rmd)
+* [(Lab 3, due 2/24)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab03.Rmd)
+* [(Lab 2, due 2/17)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab02.Rmd)
+* [(Lab 1, due 2/09)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/labs/lab01.Rmd)
 
 ## Theory Homeworks
 
@@ -94,9 +94,9 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 * Homework 5t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw05/hw05t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw05/hw05t.pdf) (due 5/18)
 * Homework 4t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw04/hw04t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw04/hw04t.pdf) (due 5/7)
 * Homework 3p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03p.Rmd) (due 4/13)
-* Homework 3t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03t.pdf) (due 3/23)
+* Homework 3t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw03/hw03t.pdf) (due 3/23)-->
 * Homework 2t [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02t.pdf) (due 3/6)
-* Homework 2p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02p.Rmd) (due 3/6)-->
+* Homework 2p [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw02/hw02p.Rmd) (due 3/6)
 * Homework 1 [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/homeworks/hw01/hw01t.pdf) (due 2/12)
 
 * Homework 0 [(see midway through syllabus)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/syllabus/syllabus.pdf?raw=true) (due 2/1)

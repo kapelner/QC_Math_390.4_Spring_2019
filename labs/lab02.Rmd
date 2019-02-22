@@ -2,6 +2,7 @@
 title: "Lab 2"
 author: "Your Name Here"
 output: pdf_document
+date: "11:59PM February 17, 2019"
 ---
 
 ## Basic R Skills
