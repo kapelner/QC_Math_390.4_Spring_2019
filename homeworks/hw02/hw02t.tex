@@ -142,3 +142,48 @@ NAME: \line(1,0){380}
 
 \end{document}
 
+\pagebreak
+We want to prove $\XtX$ is invertible only when $\rank{\X} = p + 1$ i.e. the design matrix is \qu{full rank}. This is equivalent to proving that 
+
+\beqn
+\rank{\X} = p + 1 \implies \rank{\XtX} = p + 1
+\eeqn
+
+Logically equivalent is the contrapositive:
+
+\beqn
+\rank{\XtX} \neq p + 1 \implies \rank{\X} \neq p + 1
+\eeqn
+
+Not equal in this case is equivalent to less than because a matrix cannot have a rank that exceeds its number of columns since $\rank{\X} := \dim{\colsp{\X}}$ so the above is equivalent to:
+
+\beqn
+\rank{\XtX} < p + 1 \implies \rank{\X} < p + 1
+\eeqn
+
+Beginning with the premise on the left hand side, a rank-deficient matrix has at least one non-trivial (i.e. non-zero) vector $\v \in \reals^{p+1}$ that maps to the zero vector, i.e. there is at least one direction in the nullspace:
+
+\beqn
+\XtX\v = \bv{0}_{p+1}
+\eeqn
+
+Saqib noticed we can multiply both sides on the right by $\v^\top$ to arrive at:
+
+
+\beqn
+\v^\top\XtX\v = \v^\top\bv{0}_{p+1} = 0
+\eeqn
+
+We can write this alternatively as
+
+\beqn
+ (\X\v)^\top \X\v = 0 \implies \sum_{i=1}^n (\X\v)_i^2 = 0
+\eeqn
+
+If all elements of $\X\v$ squared and summed yield zero, every single element must be zero and thus,
+
+\beqn
+\X\v = \bv{0}_n
+\eeqn
+
+indicating that the vector $\v$ (which was assumed to be nontrivial above) is in the nullspace of $\X$ indicating that $\X$ is rank deficient and thus $\rank{\X} < p + 1.~ \blacksquare$ \pagestyle{empty}
