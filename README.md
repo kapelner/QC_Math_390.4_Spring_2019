@@ -59,7 +59,7 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 * Lecture 9 and Review [(audio)](https://youtu.be/W5QFFxv4hIk) 
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec09.Rmd) 
   - Theory Notes [(Slava Takhalov)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09tachalov.pdf) [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09kondi.pdf) [(Darshan Patel)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09patel.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec09kap.pdf) -->
-* Lecture 8 [(audio)](https://youtu.be/)
+* Lecture 8 [(audio)](https://youtu.be/nk3-5gXJafI)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec05.Rmd) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec08kap.pdf)
 * Lecture 7 [(audio)](https://youtu.be/DFuQtuNfUeU)
