@@ -1,0 +1,7 @@
+---
+title: "Review Lab 1"
+author: "Your Name Here"
+output: pdf_document
+---
+
+These are exercises to practice for the exam. You do not need to hand this lab in as an assignment.
