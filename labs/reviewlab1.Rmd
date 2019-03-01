@@ -5,3 +5,159 @@ output: pdf_document
 ---
 
 These are exercises to practice for the exam. You do not need to hand this lab in as an assignment.
+
+* Create a vector of 1000 draws from a normal distribution centered at 50 with variance 25.
+
+```{r}
+
+```
+
+* Round those distributions down to the closest integer.
+
+```{r}
+
+```
+
+* Round those distributions up to the closest integer.
+
+```{r}
+
+```
+
+* Create a vector that looks like 1,1,1,1,1,2,2,2,2,2, ..., 100,100,100,100,100. Do it in as few operations as possible.
+
+```{r}
+
+```
+
+Use the `which` function to find the indices of numbers that are divisible by 7.
+
+```{r}
+
+```
+
+
+* Create a nominal factor vector that looks like A,A,A,B,B,B,C,C,C,D,D,D,D, ..., Z,Z,Z,Z and make the reference category Z.
+
+```{r}
+
+```
+
+* Create a list mapping "A" => 1, "B" => 2, ..., "Z" => 26
+
+```{r}
+
+```
+
+* Use `lapply` to sum over the values in the list.
+
+```{r}
+
+```
+
+
+* Create a matrix of size 2 x 26 where the first row is the list's keys and the second row is the list's values.
+
+```{r}
+
+```
+
+* Write a function that runs a function f (assumed to return a scalar) on each column of a matrix and aggregates the results in a vector.
+
+```{r}
+
+```
+
+Load the boston housing data frame.
+
+```{r}
+
+```
+
+Create a list object that holds 10 dataframes where each consists of the boston housing data frame whose observations are sampled with replacement.
+
+```{r}
+
+```
+
+
+Cross-tab the variable chas with rad.
+
+
+```{r}
+
+```
+
+Create a new variable in the data frame called `fake_y` equal to `3 * age + 6 * lstat - 100 * crim` and iid random realizations from $N(0,1)$.
+
+```{r}
+
+```
+
+Find the deciles of `fake_y` i.e. the min, the 10th percentile, the 20th percentile, ..., the 90th percentile and the max.
+
+```{r}
+
+```
+
+
+Find the subset of the data frame where `fake_y` is negative.
+
+```{r}
+
+```
+
+
+Create a new variable in the data frame which binarizes `fake_y` by being 1 if positive and 0 if negative.
+
+```{r}
+
+```
+Fit an OLS model of 'fake_y` using `age` and find the estimates of the intercept and slope and RMSE and R^2.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
