@@ -68,13 +68,6 @@ x[LETTERS] = 1:26
 x
 ```
 
-* Use `lapply` to sum over the values in the list.
-
-```{r}
-?lapply
-
-```
-
 
 * Create a matrix of size 2 x 26 where the first row is the list's keys and the second row is the list's values.
 
@@ -83,7 +76,6 @@ mat = matrix(c(names(map),as.numeric(map)) , ncol = 26,nrow = 2, byrow = TRUE)
 mat
 
 rbind(names(x), as.numeric(x))
-
 ```
 
 * Write a script that runs a function f (assumed to return a scalar) on each column of a matrix X and aggregates the results in a vector.
@@ -91,7 +83,7 @@ rbind(names(x), as.numeric(x))
 ```{r}
 X = matrix(rnorm(100), nrow = 10)
 f = sum
-class(f)
+
 v = rep(NA, ncol(X))
 
 for (j in 1 : ncol(X)){
@@ -99,8 +91,6 @@ for (j in 1 : ncol(X)){
 }
 
 v
-
-
 ```
 
 Load the boston housing data frame.
@@ -117,7 +107,6 @@ for(i in 1:10){
   lst[[i]] = Boston[sample(1 : nrow(Boston), replace = TRUE), ]
 }
 head(lst)
-  
 ```
 
 
@@ -125,9 +114,6 @@ Cross-tab the variable chas with rad.
 
 
 ```{r}
-?rad
-?table
-
 table(Boston$chas, Boston$rad)
 ```
 
@@ -136,14 +122,15 @@ Create a new variable in the data frame called `fake_y` equal to `3 * age + 6 * 
 ```{r}
 Boston$fake_y = 3 * Boston$age + 6 * Boston$lstat - 100 * Boston$crim + rnorm(nrow(Boston))
 summary(Boston$fake_y)
+
 ```
+
 
 Find the deciles of `fake_y` i.e. the min, the 10th percentile, the 20th percentile, ..., the 90th percentile and the max.
 
 ```{r}
 quantile(Boston$fake_y, probs = seq(0,1, .1))
 ```
-
 
 Find the subset of the data frame where `fake_y` is negative.
 
@@ -165,5 +152,4 @@ coef(lmm)
 summary(lmm)$r.squared
 summary(lmm)$sigma
 ```
-
 
