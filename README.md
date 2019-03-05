@@ -104,7 +104,8 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 
 ## Exams
 
-* Midterm I is Tues, March 5 (in class).
+* Midterm I is Tues, March 5 (in class). [(exam)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/exams/midterm1/midterm1.pdf) [(solutions)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/exams/midterm1/midterm1_solutions.pdf)
+
 * Midterm II is Thurs, April 11 (in class).
 * Final Exam is ...  (in class, KY283)
 

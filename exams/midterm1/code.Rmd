@@ -1,0 +1,99 @@
+```{r}
+pacman::p_load(ggplot2, locfit)
+n = 27
+set.seed(6)
+X = data.frame(
+  blood_pressure = as.numeric(factor(sample(c("L", "M", "H", "VH"), n, replace = TRUE))),
+  cholesterol = rnorm(n, 120, 10)
+)
+X$logit_y = -5 + 1 * (X$blood_pressure - 2) + 2 / 100 * X$cholesterol 
+X$logit_y
+
+X$patient_outcome = factor(rbinom(n, size = 1, prob = expit(X$logit_y)), labels = c("Healthy", "Heart Attack"))
+
+simple_viz_obj = ggplot(X, aes(x = blood_pressure, y = cholesterol)) + 
+  geom_point(size = 5, aes(shape = patient_outcome)) + xlab("") + ylab("")
+simple_viz_obj
+
+ggsave("nonlinsep.pdf", width = 6, height = 3, units = "in")
+
+
+simple_viz_obj = ggplot(X, aes(x = blood_pressure, y = cholesterol)) + 
+  geom_point(size = 5, aes(shape = patient_outcome), color = "grey") + xlab("") + ylab("") + theme(legend.position="none")
+simple_viz_obj
+
+ggsave("nonlinsep_trace.pdf", width = 6, height = 3, units = "in")
+```
+
+
+
+
+
+
+```{r}
+library(ggplot2)
+n = 300
+x = runif(n, -1 * pi, 1 * pi)
+good_f = function(t){
+  sin(4 * t) + t
+}
+delta = rnorm(n, 0, 0.2)
+y = good_f(x) + delta
+mod = lm(y ~ x)
+coef(mod)
+main_plot = ggplot(data.frame(x = x, y = y), aes(x = x, y = y)) + geom_point() 
+main_plot
+main_plot + geom_abline(intercept = coef(mod)[1], slope = coef(mod)[2])
+ggsave("curvyline.pdf", width = 6, height = 3, units = "in")
+var(x); var(y)
+
+main_plot + stat_function(fun = good_f)
+ggsave("curvyline_with_f.pdf", width = 6, height = 3, units = "in")
+
+```
+
+
+
+```{r}
+Xy_simple = data.frame(
+ response = factor(c(0, 0, 0, 1, 1, 1, 0, 0, 0)), #nominal
+ first_feature =   c(1, 1, 2, 5, 6, 5, 1, 3, 2),    #continuous
+ second_feature =  c(1, 2, 1, 5, 4, 4, 3, 1, 2)    #continuous
+)
+
+simple_viz_obj = ggplot(Xy_simple, aes(x = first_feature, y = second_feature)) + 
+  geom_point(size = 5, aes(shape = response)) + xlab("") + ylab("")
+simple_viz_obj
+
+ggsave("linsep.pdf")
+```
+
+
+```{r}
+Xy_simple = data.frame(
+ response = factor(c(0, 0, 0, 1, 1, 1, 0, 0, 0, 0)), #nominal
+ first_feature =   c(1, 1, 2, 5, 6, 5, 1, 3, 2, 5.2),    #continuous
+ second_feature =  c(1, 2, 1, 5, 4, 4, 3, 1, 2, 4.2)    #continuous
+)
+
+simple_viz_obj = ggplot(Xy_simple, aes(x = first_feature, y = second_feature)) + 
+  geom_point(size = 5, aes(shape = response)) + xlab("") + ylab("")
+simple_viz_obj
+
+ggsave("nonlinsep.pdf")
+```
+
+
+
+```{r}
+boston = MASS::Boston
+boston$chas = factor(boston$chas, labels = c("NOT_ON_RIVER", "ON_RIVER"))
+boston$rad = factor(boston$rad, ordered = TRUE)
+boston = boston[, c("chas", "rad", "rm", "medv")]
+boston
+```
+
+
+
+
+
