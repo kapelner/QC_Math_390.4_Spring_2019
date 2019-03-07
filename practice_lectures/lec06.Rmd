@@ -1,0 +1,281 @@
+---
+title: "Practice Lecture 6 MATH 390.4 Queens College"
+author: "Professor Adam Kapelner"
+date: "February 26, 2019"
+---
+
+## Eigendecomposition in R
+
+```{r}
+B = array(seq(1, 4), dim = c(2, 2))
+B
+eigen_decomp = eigen(B)
+V = eigen_decomp$vectors
+V
+v1 = V[, 1, drop = FALSE]
+v2 = V[, 2, drop = FALSE]
+
+lambdas = eigen_decomp$values
+lambdas
+lambda1 = lambdas[1]
+lambda2 = lambdas[2]
+
+B %*% v1
+lambda1 * v1
+
+B %*% v2 
+lambda2 * v2
+B %*% v2 == lambda2 * v2 #why not?
+
+#diagonolization
+V %*% diag(lambdas) %*% solve(V)
+```
+
+
+## Multivariate linear regression
+
+From last time...
+
+```{r}
+y = MASS::Boston$medv
+X = as.matrix(cbind(1, MASS::Boston[, 1: 13]))
+Xt = t(X)
+XtXinv = solve(Xt %*% X)
+b = XtXinv %*% t(X) %*% y
+b
+```
+
+We can compute all predictions:
+
+```{r}
+H = X %*% XtXinv %*% t(X)
+yhat = X %*% b
+yhat = H %*% y
+```
+
+Can you tell this is projected onto a 13 dimensionsal space from a 506 dimensional space? Not really... but it is...
+
+We can calculate the residuals:
+
+```{r}
+e = y - yhat
+head(e)
+```
+
+What is RMSE?
+
+```{r}
+SSE = t(e) %*% e
+MSE = 1 / (ncol(X)) * SSE
+RMSE = sqrt(MSE)
+SSE
+MSE
+RMSE
+```
+
+Interpret the RMSE...
+
+We can calculate $R^2$ two ways:
+
+```{r}
+s_sq_y = var(y)
+s_sq_e = var(e)
+Rsq = (s_sq_y - s_sq_e) / s_sq_y
+Rsq
+
+n = length(e)
+SST = (n - 1) * s_sq_y
+Rsq = 1 - SSE / SST
+Rsq
+```
+
+Verify the orthogonal projection
+
+```{r}
+t(e) %*% yhat
+sum(y)^2 - sum(yhat)^2 - sum(e)^2
+```
+
+Verify properties of the projection matrix
+
+```{r}
+pacman::p_load(testthat)
+expect_equal(H, t(H), tolerance = 1e-2)
+expect_equal(H %*% H, H, tolerance = 1e-2)
+```
+
+The rank should be $p + 1 = 14$.
+
+```{r}
+pacman::p_load(Matrix)
+rankMatrix(H)
+```
+
+This can be seen also with the eigenvalues. There should be 14 non-zero eigenvalues, all ones.
+
+```{r}
+eigenvals = as.numeric(round(eigen(H)$values, 4))
+eigenvals
+sum(eigenvals)
+```
+
+
+
+## LS using categorical predictors
+
+
+Note that historically this is called "Analysis of Variance" or "ANOVA" for short. But there is no difference to the computer, it still crunches the same matrices.
+
+Let's get the cars data again:
+
+```{r}
+cars = MASS::Cars93
+str(cars)
+```
+
+Let's try to model `Type`, a factor with 6 levels.
+
+```{r}
+table(cars$Type)
+```
+
+What will $\hay{y}$ look like? Should be the $\bar{y}$'s for each level. What is $p$? 6. Let' see:
+
+```{r}
+anova_mod = lm(Price ~ Type, cars)
+coef(anova_mod)
+summary(anova_mod)$r.squared
+```
+
+What's going on here? This one categorical variable got blown up into 5 features! How to interpret?? First need reference category. Which one is missing? `Compact`. So what is prediction for the compact type? The intercept. What is prediction of Large type? Intercept + Large, etc. How does this regression look. Let's see the model matrix:
+
+```{r}
+Xmm = model.matrix(Price ~ Type, cars)
+head(Xmm, 20)
+```
+
+The predictor `Type` got "dummified". (Remember we spoke about this in lecture 2)? There are now 5 dummy variables each representing one of the levels and the reference level is omitted because it is accounted for in the intercept. Let's make sure this is exactly what's going on.
+
+```{r}
+y = cars$Price
+Xt = t(Xmm) 
+XtX = Xt %*% Xmm
+XtXinv = solve(XtX)
+b = XtXinv %*% Xt %*% y
+b
+yhat = Xmm %*% b
+e = y - yhat
+Rsq = (var(y) - var(e)) / var(y)
+Rsq
+```
+
+And of course the coefficients and $R^2$ are identical to the output from `lm`.
+
+If we want to do a more "pure ANOVA", we can get rid of the intercept and see the $\bar{y}$'s immediately. This is handled in R's formula designation by adding a zero:
+
+```{r}
+anova_mod = lm(Price ~ 0 + Type, cars)
+coef(anova_mod)
+```
+
+Is this correct?
+
+```{r}
+mean(cars$Price[cars$Type == "Compact"])
+mean(cars$Price[cars$Type == "Large"])
+mean(cars$Price[cars$Type == "Midsize"])
+mean(cars$Price[cars$Type == "Small"])
+mean(cars$Price[cars$Type == "Sporty"])
+mean(cars$Price[cars$Type == "Van"])
+```
+
+What does $R^2$ look like?
+
+```{r}
+summary(anova_mod)$r.squared
+```
+
+Too high!! What happened? The $R^2$ calculation in `lm` is not accurate without the intercept. Keep this in mind. 
+
+What does the design matrx (model matrix) look like?
+
+```{r}
+Xmm = model.matrix(Price ~ 0 + Type, cars)
+head(Xmm, 20)
+```
+
+Very similar. 
+
+Regressions without an intercept are not recommended. Here's why. What if we were doing two factors? I want a linear model with both Type and Airbags:
+
+```{r}
+table(cars$AirBags)
+```
+
+Airags is another nominal categorical variable, this time with three levels.
+
+We invoke the model as follows.
+
+```{r}
+anova_mod = lm(Price ~ Type + AirBags, cars)
+coef(anova_mod)
+summary(anova_mod)$r.squared
+```
+
+What are interpretations now? What is the "reference level"? It's actually two levels in one: Type = compact and Airbags = Driver \& Passenger. 
+
+A deeper question: can we read off Type = Midsize and AirBags = none? No... this is a modeling "enhancement" we will discuss in a few lectures from now.
+
+If we model it without an intercept,
+
+
+```{r}
+anova_mod = lm(Price ~ 0 + Type + AirBags, cars)
+coef(anova_mod)
+```
+
+we only get $\bar{y}$'s for the first factor predictor crossed with the reference category of the second. So above `TypeCompact` refers to the average of Type = Compact and Airbags = Driver \& Passenger.
+
+Now let's create a linear model using one categorical predictor and one continuous predictor. The combination is called for historical reasons "Analysis of Covariance" or "ANCOVA" for short.
+
+Let's use `Tyoe` and `Horsepower`:
+
+```{r}
+ancova_mod = lm(Price ~ Type + Horsepower, cars)
+coef(ancova_mod)
+summary(ancova_mod)$r.squared
+```
+
+Interpretation of estimated coefficients? Why did $R^2$ increase? (We will be explaining this in detail in the next unit).
+
+What's going on the design / model matrix?
+
+```{r}
+head(model.matrix(Price ~ Type + Horsepower, cars))
+```
+
+Same as model matrix with just `Type`. Since `Horsepower` is continuous, it doesn't get dummified to more features.
+
+What if we went back to the `Type` regression, left out the intercept, dummified and added the intercept back in?
+
+```{r}
+Xmm = model.matrix(Price ~ 0 + Type, cars)
+Xmm = cbind(1, Xmm)
+head(Xmm)
+```
+
+Are the columns linearly independent? No ... so when we try to get the hat matrix,
+
+```{r}
+Xmm %*% solve(t(Xmm) %*% Xmm) %*% t(Xmm)
+```
+
+You can't invert a non-invertible matrix!!
+
+What does R do when using the linear model function:
+
+```{r}
+coef(lm(cars$Price ~ 0 + Xmm))
+```
+
+SOMEHOW: it doesn't complain since it handles the non-invertibility (we don't know why...) but we do see that it's busted. Look at the coefficients! One is missing! What is it doing?? It's just arbitrarily dropping one (just like recommended).

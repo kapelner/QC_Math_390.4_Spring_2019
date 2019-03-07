@@ -1,0 +1,123 @@
+---
+title: "Lab 5"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM March 16, 2019"
+---
+
+Load the Boston housing data frame and create the vector $y$ (the median value) and matrix $X$ (all other features) from the data frame.
+
+```{r}
+#TO-DO
+```
+
+Run the OLS linear model to get $b$, the vector of coefficients. Do not use `lm`.
+
+```{r}
+#TO-DO
+```
+
+Find the hat matrix for this regression.
+
+```{r}
+#TO-DO
+```
+
+Verify this is a projection matrix by verifying the two sufficient conditions. Use the `testthat` library.
+
+```{r}
+#TO-DO
+```
+
+Calculate $\hat{y}$ and $e$.
+
+```{r}
+#TO-DO
+```
+
+Calculate $R^2$ and RMSE.
+
+```{r}
+#TO-DO
+```
+
+Verify $\hat{y}$ and $e$ are orthogonal.
+
+```{r}
+#TO-DO
+```
+
+Verify $\hat{y} - \bar{y}$ and $e$ are orthogonal.
+
+```{r}
+#TO-DO
+```
+
+Find the cosine-squared of $y - \bar{y}$ and $\hat{y} - \bar{y}$ and verify it is the same as $R^2$.
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
