@@ -5,7 +5,7 @@ output: pdf_document
 date: "11:59PM March 16, 2019"
 ---
 
-Load the Boston housing data frame and create the vector $y$ (the median value) and matrix $X$ (all other features) from the data frame.
+Load the Boston housing data frame and create the vector $y$ (the median value) and matrix $X$ (all other features) from the data frame. Name the columns the same as Boston except for the first name it "(Intercept)".
 
 ```{r}
 #TO-DO
@@ -17,7 +17,7 @@ Run the OLS linear model to get $b$, the vector of coefficients. Do not use `lm`
 #TO-DO
 ```
 
-Find the hat matrix for this regression.
+Find the hat matrix for this regression `H` and find its rank. Is this rank expected?
 
 ```{r}
 #TO-DO
@@ -29,7 +29,25 @@ Verify this is a projection matrix by verifying the two sufficient conditions. U
 #TO-DO
 ```
 
-Calculate $\hat{y}$ and $e$.
+Find the matrix that projects onto the space of residuals `H_comp` and find its rank. Is this rank expected?
+
+```{r}
+#TO-DO
+```
+
+Verify this is a projection matrix by verifying the two sufficient conditions. Use the `testthat` library.
+
+```{r}
+#TO-DO
+```
+
+Calculate $\hat{y}$.
+
+```{r}
+#TO-DO
+```
+
+Calculate $e$ as the difference of $y$ and $\hat{y}$ and the projection onto the space of the residuals. Verify the two means of calculating the residuals provide the same results.
 
 ```{r}
 #TO-DO
@@ -59,48 +77,49 @@ Find the cosine-squared of $y - \bar{y}$ and $\hat{y} - \bar{y}$ and verify it i
 #TO-DO
 ```
 
-
-
-```{r}
-#TO-DO
-```
-
-
+Verify the sum of squares identity which we learned was due to the Pythagorean Theorem (applies since the projection is specifically orthogonal).
 
 ```{r}
 #TO-DO
 ```
 
-
-
-```{r}
-#TO-DO
-```
-
-
+Create a matrix that is $(p + 1) \times (p + 1)$ full of NA's. Label the columns the same columns as X. Do not label the rows. For the first row, find the OLS estimate of the $y$ regressed on the first column only and put that in the first entry. For the second row, find the OLS estimates of the $y$ regressed on the first and second columns of $X$ only and put them in the first and second entries. For the third row, find the OLS estimates of the $y$ regressed on the first, second and third columns of $X$ only and put them in the first, second and third entries, etc. For the last row, fill it with the full OLS estimates.
 
 ```{r}
 #TO-DO
 ```
 
+Examine this matrix. Why are the estimates changing from row to row as you add in more predictors?
 
+#TO-DO
+
+Clear the workspace and load the diamonds dataset.
 
 ```{r}
 #TO-DO
 ```
 
-
-
-```{r}
-#TO-DO
-```
-
-
+Extract $y$, the price variable and "c", the nominal variable "color" as vectors.
 
 ```{r}
 #TO-DO
 ```
 
+Convert the "c" vector to $X$ which contains an intercept and an appropriate number of dummies. Let the color G be the refernce category as it is the modal color. Name the columns of $X$ appropriately. The first should be "(Intercept)". Delete c.
+
+```{r}
+#TO-DO
+```
+
+Repeat the iterative exercise above we did for Boston here.
+
+```{r}
+#TO-DO
+```
+
+Why didn't the estimates change as we added more and more features?
+
+#TO-DO
 
 
 ```{r}
