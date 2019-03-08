@@ -126,17 +126,24 @@ Why didn't the estimates change as we added more and more features?
 #TO-DO
 ```
 
+Create a vector $y$ by simulating $n = 100$ standard iid normals. Create a matrix of size 100 x 2 and populate the first column by all ones (for the intercept) and the second column by 100 standard iid normals. Find the $R^2$ of an OLS regression of `y ~ X`. Use matrix algebra.
+
+```{r}
+#TO-DO
+```
+
+ from the last problem. Find the $R^2$ of an OLS regression of `y ~ X`. You can use the `summary` function of an `lm` model.
+
+Write a for loop to each time bind a new column of 100 standard iid normals to the matrix $X$ and find the $R^2$ each time until the number of columns is 100. Create a vector to save all $R^2$'s. What happened??
 
 
 ```{r}
 #TO-DO
 ```
 
-
+Add one final column to $X$ to bring the number of columns to 101. Then try to compute $R^2$. What happens and why?
 
 ```{r}
 #TO-DO
 ```
-
-
 
