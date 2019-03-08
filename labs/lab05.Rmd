@@ -23,7 +23,7 @@ Find the hat matrix for this regression `H` and find its rank. Is this rank expe
 #TO-DO
 ```
 
-Verify this is a projection matrix by verifying the two sufficient conditions. Use the `testthat` library.
+Verify this is a projection matrix by verifying the two sufficient conditions. Use the `testthat` library's `expect_equal(matrix1, matrix2, tolerance = 1e-2)`.
 
 ```{r}
 #TO-DO
