@@ -1,7 +1,7 @@
 ---
 title: "Practice Lecture 6 MATH 390.4 Queens College"
 author: "Professor Adam Kapelner"
-date: "February 26, 2019"
+date: "March 12, 2019"
 ---
 
 ## Eigendecomposition in R
@@ -32,12 +32,38 @@ V %*% diag(lambdas) %*% solve(V)
 ```
 
 
-## Multivariate linear regression
 
-From last time...
+## Multivariate linear regression Null Model
+
+Let's go back to the Boston data and regenerate all our quantities:
 
 ```{r}
 y = MASS::Boston$medv
+```
+
+Before we talk about the hat matrix, $H$, let's do a simple example of projection. Let's project $y$ onto the intercept column, the column of all 1's. What do you think will happen?
+
+```{r}
+ones = rep(1, length(y))
+H = ones %*% t(ones) / sum(ones^2)
+H[1 : 5, 1 : 5]
+#in fact
+unique(c(H))
+```
+
+The whole matrix is just one single value for each element! What is this value? It's 1 / 506 where 506 is $n$. So what's going to happen?
+
+```{r}
+y_proj_ones = H %*% y
+head(y_proj_ones)
+mean(y)
+```
+
+Projection onto the space of all ones makes the null model ($g = \bar{y}$). It's the same as the model of response = intercept. The best intercept is $\bar{y}$.
+
+## Multivariate linear regression
+
+```{r}
 X = as.matrix(cbind(1, MASS::Boston[, 1: 13]))
 Xt = t(X)
 XtXinv = solve(Xt %*% X)
@@ -51,15 +77,67 @@ We can compute all predictions:
 H = X %*% XtXinv %*% t(X)
 yhat = X %*% b
 yhat = H %*% y
+head(yhat)
 ```
 
 Can you tell this is projected onto a 13 dimensionsal space from a 506 dimensional space? Not really... but it is...
 
+Now let's project over and over...
+
+```{r}
+head(H %*% H %*% H %*% H %*% H %*% H %*% H %*% H %*% H %*% y)
+```
+
+Same thing! Once you project, you're there. That's the idempotency of $H$.
+
+Let's make sure that it really does represent the column space of $X$. Let's try to project different columns of $X$:
+
+```{r}
+head(X[, 1, drop = FALSE])
+head(H %*% X[, 1, drop = FALSE])
+
+head(X[, 2, drop = FALSE])
+head(H %*% X[, 2, drop = FALSE])
+
+head(X[, 3, drop = FALSE])
+head(H %*% X[, 3, drop = FALSE]) #why?? Numerical error...
+
+#etc....
+```
+
 We can calculate the residuals:
 
 ```{r}
+I = diag(nrow(X))
 e = y - yhat
 head(e)
+e = (I - H) %*% y
+head(e)
+```
+
+Let's do that projection over and over onto the complement of the column space of $X$:
+
+```{r}
+head((I - H) %*% (I - H) %*% (I - H) %*% (I - H) %*% (I - H) %*% (I - H) %*% y)
+```
+
+# QR Decomposition
+
+Now let's do the QR decomposition and see if the projections work.
+
+```{r}
+qrX = qr(X)
+Q = qr.Q(qrX)
+R = qr.R(qrX)
+
+sum(Q[, 1]^2) #normalized?
+sum(Q[, 2]^2) #normalized?
+Q[, 1] %*% Q[, 2] #orthogonal?
+Q[, 2] %*% Q[, 3] #orthogonal?
+
+yhat_via_Q = Q %*% t(Q) %*% y
+head(yhat)
+head(yhat_via_Q)
 ```
 
 What is RMSE?
@@ -111,10 +189,13 @@ pacman::p_load(Matrix)
 rankMatrix(H)
 ```
 
-This can be seen also with the eigenvalues. There should be 14 non-zero eigenvalues, all ones.
+This can be seen also with the eigenvalues. There should be 14 non-zero eigenvalues, all ones. Analogously for the projection matrix onto residual space.
 
 ```{r}
 eigenvals = as.numeric(round(eigen(H)$values, 4))
+eigenvals
+sum(eigenvals)
+eigenvals = as.numeric(round(eigen(diag(nrow(H)) - H)$values, 4))
 eigenvals
 sum(eigenvals)
 ```
@@ -279,3 +360,223 @@ coef(lm(cars$Price ~ 0 + Xmm))
 ```
 
 SOMEHOW: it doesn't complain since it handles the non-invertibility (we don't know why...) but we do see that it's busted. Look at the coefficients! One is missing! What is it doing?? It's just arbitrarily dropping one (just like recommended).
+
+## Multicollinearity
+
+Set up a fake $y$ and $X$ design matrix
+
+```{r}
+n = 20
+x1 = rnorm(n)
+x2 = x1
+x2[n] = x1[n] + 0.0001
+X = cbind(1, x1, x2)
+bbeta = c(2, -3, 5)
+epsilon = rnorm(n, mean = 0, sd = 0.1)
+y = X %*% bbeta + epsilon
+```
+
+Now let's see what the model produces:
+
+```{r}
+XtXinvXt = solve(t(X) %*% X) %*% t(X)
+b = XtXinvXt %*% y
+H = X %*% XtXinvXt
+e = (diag(n) - H) %*% y
+b
+1 - sum(e^2) / sum((y - mean(y))^2)
+```
+
+Estimates of beta are garbage (except for the intercept) but predictions are great! How did this happen? Collinearity between the two variables:
+
+```{r}
+t(x1) %*% x2
+acos(t(x1) %*% x2 / sqrt(sum(x1^2) * sum(x2^2))) * 180 / pi
+```
+
+
+Try again:
+
+```{r}
+x2 = rnorm(n)
+```
+
+Is there collinearity now?
+
+```{r}
+t(x1) %*% x2
+acos(t(x1) %*% x2 / sqrt(sum(x1^2) * sum(x2^2))) * 180 / pi
+```
+
+Now let's see what the model produces:
+
+```{r}
+X = cbind(1, x1, x2)
+y = X %*% bbeta + epsilon
+
+XtXinvXt = solve(t(X) %*% X) %*% t(X)
+b = XtXinvXt %*% y
+H = X %*% XtXinvXt
+e = (diag(n) - H) %*% y
+b
+1 - sum(e^2) / sum((y - mean(y))^2)
+```
+
+Can we have a middle ground?
+
+```{r}
+x2 = x1 + rnorm(n, 0, 0.05)
+```
+
+Is there collinearity now?
+
+```{r}
+t(x1) %*% x2
+acos(t(x1) %*% x2 / sqrt(sum(x1^2) * sum(x2^2))) * 180 / pi
+```
+
+Now let's see what the model produces:
+
+```{r}
+X = cbind(1, x1, x2)
+y = X %*% bbeta + epsilon
+
+XtXinvXt = solve(t(X) %*% X) %*% t(X)
+b = XtXinvXt %*% y
+H = X %*% XtXinvXt
+e = (diag(n) - H) %*% y
+b
+1 - sum(e^2) / sum((y - mean(y))^2)
+```
+
+
+# Correlation zero means orthogonality
+
+Let's generate some fake data. In this example we'll have one predictor which will be orthogonal to the centered response. We enforce the response to be centered by adding a column of 1's:
+
+```{r}
+n = 100; p = 2
+Q = qr.Q(qr(cbind(1, matrix(rnorm(n * p), nrow = n))))
+y = Q[, p + 1]
+x = Q[, 2]
+```
+
+Let's make sure it's orthogonal:
+
+```{r}
+x %*% y
+```
+
+If they're orthogonal and y is mean-centered, what is the correlation?
+
+```{r}
+cor(x, y)
+```
+
+If the correlation is 0, what is $b_1$, the slope? It has to be zero. Thus $b_0$ has to be $bar{x}$. Since x was also orthogonalized to the vector of 1's, it's centered and hence has average = 0. So both intercept and slope are 0:
+
+What is $b$?
+
+```{r}
+mod = lm(y ~ x)
+coef(mod)
+```
+
+What is $R^2$? Since $x$ and $y$ are orthogonal... a projection onto the colspace of $X$ gets annhilated.
+
+```{r}
+summary(mod)$r.squared
+```
+
+# Random correlations are non-zero
+
+```{r}
+X = rnorm(n)
+x = x - mean(x)
+y = rnorm(n)
+y = y - mean(y)
+```
+
+In this setup, $x$ and $y$ are centered Gaussian random vectors. Are they orthogonal?
+
+```{r}
+x %*% y
+```
+
+Nope... what about correlated?
+
+```{r}
+cor(x, y)
+```
+
+They *nearly* uncorrelated but they still have some correlation. How is this possible? There is "random chance"" AKA "chance capitalization"!
+
+What about the best fitting line?
+
+```{r}
+mod = lm(y ~ x)
+coef(mod)
+```
+
+Slope is about -0.8 which is small but non-zero.
+
+What is $R^2$? Since $x$ and $y$ are nearly orthogonal... a projection onto the colspace of $X$ gets nearly annhilated.
+
+```{r}
+summary(mod)$r.squared
+```
+
+but not entirely. Lesson learned: random noise can be correlated with the response $y$ and give you the illusion of fit!
+
+# The monotonicity of SSR (or $R^2$) with p
+
+As p increases, $R^2$ goes up. Here's a nice exercise:
+
+```{r}
+y = rnorm(n)
+Rsqs = array(NA, n)
+
+#we know that Rsq = 0 for the null model
+Rsqs[1] = 0
+
+#create a matrix with the correct number of rows but no columns
+X = matrix(NA, nrow = n, ncol = 0)
+
+#for every new p, tack on a new random continuos predictor:
+for (p_plus_one in 2 : n){
+  X = cbind(X, rnorm(n))
+  Rsqs[p_plus_one] = summary(lm(y ~ X))$r.squared
+}
+```
+
+Now let's plot it and see what happens:
+
+```{r}
+pacman::p_load(ggplot2)
+base = ggplot(data.frame(p_plus_one = 1 : n, Rsq = Rsqs))
+base + geom_line(aes(x = p_plus_one, y = Rsq))
+```
+
+With each additional predictor, what happens to $R^2$?
+
+```{r}
+pacman::p_load(latex2exp)
+base + geom_line(aes(x = p_plus_one, y = c(0, diff(Rsq)))) + xlab("p + 1") + ylab(TeX("$\\Delta R^2$"))
+```
+
+$R^2$ always increases:
+
+```{r}
+all(diff(Rsqs) > 0)
+```
+
+How can this possibly be?? The $x$'s are not related to $y$ whatsoever!!
+
+Chance capitalization prevails. Each additional predictor picks up another dimension to add to the column space of $X$. Eventually, the projection explains *all* the variance. If $n = p + 1$, that matrix is square and of full rank, hence $\hat{y} = y$ and all residuals $e = 0$ since it is merely solving $n$ linearly independent equations.
+
+So here's an idea. To get a perfect fit, just augment your design matrix with $n - (p + 1)$ random vectors and you get $R^2 = 100\%$!! There must be something wrong with this!!
+
+Even if $p$ is large and $<n$, you are getting a lot of fit for free. So there's something wrong with this too!
+
+This is called overfitting.
+
