@@ -491,7 +491,8 @@ summary(mod)$r.squared
 # Random correlations are non-zero
 
 ```{r}
-X = rnorm(n)
+n = 100
+x = rnorm(n)
 x = x - mean(x)
 y = rnorm(n)
 y = y - mean(y)
@@ -501,6 +502,8 @@ In this setup, $x$ and $y$ are centered Gaussian random vectors. Are they orthog
 
 ```{r}
 x %*% y
+theta_in_rad = acos(x %*% y / sqrt(sum(x^2) * sum(y^2)))
+theta_in_rad * 180 / pi
 ```
 
 Nope... what about correlated?
@@ -509,7 +512,9 @@ Nope... what about correlated?
 cor(x, y)
 ```
 
-They *nearly* uncorrelated but they still have some correlation. How is this possible? There is "random chance"" AKA "chance capitalization"!
+They *nearly* uncorrelated but they still have some correlation. How is this possible? 
+
+There is "random chance"" AKA "chance capitalization"!
 
 What about the best fitting line?
 
@@ -528,7 +533,7 @@ summary(mod)$r.squared
 
 but not entirely. Lesson learned: random noise can be correlated with the response $y$ and give you the illusion of fit!
 
-# The monotonicity of SSR (or $R^2$) with p
+# The monotonicity of SSR (or $R^2$) with more features
 
 As p increases, $R^2$ goes up. Here's a nice exercise:
 
@@ -579,4 +584,45 @@ So here's an idea. To get a perfect fit, just augment your design matrix with $n
 Even if $p$ is large and $<n$, you are getting a lot of fit for free. So there's something wrong with this too!
 
 This is called overfitting.
+
+## Overfitting
+
+Let's see how overfitting increases generalized estimation error.
+
+```{r}
+bbeta = c(1, 2, 3, 4)
+
+#build training data
+n = 100
+X = cbind(1, rnorm(n), rnorm(n), rnorm(n))
+y = X %*% bbeta + rnorm(n, 0, 0.3)
+
+#build test data
+n_star = 100
+X_star = cbind(1, rnorm(n), rnorm(n), rnorm(n_star))
+y_star = X_star %*% bbeta + rnorm(n, 0, 0.3)
+
+all_betas = matrix(NA, n, n)
+all_betas[4, 1 : 4] = coef(lm(y ~ 0 + X))
+for (j in 5 : n){
+  X = cbind(X, rnorm(n))
+  all_betas[j, 1 : j] = coef(lm(y ~ 0 + X))
+}
+all_betas[4 : n, 1 : 4]
+
+b_error_by_p = rowSums((all_betas[, 1 : 4] - matrix(rep(bbeta, n), nrow = n, byrow = TRUE))^2)
+plot(1 : n, b_error_by_p)
+
+#look at out of sample error
+oos_rmse_by_p = array(NA, n)
+for (j in 4 : n){
+  y_hat_star = X_star %*% all_betas[j, 1 : 4]
+  oos_rmse_by_p[j] = sqrt(sum((y_star - y_hat_star)^2))
+}
+plot(1 : n, oos_rmse_by_p)
+```
+
+
+
+
 
