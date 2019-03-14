@@ -1,0 +1,96 @@
+---
+title: "Lab 6"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM March 24, 2019"
+---
+
+Load the Boston Housing data and create the vector $y$ and the design matrix $X$.
+
+```{r}
+#TO-DO
+```
+
+Find the OLS estimate and OLS predictions without using `lm`.
+
+```{r}
+#TO-DO
+```
+
+Write a function spec'd as follows:
+
+```{r}
+#' Orthogonal Projection
+#'
+#' Projects vector a onto v.
+#'
+#' @param a   the vector to project
+#' @param v   the vector projected onto
+#'
+#' @returns   a list of two vectors, the orthogonal projection parallel to v named a_parallel, 
+#'            and the orthogonal error orthogonal to v called a_perpendicular
+orthogonal_projection = function(a, v){
+  
+}
+```
+
+
+Try to project onto the column space of $X$ by projecting on each vector of $X$ individually and adding up the projections. You can use the function `orthogonal_projection`.
+
+```{r}
+#TO-DO
+```
+
+How much double counting occurred? Measure the magnitude relative to the true LS orthogonal projection.
+
+```{r}
+#TO-DO
+```
+
+Convert $X$ into $Q$ where $Q$ has the same column space as $X$ but has orthogonal columns. You can use the function `orthogonal_projection`. This is essentially gram-schmidt.
+
+```{r}
+#TO-DO
+```
+
+Make $Q$'s columns orthonormal.
+
+```{r}
+#TO-DO
+```
+
+Verify $Q^T$ is the inverse of $Q$.
+
+```{r}
+#TO-DO
+```
+
+
+Project $Y$ onto $Q$ and verify it is the same as the OLS fit.
+
+```{r}
+#TO-DO
+```
+
+
+Project $Y$ onto the columns of $Q$ one by one and verify it sums to be the projection onto the whole space.
+
+```{r}
+#TO-DO
+```
+
+Verify the OLS fit squared lengh is the sum of squared lengths of each of the orthogonal projections.
+
+```{r}
+#TO-DO
+```
+
+Code the two demos from the beginning of the lab in your own code and comment every line in detail.
+
+```{r}
+#TO-DO
+```
+
+```{r}
+#TO-DO
+```

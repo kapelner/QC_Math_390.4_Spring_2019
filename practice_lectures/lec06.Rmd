@@ -533,6 +533,7 @@ summary(mod)$r.squared
 
 but not entirely. Lesson learned: random noise can be correlated with the response $y$ and give you the illusion of fit!
 
+
 # The monotonicity of SSR (or $R^2$) with more features
 
 As p increases, $R^2$ goes up. Here's a nice exercise:
@@ -621,8 +622,3 @@ for (j in 4 : n){
 }
 plot(1 : n, oos_rmse_by_p)
 ```
-
-
-
-
-
