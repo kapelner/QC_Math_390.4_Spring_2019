@@ -8,13 +8,20 @@ date: "11:59PM March 24, 2019"
 Load the Boston Housing data and create the vector $y$ and the design matrix $X$.
 
 ```{r}
-#TO-DO
+data(Boston, package = "MASS")
+y = Boston$medv
+intecp = rep(1, nrow(Boston))
+X = as.matrix(cbind(intecp, Boston[, 1 : 13]))
 ```
 
 Find the OLS estimate and OLS predictions without using `lm`.
 
 ```{r}
-#TO-DO
+b = solve(t(X) %*% X) %*% t(X) %*% y
+b
+yhat = X %*% b
+yhat
+
 ```
 
 Write a function spec'd as follows:
@@ -30,46 +37,77 @@ Write a function spec'd as follows:
 #' @returns   a list of two vectors, the orthogonal projection parallel to v named a_parallel, 
 #'            and the orthogonal error orthogonal to v called a_perpendicular
 orthogonal_projection = function(a, v){
-  
+  a_parallel = (v %*% t(v) %*% a) / ( sum(v^2) )
+  a_perpendicular = a - a_parallel
+  list("a_parallel" = a_parallel, "a_perpendicular" = a_perpendicular)
 }
+
+orthogonal_projection(c(1,2,3,4), c(1,2,3,4))
+orthogonal_projection(c(1, 2, 3, 4), c(0, 2, 0, -1))
+result = orthogonal_projection(c(2, 6, 7, 3), c(1, 3, 5, 7))
+t(result$a_parallel) %*% result$a_perpendicular
+result$a_parallel + result$a_perpendicular
+result$a_parallel / c(1, 3, 5 ,7)
 ```
 
 
-Try to project onto the column space of $X$ by projecting on each vector of $X$ individually and adding up the projections. You can use the function `orthogonal_projection`.
+Try to project onto the column space of $X$ by projecting $y$ on each vector of $X$ individually and adding up the projections. You can use the function `orthogonal_projection`.
 
 ```{r}
-#TO-DO
+sumOrthProj = rep(0, nrow(X))
+for (j in 1 : ncol(X)){
+  sumOrthProj = sumOrthProj + orthogonal_projection(y, X[, j])$a_parallel
+  }
+head(sumOrthProj)
 ```
 
 How much double counting occurred? Measure the magnitude relative to the true LS orthogonal projection.
 
 ```{r}
-#TO-DO
+sumOrthProj / yhat
 ```
 
 Convert $X$ into $Q$ where $Q$ has the same column space as $X$ but has orthogonal columns. You can use the function `orthogonal_projection`. This is essentially gram-schmidt.
 
 ```{r}
-#TO-DO
+Q = matrix(NA, nrow = nrow(X), ncol = ncol(X))
+Q[, 1] = X[, 1]
+for(j in 2 : ncol(X)){
+  Q[ , j] = X[ , j]
+  
+  for(j0 in 1 : (j - 1)){
+    Q[ , j] = Q[ , j] - (orthogonal_projection(X[ , j], Q[ , j0])$a_parallel)
+  }
+}
+pacman::p_load(Matrix)
+rankMatrix(Q)
+dim(Q)
+ncol(X)
+
+t(Q) %*% Q
 ```
 
 Make $Q$'s columns orthonormal.
 
 ```{r}
-#TO-DO
+for (j in 1 : ncol(Q)){
+  Q[ ,j] = Q[ , j] / sqrt(sum(Q[ ,j]^2)) 
+}
+head(Q)
 ```
 
 Verify $Q^T$ is the inverse of $Q$.
 
 ```{r}
 #TO-DO
+t(Q) %*% Q
 ```
 
 
 Project $Y$ onto $Q$ and verify it is the same as the OLS fit.
 
 ```{r}
-#TO-DO
+cbind(Q %*% t(Q) %*% y, yhat)
 ```
 
 
@@ -85,7 +123,7 @@ Verify the OLS fit squared lengh is the sum of squared lengths of each of the or
 #TO-DO
 ```
 
-Rewrite the "The monotonicity of SSR" demo from the lec06 notes. Comment every line in detail. Write about what the plots means.
+Rewrite the "The monotonicity of SSR" demo from the lec06 notes but instead do it for RMSE. Comment every line in detail. Write about what the plots means.
 
 ```{r}
 #TO-DO
