@@ -539,14 +539,16 @@ but not entirely. Lesson learned: random noise can be correlated with the respon
 As p increases, $R^2$ goes up. Here's a nice exercise:
 
 ```{r}
+n = 100
 y = rnorm(n)
 Rsqs = array(NA, n)
 
-#we know that Rsq = 0 for the null model
+#we know that Rsq = 0 for the null model (i.e. just regressing on the intercept)
 Rsqs[1] = 0
 
 #create a matrix with the correct number of rows but no columns
 X = matrix(NA, nrow = n, ncol = 0)
+X = cbind(1, X)
 
 #for every new p, tack on a new random continuos predictor:
 for (p_plus_one in 2 : n){
