@@ -605,19 +605,33 @@ y_star = X_star %*% bbeta + rnorm(n, 0, 0.3)
 
 all_betas = matrix(NA, n, n)
 all_betas[4, 1 : 4] = coef(lm(y ~ 0 + X))
+in_sample_rmse_by_p = array(NA, n)
 for (j in 5 : n){
   X = cbind(X, rnorm(n))
-  all_betas[j, 1 : j] = coef(lm(y ~ 0 + X))
+  lm_mod = lm(y ~ 0 + X)
+  all_betas[j, 1 : j] = coef(lm_mod)
+  y_hat = X %*% all_betas[j, 1 : j]
+  in_sample_rmse_by_p[j] = sqrt(sum((y - y_hat)^2))
 }
-all_betas[4 : n, 1 : 4]
+plot(1 : n, in_sample_rmse_by_p)
 
+all_betas[4 : n, 1 : 4]
 b_error_by_p = rowSums((all_betas[, 1 : 4] - matrix(rep(bbeta, n), nrow = n, byrow = TRUE))^2)
 plot(1 : n, b_error_by_p)
 
-#look at out of sample error
+#look at out of sample error in the case of only the first four features
 oos_rmse_by_p = array(NA, n)
 for (j in 4 : n){
   y_hat_star = X_star %*% all_betas[j, 1 : 4]
+  oos_rmse_by_p[j] = sqrt(sum((y_star - y_hat_star)^2))
+}
+plot(1 : n, oos_rmse_by_p)
+
+#look at out of sample error in the case of the random features too
+oos_rmse_by_p = array(NA, n)
+for (j in 5 : n){
+  X_star = cbind(X_star, rnorm(n))
+  y_hat_star = X_star %*% all_betas[j, 1 : j]
   oos_rmse_by_p[j] = sqrt(sum((y_star - y_hat_star)^2))
 }
 plot(1 : n, oos_rmse_by_p)

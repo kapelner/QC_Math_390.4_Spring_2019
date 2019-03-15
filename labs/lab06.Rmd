@@ -85,11 +85,13 @@ Verify the OLS fit squared lengh is the sum of squared lengths of each of the or
 #TO-DO
 ```
 
-Code the two demos from the beginning of the lab in your own code and comment every line in detail.
+Rewrite the "The monotonicity of SSR" demo from the lec06 notes. Comment every line in detail. Write about what the plots means.
 
 ```{r}
 #TO-DO
 ```
+
+Rewrite the "Overfitting" demo from the lec06 notes. Comment every line in detail. Write about what the plots means.
 
 ```{r}
 #TO-DO
