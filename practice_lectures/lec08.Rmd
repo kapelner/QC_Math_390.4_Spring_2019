@@ -389,7 +389,148 @@ R goes back to 1995 when it was adapted from S (written in 1976 by John Chambers
 
 However, R code itself that you write is "interpreted" which means it is not compiled until you run it. And it has to compile on-the-fly, making it very slow. Prior to v3.4 (April, 2017) it was even slower since the code wasn't JIT compiled. All this "real CS" stuff you can learn in another class..
 
-The most notable place for this is in looping. 
+One notable place to observe this slowness relative to other languages is in looping. For example:
+
+
+```{r}
+f = function(){
+  SIZE = 1e7
+  v = array(NA, SIZE)
+  for (i in 1 : SIZE){
+    v[i] = i
+  }
+  v
+}
+
+v = f()
+```
+
+How long does this take?
+
+```{r}
+# install.packages("Rcpp")
+# pacman::p_load_current_gh("hadley/lineprof")
+# lineprof(f())
+
+system.time({
+  f()
+})
+#on my office computer for SIZE = 10,000,000:
+# user  system elapsed 
+# 7.13    0.20    7.35 
+```
+
+Take a simple function that computes square roots on each element:
+
+```{r}
+sqrt_vector = function(v){
+  v_new = array(NA, length(v))
+  for (i in 1 : length(v)){
+    v_new[i] = sqrt(v[i])
+  }
+  v_new
+}
+
+system.time({
+  sqrt_vector(v)
+})
+```
+
+Does the apply function help?
+
+```{r}
+system.time({
+  apply(v, MARGIN = 1, FUN = sqrt)
+})
+```
+
+Strange that this takes so long? So it doesn't help... it hurts.
+
+How much faster in C++ should this be?
+
+Enter the `Rcpp` package - a way to compile little bits of C++ on the fly.
+
+```{r}
+pacman::p_load(Rcpp)
+```
+
+Let's write this for loop function to sqrt-ize and compile it and then save it into our namespace to be called like a regular function.
+
+```{r}
+cppFunction('
+  NumericVector sqrt_vector_cpp(NumericVector v) {
+    int n = v.size();
+    NumericVector v_new(n);
+    for (int i = 0; i < n; i++) { //indices from 0...n-1 not 1...n!
+      v_new[i] = sqrt(v[i]);
+    }
+    return v_new;
+  }
+')
+```
+
+What do these two functions look like?
+
+```{r}
+sqrt_vector
+sqrt_vector_cpp
+```
+
+One shows the R code and then says it is bytecode-compiled (go to an advanced CS class). The other just says we `.Call` some C++ function in a certain address and the argument to be inputted.
+
+What is the gain in runtime?
+
+```{r}
+system.time({
+  sqrt_vector_cpp(v)
+})
+```
+
+WOW. 10x!!! Can't beat that with a stick...
+
+Let's do a not-so-contrived example...
+
+Matrix distance... Let's compute the distances of all pairs of rows in a dataset.
+
+```{r}
+X_boston = as.matrix(MASS::Boston[, 1 : 13])
+
+compute_distance_matrix = function(X){
+  n = nrow(X)
+  D = matrix(NA, n, n)
+  for (i_1 in 1 : (n - 1)){
+    for (i_2 in (i_1 + 1) : n){
+      D[i_1, i_2] = sqrt(sum((X[i_1, ] - X[i_2, ])^2))
+    }
+  }
+  D
+}
+
+compute_distance_matrix(X_boston)
+
+cppFunction('
+  NumericMatrix compute_distance_matrix_cpp(NumericMatrix X) {
+    int n = X.nrow();
+    int p = X.ncol();
+    NumericMatrix D(n, n);
+    std::fill(D.begin(), D.end(), NA_REAL);
+
+    for (int i_1 = 0; i_1 < (n - 1); i_1++){
+      for (int i_2 = i_1 + 1; i_2 < n; i_2++){
+        int sqd_diff = 0;
+        for (int j = 0; j < p; j++){
+          sqd_diff += pow(X(i_1, j) - X(i_2, j), 2); //by default the cmath library in std is loaded
+        }
+        D(i_1, i_2) = sqrt(sqd_diff); //by default the cmath library in std is loaded
+      }
+    }
+    return D;
+  }
+')
+
+D = compute_distance_matrix_cpp(X_boston)
+round(D[1:5, 1:5])
+```
 
 
 
