@@ -506,8 +506,6 @@ compute_distance_matrix = function(X){
   D
 }
 
-compute_distance_matrix(X_boston)
-
 cppFunction('
   NumericMatrix compute_distance_matrix_cpp(NumericMatrix X) {
     int n = X.nrow();
@@ -528,9 +526,88 @@ cppFunction('
   }
 ')
 
-D = compute_distance_matrix_cpp(X_boston)
-round(D[1:5, 1:5])
 ```
+
+```{r}
+system.time({
+  D = compute_distance_matrix(X_boston)
+})
+round(D[1 : 5, 1 : 5], 2)
+```
+
+Slow...
+
+```{r}
+system.time({
+  D = compute_distance_matrix_cpp(X_boston)
+})
+round(D[1 : 5, 1 : 5], 2)
+```
+
+Lightning...
+
+Writing functions as strings that compile is annoying. It is better to have separate files. For instance...
+
+```{r}
+sourceCpp("distance_matrix.cpp")
+```
+
+Another place where C++ pays the rent is recursion. Here is a quicksort implementation in R taken from 
+
+```{r}
+quickSort <- function(arr) {
+  # Pick a number at random.
+  mid <- sample(arr, 1)
+
+  # Place-holders for left and right values.
+  left <- c()
+  right <- c()
+  
+  # Move all the smaller values to the left, bigger values to the right.
+  lapply(arr[arr != mid], function(d) {
+    if (d < mid) {
+      left <<- c(left, d)
+    }
+    else {
+      right <<- c(right, d)
+    }
+  })
+  
+  if (length(left) > 1) {
+    left <- quickSort(left)
+  }
+  
+  if (length(right) > 1) {
+    right <- quickSort(right)
+  }
+  
+  # Finally, return the sorted values.
+  c(left, mid, right)
+}
+```
+
+Let's make sure it works and find the time it takes to run:
+
+```{r}
+n = 5e4
+x = rnorm(n)
+system.time({
+  x_sorted_ours = quickSort(x)
+})
+
+```
+
+Let's make sure it works and profile R's `sort` function.
+
+```{r}
+system.time({
+  x_sorted_R = sort(x)
+})
+pacman::p_load(testthat)
+expect_equal(x_sorted_ours, x_sorted_R)
+```
+
+Basically infinitely faster. Let's make our own C++ implementation.
 
 
 
