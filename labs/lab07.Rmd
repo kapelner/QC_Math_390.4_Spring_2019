@@ -1,0 +1,84 @@
+---
+title: "Lab 7"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM March 31, 2019"
+---
+
+Generate $\mathbb{D}$ with $n = 100$ and $p = 1$ where $x$ is created from iid realizations from a standard uniform, $y$ comes from $h^*(x) = 3 - 4x$ and $\epsilon$ are iid realizations from a T distribution with 10 degrees of freedom.
+
+```{r}
+#TO-DO
+```
+
+Run the linear model using `lm` and repeat RMSE and $R^2$.
+
+```{r}
+#TO-DO
+```
+
+Progressively add columns of x (as draws from a standard uniform), run the linear model, and show $R^2$ goes to 1 and $s_e$ goes to zero. Save the $s_e$ in a vector called `in_sample_s_e`.
+
+```{r}
+#TO-DO
+```
+
+Compute a corresponding vector `oos_s_e` and show that it is increasing (for the most part) in degrees of freedom.
+
+```{r}
+#TO-DO
+```
+
+Validate the linear model for the Boston housing data.
+
+```{r}
+#TO-DO
+```
+
+
+Let $x$ be iid realizations from a standard uniform, $y$ comes from $h^*(x) = 3 - 4x + 2x^2$ and $\epsilon$ are iid realizations from a standard normal distribution. With no limit on the number of samples you cant take, use regular OLS without a quadratic term and find the oos variance of the residuals.
+
+```{r}
+#TO-DO
+```
+
+Find the error due to ignorance and the misspecification error.
+
+```{r}
+#TO-DO
+```
+
+Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature.
+
+```{r}
+#TO-DO
+```
+
+Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature and a cubed feature.
+
+```{r}
+#TO-DO
+```
+
+Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature and a cubed and a log(x + 1) feature and an exponential feature. Why do we need to log $x + 1$? Why not use log(x)?
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
