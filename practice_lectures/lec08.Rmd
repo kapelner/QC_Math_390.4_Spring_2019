@@ -628,6 +628,7 @@ Enter the `Rcpp` package - a way to compile little bits of C++ on the fly.
 pacman::p_load(Rcpp)
 ```
 
+
 Let's write this for loop function to sqrt-ize and compile it and then save it into our namespace to be called like a regular function.
 
 ```{r}
@@ -688,6 +689,7 @@ cppFunction('
     std::fill(D.begin(), D.end(), NA_REAL);
 
     for (int i_1 = 0; i_1 < (n - 1); i_1++){
+      Rcout << "computing for row #: " << (i_1 + 1) << "\\n";
       for (int i_2 = i_1 + 1; i_2 < n; i_2++){
         int sqd_diff = 0;
         for (int j = 0; j < p; j++){
@@ -699,7 +701,6 @@ cppFunction('
     return D;
   }
 ')
-
 ```
 
 ```{r}
@@ -726,10 +727,12 @@ Writing functions as strings that compile is annoying. It is better to have sepa
 sourceCpp("distance_matrix.cpp")
 ```
 
+Here are a list of the data structures in Rcpp: https://teuder.github.io/rcpp4everyone_en/070_data_types.html#vector-and-matrix
+
 Another place where C++ pays the rent is recursion. Here is a quicksort implementation in R taken from 
 
 ```{r}
-quickSort <- function(arr) {
+quicksort_R <- function(arr) {
   # Pick a number at random.
   mid <- sample(arr, 1)
 
@@ -760,28 +763,93 @@ quickSort <- function(arr) {
 }
 ```
 
-Let's make sure it works and find the time it takes to run:
+Let's create a random array to test these sorts on:
 
 ```{r}
 n = 5e4
 x = rnorm(n)
-system.time({
-  x_sorted_ours = quickSort(x)
-})
-
 ```
 
-Let's make sure it works and profile R's `sort` function.
+
+Let's profile the pure R sort function:
 
 ```{r}
 system.time({
-  x_sorted_R = sort(x)
+  x_sorted_pure_R = quicksort_R(x)
 })
+```
+
+Let's profile R's `sort` function.
+
+```{r}
+system.time({
+  x_sorted_base_R = sort(x)
+})
+```
+
+Let's just ensure our method worked...
+
+```{r}
 pacman::p_load(testthat)
-expect_equal(x_sorted_ours, x_sorted_R)
+expect_equal(x_sorted_pure_R, x_sorted_base_R)
 ```
 
 Basically infinitely faster. Let's make our own C++ implementation.
+
+```{r}
+sourceCpp("quicksort.cpp")
+```
+
+and profile it:
+
+```{r}
+system.time({
+  x_sorted_cpp = quicksort_cpp(x)
+})
+```
+
+Let's just ensure this method worked...
+
+```{r}
+pacman::p_load(testthat)
+expect_equal(x_sorted_cpp, x_sorted_base_R)
+```
+
+Why is our C++ slower than `sort`. Because `sort` is also in C++ or Fortran and it's been likely optimized and reoptimized up to wazoo for decades. Also, Rcpp's data structures may be slower than base R's data structures. There may be some speed lost to translating to `NumericVector` from `double[]` or something like that.
+
+Can you call R from Rcpp? You bet:
+
+```{r}
+cppFunction('
+  NumericVector rnorm_cpp_R(int n, double sd, double mean){
+      // get a pointer to R\'s rnorm() function
+      Function f("rnorm");   
+  
+      // Next code is interpreted as rnorm(n, mean, sd)
+      return f(n, Named("sd")=sd, _["mean"]=mean);
+  }
+')
+
+rnorm_cpp_R(5, 1, 1)
+```
+
+There are many common functions that are already wrapped for you (see https://teuder.github.io/rcpp4everyone_en/300_Rmath.html)
+
+```{r}
+evalCpp('R::qnorm(0.5, 0, 1, 1, 0)')
+```
+
+
+Here are the places where Rcpp should be used (from https://teuder.github.io/rcpp4everyone_en/010_Rcpp_merit.html)
+
+* Loop operations in which later iterations depend on previous iterations.
+* Accessing each elements of a vector/matrix.
+* Recurrent function calls within loops.
+* Changing the size of vectors dynamically.
+* Operations that need advanced data structures and algorithms (we don't do this in this class)
+
+
+
 
 
 

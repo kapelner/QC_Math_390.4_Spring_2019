@@ -5,7 +5,7 @@ output: pdf_document
 date: "11:59PM March 31, 2019"
 ---
 
-Generate $\mathbb{D}$ with $n = 100$ and $p = 1$ where $x$ is created from iid realizations from a standard uniform, $y$ comes from $h^*(x) = 3 - 4x$ and $\epsilon$ are iid realizations from a T distribution with 10 degrees of freedom.
+Generate $\mathbb{D}$ with $n = 100$ and $p = 1$ where $x$ is created from iid realizations from a standard uniform, $y$ comes from $f(x) = 3 - 4x$ and $\epsilon$ are iid realizations from a T distribution with 10 degrees of freedom.
 
 ```{r}
 #TO-DO
@@ -36,17 +36,36 @@ Validate the linear model for the Boston housing data.
 ```
 
 
-Let $x$ be iid realizations from a standard uniform, $y$ comes from $h^*(x) = 3 - 4x + 2x^2$ and $\epsilon$ are iid realizations from a standard normal distribution. With no limit on the number of samples you cant take, use regular OLS without a quadratic term and find the oos variance of the residuals.
+Let $x$ be iid realizations from a $U(0, 5)$, $y$ comes from $f(x) = 3 - 4x + 2x^2$ and $\epsilon$ are iid realizations from a standard normal distribution. With no limit on the number of samples you cant take, use regular OLS _without a quadratic term_, find the true $h^*(x)$ (there will be no sampling variability at $n \rightarrow \infty$ and find the oos variance of the residuals.
 
 ```{r}
 #TO-DO
 ```
 
-Find the error due to ignorance and the misspecification error.
+Was there any overfitting in the previous exercise?
+
+#TO-DO
+
+Find the error due to misspecification and due to ignorance expressed as variance of components of the residuals.
 
 ```{r}
 #TO-DO
 ```
+
+At $n = 100$, find the error due to estimation, due to misspecification and due to ignorance expressed as variance of components of the residuals.
+
+
+```{r}
+#TO-DO
+```
+
+Do the variances add up to the total variance of the residual?
+
+
+```{r}
+#TO-DO
+```
+
 
 Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature.
 
@@ -60,13 +79,15 @@ Validate the linear model for the Boston housing data where each feature is also
 #TO-DO
 ```
 
-Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature and a cubed and a log(x + 1) feature and an exponential feature. Why do we need to log $x + 1$? Why not use log(x)?
+Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature and a cubed feature and a log(x + 1) feature and an exponential feature. 
 
 ```{r}
 #TO-DO
 ```
 
+Why do we need to log $x + 1$? Why not use log(x)?
 
+#TO-DO
 
 
 
