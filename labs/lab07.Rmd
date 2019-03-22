@@ -5,41 +5,100 @@ output: pdf_document
 date: "11:59PM March 31, 2019"
 ---
 
-Generate $\mathbb{D}$ with $n = 100$ and $p = 1$ where $x$ is created from iid realizations from a standard uniform, $y$ comes from $f(x) = 3 - 4x$ and $\epsilon$ are iid realizations from a T distribution with 10 degrees of freedom.
+Generate $\mathbb{D}$ with $n = 100$ and $p = 1$ where $x$ is created from iid realizations from a standard uniform, $y$ comes from $f(x) = 3 - 4x$ and $\delta$ are iid realizations from a T distribution with 10 degrees of freedom.
 
 ```{r}
-#TO-DO
+set.seed(1997)
+n = 100
+p = 1
+X = matrix(runif(n) , ncol = 1)
+f_x = 3 - 4 * X
+y = f_x + rt(n, df = 10)
 ```
 
-Run the linear model using `lm` and repeat RMSE and $R^2$.
+Run the linear model using `lm` and compute b, RMSE and $R^2$.
 
 ```{r}
-#TO-DO
+linear_mod = lm(y ~ X)
+coef(linear_mod)
+summary(linear_mod)$sigma
+summary(linear_mod)$r.squared
 ```
 
 Progressively add columns of x (as draws from a standard uniform), run the linear model, and show $R^2$ goes to 1 and $s_e$ goes to zero. Save the $s_e$ in a vector called `in_sample_s_e`.
 
 ```{r}
-#TO-DO
+in_sample_s_e = array(NA, n - 2)
+linear_mods = list()
+
+for (j in 1 : (n - 2)){
+  X = cbind(X, runif(n))
+  linear_mods[[j]] = lm(y ~ ., data.frame(X))
+  in_sample_s_e[j] = sd(linear_mods[[j]]$residuals)
+}
+dim(X)
+
+summary(linear_mods[[j]])$r.squared
+
+in_sample_s_e
+
+d = diff(in_sample_s_e)
+all(d < 0)
 ```
 
 Compute a corresponding vector `oos_s_e` and show that it is increasing (for the most part) in degrees of freedom.
 
 ```{r}
-#TO-DO
+
+n_star = 1e5
+p = 1
+X_star = matrix(runif(n_star) , ncol = 1)
+f_x_star = 3 - 4 * X_star
+y_star = f_x_star + rt(n_star, df = 10)
+
+oos_s_e = array(NA, n - 2)
+
+for (j in 1 : (n - 2)){
+  X_star = cbind(X_star, runif(n_star))
+  y_hat_star = predict(linear_mods[[j]], data.frame(X_star)) 
+  oos_s_e[j] = sd(y_star - y_hat_star)
+}
+
+oos_s_e
+d = diff(oos_s_e)
+all(d > 0)
+
+
 ```
 
 Validate the linear model for the Boston housing data.
 
 ```{r}
-#TO-DO
+Xy = MASS::Boston
+K = 10
+test_indices = sample(1 : nrow(Xy), 1 / K * nrow(Xy))
+train_indices = setdiff(1 : nrow(Xy), test_indices)
+
+Xy_train = Xy[train_indices, ]
+Xy_test = Xy[test_indices, ]
+
+lin_mod = lm(medv ~ ., Xy_train)
+lin_mod
+sd(lin_mod$residuals)
+y_hat_test = predict(lin_mod, Xy_test)
+sd(Xy_test$medv - y_hat_test)
+dim(Xy)
 ```
 
 
 Let $x$ be iid realizations from a $U(0, 5)$, $y$ comes from $f(x) = 3 - 4x + 2x^2$ and $\epsilon$ are iid realizations from a standard normal distribution. With no limit on the number of samples you cant take, use regular OLS _without a quadratic term_, find the true $h^*(x)$ (there will be no sampling variability at $n \rightarrow \infty$ and find the oos variance of the residuals.
 
 ```{r}
-#TO-DO
+
+
+
+
+
 ```
 
 Was there any overfitting in the previous exercise?
@@ -70,13 +129,34 @@ Do the variances add up to the total variance of the residual?
 Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature.
 
 ```{r}
-#TO-DO
+X = MASS::Boston
+y = X$medv
+X$medv = NULL
+X = cbind(X, X^2)
+colnames(X)[14 : 26] = paste(colnames(X)[1 : 13], "_sq", sep = "") 
+X$chas_sq = NULL
+
+K = 10
+test_indices = sample(1 : nrow(Xy), 1 / K * nrow(Xy))
+train_indices = setdiff(1 : nrow(Xy), test_indices)
+
+X_train = X[train_indices, ]
+y_train = y[train_indices]
+X_test = X[test_indices, ]
+y_test = y[test_indices]
+
+lin_mod = lm(y_train ~ ., X_train)
+#lin_mod
+sd(lin_mod$residuals)
+y_hat_test = predict(lin_mod, X_test)
+sd(y_test - y_hat_test)
+
 ```
 
 Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature and a cubed feature.
 
 ```{r}
-#TO-DO
+
 ```
 
 Validate the linear model for the Boston housing data where each feature is also modeled with a squared feature and a cubed feature and a log(x + 1) feature and an exponential feature. 
