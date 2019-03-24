@@ -104,7 +104,7 @@ My lectures can be listened to as youtube tracks [(all lectures)](https://www.yo
 
 ## Writing Assignments
 
-* Assignment 1 [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01/w01.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01/w01.pdf) (due 4/18)
+* Assignment 1 [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01/w01.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01.pdf) (due 4/18)
 
 
 ## Exams
