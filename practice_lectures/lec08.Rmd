@@ -849,7 +849,59 @@ Here are the places where Rcpp should be used (from https://teuder.github.io/rcp
 * Operations that need advanced data structures and algorithms (we don't do this in this class)
 
 
+## Piping
+
+Idea taken from unix / linux. Output of one function is input to next function. It is the inverse of the usual "order of operations". For example, the usual is:
+
+```{r}
+x = rnorm(1000)
+set.seed(1984)
+mean(head(round(sample(x + 1), digits = 2)))
+```
+
+We first load the piping library:
+
+```{r}
+pacman::p_load(magrittr) #the package is named after René Magritte, the artist
+```
+
+In pipe format this would look like
 
 
+```{r}
+set.seed(1984)
+x %>%
+  add(1) %>% #special function that allows piping to take place
+  sample %>% 
+  round(digits = 2) %>% #the first argument is passed in automatically.
+  head %>%
+  mean
+```
 
+That's it! There's nothing more to it other than a gain in readability.
+
+## Dplyr
+
+Now that we know piping, we can start adding some nice functions that manipulate data frames. Let's look at the diamonds dataset and load the dplyr library.
+
+```{r}
+data(diamonds, package = "ggplot2")
+pacman::p_load(dplyr)
+```
+
+Let's remind ourselves of the dataset:
+
+```{r}
+str(diamonds)
+summary(diamonds)
+```
+
+Dplyr offers many conveninent functions to manipulate, clean, put together data frames ("munging"). Let's take a look.
+
+```{r}
+diamonds %>% 
+  select(cut, carat, price) %>%
+  filter(cut == "Fair") %>%
+  head
+```
 
