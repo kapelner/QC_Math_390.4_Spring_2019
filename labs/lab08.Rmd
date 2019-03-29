@@ -8,52 +8,97 @@ date: "11:59PM April 7, 2019"
 Load the `ggplot2` library and its dataset called `mpg`. Print out a summary of the dataset using `summary` and `str`. 
 
 ```{r}
-#TO-DO
+pacman::p_load(ggplot2)
+data(mpg)
+mpg$drv = factor(mpg$drv)
+mpg$manufacturer = factor(mpg$manufacturer)
+mpg$model = factor(mpg$model)
+mpg$fl = factor(mpg$fl)
+mpg$class = factor(mpg$class)
+mpg$cyl = factor(mpg$cyl)
+summary(mpg)
+?mpg
+str(mpg)
 ```
 
 Visualize a histogram then a density estimate of the `displ` variable, the engine displacement. Use `labs` to create a `title`, `subtitle`, `caption` and x-label via `x` and y-label via `y`. Do this for every single illustration in this lab. 
 
 ```{r}
-#TO-DO
+ggplot(mpg) + 
+  aes(displ) +
+  geom_histogram() +
+  labs(title = "Engine Displacement Histogram" , subtitle = "", x = "Displacement (L)", caption = "Source: EPA 2008 Fuel Economy Dataset")
+
+
+ggplot(mpg) + 
+  aes(displ) +
+  geom_density(fill = "blue", alpha = 0.2, col = "white") +
+  labs(title = "Engine Displacement Density" , subtitle = "", x = "Displacement (L)", caption = "Source: EPA 2008 Fuel Economy Dataset")
+
 ```
 
 
 Visualize a histogram the `displ` variable, but then fill the color of the bar by the `class` of the car. You will have to pass `class` in as the `fill` in the aesthetic of the histogram. 
 
 ```{r}
-#TO-DO
+ggplot(mpg) + 
+  aes(displ) +
+  geom_histogram(aes(fill = class)) +
+  labs(title = "Engine Displacement Histogram" , subtitle = "Colored by Vehicle Type", x = "Displacement (L)", caption = "Source: EPA 2008 Fuel Economy Dataset")
+
+
 ```
 
-Visualize overlapping densities of `cty` (city miles per gallon) and `hwy` (highway miles per gallon) using two colors with an alpha blend. I did it inefficiently in my demo. Use the `fill` argument within an aesthetics passed to `geom_density`.
+Visualize overlapping densities of `cty` (city miles per gallon) and `hwy` (highway miles per gallon) using two colors with an alpha blend.  
 
 ```{r}
-#TO-DO
+ggplot(mpg) +
+  geom_density(aes(cty), fill = "red", col = "white", alpha = 0.2) +
+  geom_density(aes(hwy), fill = "blue", col = "white", alpha = 0.2) +
+  xlim(5, 50) +
+  labs(title = "Fuel Efficiency Density" , subtitle = "City in Red and Highway in Blue", x = "miles per gallon", caption = "Source: EPA 2008 Fuel Economy Dataset")
 ```
 
 Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and draw a best fit line with a confidence region of that line.
 
 ```{r}
-#TO-DO
+ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point() +
+  geom_smooth(method = "lm") + 
+  labs(title = "City vs Highway Fuel Efficiency", subtitle = "With best fit line and confidence interval", x = "City (mpg)", y = "Highway (mpg)", caption = "Source: EPA 2008 Fuel Economy Dataset")
 ```
 
 Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and draw a best fit non-parametric functional relationship with a confidence region of that relationship.
 
 ```{r}
-#TO-DO
+ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point() +
+  geom_smooth() + 
+  labs(title = "City vs Highway Fuel Efficiency", subtitle = "With best fit line and confidence interval", x = "City (mpg)", y = "Highway (mpg)", caption = "Source: EPA 2008 Fuel Economy Dataset")
 ```
 
 
 Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and then try to visualize *as many other variables* as you can visualize effectively on the same plot. Try text, color, size, shape, etc.
 
 ```{r}
-#TO-DO
+ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point(aes(col = drv, shape = cyl, size = displ)) +
+  geom_text(aes(label = fl)) +
+  labs(title = "City vs Highway Fuel Efficiency", x = "City (mpg)", y = "Highway (mpg)", caption = "Source: EPA 2008 Fuel Economy Dataset")
 ```
 
 
 Convert `cyl` to an ordinal factor. Then use the package `dplyr` to retain only cars with 4, 6, 8 cylinders in the dataset. Then make a canonical illustration of `cty` by `cyl`.
 
 ```{r}
-#TO-DO
+mpg$cyl = factor(mpg$cyl, ordered = TRUE)
+#mpg$cyl
+pacman::p_load(dplyr)
+mpg = mpg %>%
+  filter(cyl %in% c(4, 6, 8))
+ggplot(mpg, aes(x = cyl, y = cty)) +
+  geom_boxplot() +
+  labs(title = "City Fuel Efficiency by Number of Cylnders", x = "Number of Cylnders", y = "City (mpg)", caption = "Source: EPA 2008 Fuel Economy Dataset")
 ```
 
 
@@ -85,7 +130,9 @@ Now visualize `cty` by `drv` by `trans` via two box and whisker plots horizontal
 Now visualize `cty` by `class` via a violin plot. Look at the ggplot cheatsheet!
 
 ```{r}
-#TO-DO
+ggplot(mpg, aes(x = class, y = cty)) +
+  geom_violin(fill = "brown", alpha = 0.4) +
+  labs(title = "City Fuel Efficiency by Vehicle Type", x = "Class", y = "City (mpg)", caption = "Source: EPA 2008 Fuel Economy Dataset")
 ```
 
 Make a pie chart of `class`.
