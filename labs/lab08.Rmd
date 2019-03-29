@@ -43,6 +43,13 @@ Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and draw 
 ```
 
 
+Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and then try to visualize *as many other variables* as you can visualize effectively on the same plot. Try text, color, size, shape, etc.
+
+```{r}
+#TO-DO
+```
+
+
 Convert `cyl` to an ordinal factor. Then use the package `dplyr` to retain only cars with 4, 6, 8 cylinders in the dataset. Then make a canonical illustration of `cty` by `cyl`.
 
 ```{r}
@@ -101,33 +108,73 @@ Using the package `ggcorrplot`'s `ggcorrplot` function, look at the correlations
 #TO-DO
 ```
 
+Use the `stat_ecdf` function to plot the estimated cumulative distribution of `cty'.
 
 ```{r}
 #TO-DO
 ```
 
-```{r}
-#TO-DO
-```
-
+Create a data generating process where $x$ is uniform between 0 and 10 and $y$ is $x^2$ plus $N(0,1)$ noise. Plot $n = 200$ points and then plot the quadratic relationship $y = x^2$ using the function `stat_function`.
 
 ```{r}
 #TO-DO
 ```
 
-```{r}
-#TO-DO
-```
-
+We now move to Rcpp. Load the library.
 
 ```{r}
 #TO-DO
 ```
 
+Write an R function `is_odd` and a C++ function `is_odd_cpp` that evaluates if a number is odd and returns true if so.
+
+
 ```{r}
 #TO-DO
 ```
 
+Using `system.time', run both functions 1,000,000 times on the numbers 1, 2, ..., 1000000. Who is faster and by how much?
+
+```{r}
+#TO-DO
+```
+
+Write an R function `fun` and a C++ function `fun_cpp` that takes a natural number returns $n$ if $n$ is 0 or 1 otherwise the result of the function on $n - 1$ and $n - 2$. This is the function that returns the $n$th Fibonacci number.
+
+```{r}
+#TO-DO
+```
+
+Using `system.time', run both functions on the numbers 1, 2, ..., 100. Who is faster and by how much?
+
+```{r}
+#TO-DO
+```
+
+Write an R function `logs` and a C++ function `logs_cpp` that takes a natural number $n$ and returns an array of $ln(1), ln(2), ..., ln(n)$. 
+
+```{r}
+#TO-DO
+```
+
+Using `system.time', run both functions on the numbers 1, 2, ..., 1000000. Who is faster and by how much?
+
+```{r}
+#TO-DO
+```
+
+Write an R function `max_distances` and a C++ function `max_distances_cpp` that takes an $n \times p$ matrix $X$ and returns an $n \times n$ matrix called $D$ of NA's where the upper triangular portion above the diagonal is the max distances between the elements of the $i, j$th rows of $X$.
+
+
+```{r}
+#TO-DO
+```
+
+Create a matrix $X$ of $n = 1000$ and $p = 20$ filled with iid $N(0, 1)$ realizations. Using `system.time', calculate $D$ using both functions. Who is faster and by how much?
+
+```{r}
+#TO-DO
+```
 
 
 
