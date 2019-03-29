@@ -1,0 +1,135 @@
+---
+title: "Lab 8"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM April 7, 2019"
+---
+
+Load the `ggplot2` library and its dataset called `mpg`. Print out a summary of the dataset using `summary` and `str`. 
+
+```{r}
+#TO-DO
+```
+
+Visualize a histogram then a density estimate of the `displ` variable, the engine displacement. Use `labs` to create a `title`, `subtitle`, `caption` and x-label via `x` and y-label via `y`. Do this for every single illustration in this lab. 
+
+```{r}
+#TO-DO
+```
+
+
+Visualize a histogram the `displ` variable, but then fill the color of the bar by the `class` of the car. You will have to pass `class` in as the `fill` in the aesthetic of the histogram. 
+
+```{r}
+#TO-DO
+```
+
+Visualize overlapping densities of `cty` (city miles per gallon) and `hwy` (highway miles per gallon) using two colors with an alpha blend. I did it inefficiently in my demo. Use the `fill` argument within an aesthetics passed to `geom_density`.
+
+```{r}
+#TO-DO
+```
+
+Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and draw a best fit line with a confidence region of that line.
+
+```{r}
+#TO-DO
+```
+
+Plot `cty` (city miles per gallon) vs `hwy` (highway miles per gallon) and draw a best fit non-parametric functional relationship with a confidence region of that relationship.
+
+```{r}
+#TO-DO
+```
+
+
+Convert `cyl` to an ordinal factor. Then use the package `dplyr` to retain only cars with 4, 6, 8 cylinders in the dataset. Then make a canonical illustration of `cty` by `cyl`.
+
+```{r}
+#TO-DO
+```
+
+
+Load the `stringr` library. Use the `str_detect` function in this libary to rewrite the `trans` variable in the data frame to be just "manual" or "automatic".
+
+```{r}
+#TO-DO
+```
+
+Now visualize `cty` by `trans` via two overlapping alpha-blended densities. 
+
+```{r}
+#TO-DO
+```
+
+Now visualize `cty` by `trans` via a box and whisker plot.
+
+```{r}
+#TO-DO
+```
+
+
+Now visualize `cty` by `drv` by `trans` via two box and whisker plots horizontally laid out.
+
+```{r}
+#TO-DO
+```
+
+Now visualize `cty` by `class` via a violin plot. Look at the ggplot cheatsheet!
+
+```{r}
+#TO-DO
+```
+
+Make a pie chart of `class`.
+
+Visualize `trans` vs `class`. Look at the ggplot cheatsheet!
+
+```{r}
+#TO-DO
+```
+
+Using the package `ggExtra`'s `ggMarginal` function, look at the `hwy` by `year` and plot the marginal density on both the x and y axes.
+
+```{r}
+#TO-DO
+```
+
+Using the package `ggcorrplot`'s `ggcorrplot` function, look at the correlations for all variables in this dataset that are legal in a corrrelogram. Use dplyr to `select_if` the variable is appropriate.
+
+```{r}
+#TO-DO
+```
+
+
+```{r}
+#TO-DO
+```
+
+```{r}
+#TO-DO
+```
+
+
+```{r}
+#TO-DO
+```
+
+```{r}
+#TO-DO
+```
+
+
+```{r}
+#TO-DO
+```
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+
