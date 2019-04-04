@@ -447,6 +447,35 @@ summary(mod)$r.squared
 summary(mod)$sigma
 ```
 
+# Cross Validation
+
+This code gets the indices in a clever way:
+
+```{r}
+K = 5
+
+all_idx = 1 : nrow(diamonds)
+temp = rnorm(nrow(diamonds))
+folds_vec = cut(temp, breaks = quantile(temp, seq(0, 1, length.out = K + 1)), include.lowest = T, labels = F)
+```
+
+
+Now let's fit a model on this $K$ times:
+
+```{r}
+s_e_s = array(NA, K)
+for (k in 1 : K){
+  test_idx = all_idx[folds_vec == k]
+  train_idx = setdiff(all_idx, test_idx)
+  #sort(c(train_idx, test_idx))
+  mod = lm(price ~ ., diamonds[train_idx, ])
+  y_test = predict(mod, diamonds[test_idx, ])
+  y = diamonds[test_idx, ]$price
+  s_e_s[k] = sqrt(sum((y - y_test)^2)) / (length(test_idx))
+}
+s_e_s
+```
+
 
 
 # Model Selection
