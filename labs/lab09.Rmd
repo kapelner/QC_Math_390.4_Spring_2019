@@ -1,0 +1,145 @@
+---
+title: "Lab 9"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM April 14, 2019"
+---
+
+In this lab we will learn how to do some "data wrangling / munging / carpentry" with dplyr. First load `dplyr`, `tidyr`, `magrittr` and `lubridate` in one line.
+
+```{r}
+#TO-DO
+```
+
+Load the `storms` dataset from the `dplyr` package and investigate it using `str` and `summary` and `head`. Which two columns should be converted to type factor? Do so below using the `mutate` and the overwrite pipe operator `%<>%`. Verify.
+
+```{r}
+#TO-DO
+```
+
+Reorder the columns so name is first, status is second, category is third and the rest are the same. Verify.
+
+```{r}
+#TO-DO
+```
+
+Sort the dataframe by year (most recent first) then category of the storm (most sever first). Verify.
+
+```{r}
+#TO-DO
+```
+
+Create a new feature `wind_speed_per_unit_pressure`.
+
+```{r}
+#TO-DO
+```
+
+Create a new feature: `average_diameter` which averages the two diameters.
+
+```{r}
+#TO-DO
+```
+
+At home: calculate the distance from each storm observation to Miami in a new variable `distance_to_miami`.
+
+```{r}
+#TO-DO
+```
+
+At home: convert year, month, day, hour into the variable `timestamp` using the `lubridate` package.
+
+```{r}
+#TO-DO
+```
+
+At home: using the `lubridate` package, create new variables `day_of_week` which is a factor with levels "Sunday", "Monday", ... "Saturday" and `week_of_year` which is integer 1, 2, ..., 52.
+
+```{r}
+#TO-DO
+```
+
+Create a new data frame `serious_storms` which are category 3 and above hurricanes.
+
+```{r}
+#TO-DO
+```
+
+In `serious_storms`, merge the variables lat and long together into `lat-long` with values `lat / long` as a string.
+
+```{r}
+#TO-DO
+```
+
+Back to the main dataframe `storms`, create a new feature `decile_windspeed` by binning wind speed into 10 bins.
+
+```{r}
+#TO-DO
+```
+
+Let's summarize some data. Find the strongest storm by wind speed per year.
+
+```{r}
+#TO-DO
+```
+
+For each status, find the average category, wind speed, pressure and diameters (do not allow the average to be NA).
+
+```{r}
+#TO-DO
+```
+
+For each named storm, find its maximum category, wind speed, pressure and diameters (do not allow the max to be NA) and the number of readings (i.e. observations).
+
+```{r}
+#TO-DO
+```
+
+For each category, find its average wind speed, pressure and diameters (do not allow the max to be NA).
+
+```{r}
+#TO-DO
+```
+
+
+At home: for each named storm, find its duration in hours.
+
+```{r}
+#TO-DO
+```
+
+For each named storm, find the distance from its starting position to ending position in kilometers.
+
+```{r}
+#TO-DO
+```
+
+Now we want to transition to building real design matrices for prediction. We want to predict the following: given the first three readings of a storm, can you predict its maximum wind speed? Identify the `y` and identify which features you need $x_1, ... x_p$ and build that matrix with `dplyr` functions. This is not easy, but it is what it's all about. Feel free to "featurize" (as Dana Chandler spoke about) as creatively as you would like. You aren't going to overfit if you only build a few features relative to the total 198 storms.
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+
