@@ -233,43 +233,6 @@ diamonds2
 This is as far as we can go with dplyr right now given that this dataset doesn't have datetime information, some duplication among rows, missing data and given that there's not multiple dataframes. We will return to dplyr under these situations in the future.
 
 
-# Functions of y
-
-In the diamonds dataset, the natural response is price:
-
-```{r}
-ggplot(diamonds) + geom_histogram(aes(price), binwidth = 200)
-mean(diamonds$price)
-sd(diamonds$price)
-```
-
-Look at the long tail here. Popular wisdom says to log this type of distribution as a log transform on the y variable would possible make the model more linear in x. It would be easier to catch the long tail. This is "craft lore" or a "trick of the trade". Let's take a look at the distributiona after logging:
-
-```{r}
-ggplot(diamonds) + geom_histogram(aes(log(price)), binwidth = 0.03)
-```
-
-Some strange artifacts appear. Why the gap? Why is it "cut" at a maximum. These are questions to ask the one who collected the data.
-
-Let's see if we get anywhere with this:
-
-```{r}
-lm_y = lm(price ~ ., diamonds)
-lm_ln_y = lm(log(price) ~ ., diamonds)
-summary(lm_y)$r.squared
-summary(lm_ln_y)$r.squared
-summary(lm_y)$sigma
-summary(lm_ln_y)$sigma
-``` 
-
-Be careful when you use $g$ after logging, you will have to exponentiate the result. This is known to create bias because $E[Y]$ is different from $exp(E[ln(y)])$, but don't worry too much about this.
-
-If you like this stuff, there are a whole bunch of transformations out there that are even cooler than the natural log. Some of this may be covered in 369 / 633. Let us use the log going forward:
-
-```{r}
-diamonds %<>%
-  mutate(price = log(price))
-```
 
 
 # Linear Models with Interaction Terms
