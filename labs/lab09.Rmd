@@ -10,43 +10,73 @@ date: "11:59PM April 14, 2019"
 First load `dplyr`, `tidyr`, `magrittr` and `lubridate` in one line.
 
 ```{r}
-#TO-DO
+pacman::p_load(dplyr, tidyr, magrittr, lubridate)
 ```
 
 Load the `storms` dataset from the `dplyr` package and investigate it using `str` and `summary` and `head`. Which two columns should be converted to type factor? Do so below using the `mutate` and the overwrite pipe operator `%<>%`. Verify.
 
 ```{r}
-#TO-DO
+data("storms")
+str(storms)
+summary(storms)
+head(storms)
+storms %<>% 
+  mutate(name = factor(name), status = factor(status))
+str(storms)
 ```
 
 Reorder the columns so name is first, status is second, category is third and the rest are the same. Verify.
 
 ```{r}
-#TO-DO
+storms %<>% 
+  select(name, status, category, everything())
+storms
 ```
 
-Sort the dataframe by year (most recent first) then category of the storm (most sever first). Verify.
+Sort the dataframe by year (most recent first) then category of the storm (most severe first). Verify.
 
 ```{r}
-#TO-DO
+storms %<>% 
+  arrange(desc(year), desc(category))
+storms
 ```
 
 Create a new feature `wind_speed_per_unit_pressure`.
 
 ```{r}
-#TO-DO
+storms %<>%
+  mutate(wind_speed_per_unit_pressure = wind / pressure)
+storms
 ```
 
 Create a new feature: `average_diameter` which averages the two diameters.
 
 ```{r}
-#TO-DO
+storms %<>%
+  mutate(average_diameter = (ts_diameter + hu_diameter) / 2)
+storms
 ```
 
-At home: calculate the distance from each storm observation to Miami in a new variable `distance_to_miami`.
+Calculate the distance from each storm observation to Miami in a new variable `distance_to_miami`.
 
 ```{r}
-#TO-DO
+MIAMI_COORDS = c(25.7617, -80.1918)
+
+
+compute_globe_distance = function(destination, origin){
+  RAD_EARTH = 3958.8
+  dlon = (destination[2] - origin[2]) * 180 / pi
+  dlat = (destination[1] - origin[1]) * 180 / pi
+  a = (sin(dlat/2))^2 + cos(origin[1]) * cos(destination[1]) * (sin(dlon/2))^2
+  c = 2 * atan2( sqrt(a), sqrt(1-a) )
+  RAD_EARTH * c
+}
+
+storms %<>%
+  rowwise() %>%
+  mutate(distance_to_miami = compute_globe_distance(MIAMI_COORDS, c(lat, long))) %>%
+  select(lat, long, distance_to_miami, everything())
+storms
 ```
 
 At home: convert year, month, day, hour into the variable `timestamp` using the `lubridate` package.
@@ -64,31 +94,42 @@ At home: using the `lubridate` package, create new variables `day_of_week` which
 Create a new data frame `serious_storms` which are category 3 and above hurricanes.
 
 ```{r}
-#TO-DO
+serious_storms = storms %>% 
+  filter(category >= 3)
+serious_storms
 ```
 
-In `serious_storms`, merge the variables lat and long together into `lat-long` with values `lat / long` as a string.
+In `serious_storms`, merge the variables lat and long together into `lat_long` with values `lat / long` as a string.
 
 ```{r}
-#TO-DO
+serious_storms %<>%
+  unite(lat_long, lat, long, sep = " / ")
+serious_storms
 ```
 
 Back to the main dataframe `storms`, create a new feature `decile_windspeed` by binning wind speed into 10 bins.
 
 ```{r}
-#TO-DO
+storms %<>% 
+  mutate(decile_windspeed =  factor(ntile(wind, 10)))
+  storms
 ```
 
 Let's summarize some data. Find the strongest storm by wind speed per year.
 
 ```{r}
 #TO-DO
+storms %>%
+  group_by(year) %>%
+  summarize(max_wind_speed = max(wind))
 ```
 
 For each status, find the average category, wind speed, pressure and diameters (do not allow the average to be NA).
 
 ```{r}
-#TO-DO
+storms %>%
+  group_by(status) %>%
+  summarise(avg_category = mean(as.numeric(as.character(category))), avg_wind_speed = mean(wind), avg_pressure = mean(pressure), avg_ts_diameter = mean(ts_diameter, na.rm = TRUE), avg_hu_diameter = mean(hu_diameter, na.rm = TRUE))
 ```
 
 For each named storm, find its maximum category, wind speed, pressure and diameters (do not allow the max to be NA) and the number of readings (i.e. observations).
@@ -127,25 +168,46 @@ Now we want to transition to building real design matrices for prediction. We wa
 Load the Boston Housing Data from package `MASS` and use `str` and `summary` to remind yourself of the features and their types and then use `?MASS::Boston` to read an English description of the features.
 
 ```{r}
-#TO-DO
+data(Boston, package = "MASS")
+str(Boston)
+summary(Boston)
+?MASS::Boston
 ```
 
 Using your knowledge of the modeling problem, try to guess which features are interacting. Confirm using plots in `ggplot` that illustrate three (or more) features.
 
 ```{r}
-#TO-DO
+pacman::p_load(ggplot2)
+base = ggplot(Boston, aes(x = rm, y = medv))
+base + geom_point(aes(col = crim))
 ```
 
 Once an interaction has been located, confirm the "non-linear linear" model with the interaction term does better than just the vanilla linear model.
 
 ```{r}
-#TO-DO
+mod = lm(medv ~ rm * crim, Boston)
+coef(mod) 
+
+mod_vanilla = lm(medv ~ rm + crim, Boston)
+summary(mod_vanilla)$r.squared
+summary(mod_vanilla)$sigma
+summary(mod)$r.squared
+summary(mod)$sigma
+
 ```
 
 Repeat this procedure for another interaction with two different features (not used in the previous interaction you found) and verify.
 
 ```{r}
-#TO-DO
+base + geom_point(aes(col = zn))
+mod = lm(medv ~ rm * zn, Boston)
+coef(mod) 
+
+mod_vanilla = lm(medv ~ rm + zn, Boston)
+summary(mod_vanilla)$r.squared
+summary(mod_vanilla)$sigma
+summary(mod)$r.squared
+summary(mod)$sigma
 ```
 
 Fit a model using all possible first-order interactions. Verify it is "better" than the linear model. Do you think you overfit? Why or why not?
