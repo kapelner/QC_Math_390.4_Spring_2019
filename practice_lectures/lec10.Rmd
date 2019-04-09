@@ -10,7 +10,7 @@ date: "April 9, 2019"
 In the diamonds dataset, the natural response is price:
 
 ```{r}
-pacman::p_load(ggplot2)
+pacman::p_load(ggplot2, dplyr, magrittr)
 data(diamonds)
 ggplot(diamonds) + geom_histogram(aes(price), binwidth = 200)
 mean(diamonds$price)
@@ -20,7 +20,7 @@ sd(diamonds$price)
 Look at the long tail here. Popular wisdom says to log this type of distribution as a log transform on the y variable would possible make the model more linear in x. It would be easier to catch the long tail. This is "craft lore" or a "trick of the trade". Let's take a look at the distributiona after logging:
 
 ```{r}
-ggplot(diamonds) + geom_histogram(aes(log(price)), binwidth = 0.03)
+ggplot(diamonds) + geom_histogram(aes(log(price)), binwidth = 0.01)
 ```
 
 Some strange artifacts appear. Why the gap? Why is it "cut" at a maximum. These are questions to ask the one who collected the data.
@@ -36,7 +36,16 @@ summary(lm_y)$sigma
 summary(lm_ln_y)$sigma
 ``` 
 
-Be careful when you use $g$ after logging, you will have to exponentiate the result. This is known to create bias because $E[Y]$ is different from $exp(E[ln(y)])$, but don't worry too much about this.
+Did we find a real use-case of $R^2$ finally?? Yes... it is a good arbiter of comparisons as it is scale invariant unlike RMSE.
+
+Be careful when you use $g$ after logging, you will have to exponentiate the result. This is known to create bias because $E[Y]$ is different from $exp(E[ln(y)])$, but don't worry too much about this "bias" as it hardly matters practically speaking since it is only "biased" if the linear model is correct in an absolute sense. And when on Earth is any model absolutely correct?
+
+```{r}
+predict(lm_y, diamonds[12345, ])
+predict(lm_ln_y, diamonds[12345, ])
+exp(predict(lm_ln_y, diamonds[12345, ]))
+```
+
 
 If you like this stuff, there are a whole bunch of transformations out there that are even cooler than the natural log. Some of this may be covered in 369 / 633. Let us use the log going forward:
 
@@ -52,36 +61,76 @@ This code gets the indices in a clever way:
 ```{r}
 K = 5
 
-all_idx = 1 : nrow(diamonds)
+set.seed(2000)
 temp = rnorm(nrow(diamonds))
 folds_vec = cut(temp, breaks = quantile(temp, seq(0, 1, length.out = K + 1)), include.lowest = T, labels = F)
 ```
 
-
 Now let's fit a model on this $K$ times:
 
 ```{r}
+all_idx = 1 : nrow(diamonds)
 s_e_s = array(NA, K)
+y_test = array(NA, nrow(diamonds))
 for (k in 1 : K){
   test_idx = all_idx[folds_vec == k]
   train_idx = setdiff(all_idx, test_idx)
   #sort(c(train_idx, test_idx))
   mod = lm(price ~ ., diamonds[train_idx, ])
-  y_test = predict(mod, diamonds[test_idx, ])
-  y = diamonds[test_idx, ]$price
-  s_e_s[k] = sqrt(sum((y - y_test)^2)) / (length(test_idx))
+  y_test[test_idx] = predict(mod, diamonds[test_idx, ])
+  s_e_s[k] = sqrt(sum((diamonds[test_idx, ]$price - y_test[test_idx])^2) / length(test_idx))
 }
 s_e_s
+mean(s_e_s)
+sd(s_e_s)
+
+#aggregate result
+sqrt(sum((diamonds$price - y_test)^2) / nrow(diamonds))
 ```
 
-# MLR library
+# MLR library for CV
+
+"Machine Learning in R" (mlr) is a very popular R library that makes it very simple to build models, do validation, etc. They are actually undergoing a full rewrite now so expect the new version to be even better.
 
 ```{r}
 pacman::p_load(mlr)
 ```
 
+It splits the modeling task into conceptual pieces. The most basic pieces are:
 
+* Instantiate a "task". This consists of supplying a dataframe, identifying a variable that is the output and the type of predictions to be made.
+* Instantiate a "learner". This consists of $\mathcal{A}$ and $\mathcal{H}$. For example: OLS with all raw features.
+* Instantiate a type of validation. For example: 5-fold CV resampling
+* Execute
 
+Here's what this would look like for our example we just did:
+
+```{r}
+modeling_task = makeRegrTask(data = diamonds, target = "price") #instantiate the task
+algorithm = makeLearner("regr.lm") #instantiate the OLS learner algorithm on the diamonds dataset and set y = price
+validation = makeResampleDesc("CV", iters = 5) #instantiate the 5-fold CV
+resample(algorithm, modeling_task, validation) #execute
+```
+
+Let's correct this error and do it again:
+
+```{r}
+diamonds %<>%
+  mutate(cut = factor(cut, ordered = FALSE), color = factor(color, ordered = FALSE), clarity = factor(clarity, ordered = FALSE))
+modeling_task = makeRegrTask(data = diamonds, target = "price") #instantiate the task
+res = resample(algorithm, modeling_task, validation, measures = list(rmse)) #execute
+res
+mean(res$measures.test$rmse)
+sd(res$measures.test$rmse)
+```
+
+There are a lot of learners that do regression:
+
+```{r}
+View(listLearners("regr"))
+```
+
+We will return to `mlr` later after we cover some more concepts.
 
 
 # Model Selection
@@ -240,8 +289,6 @@ train_indices = sample(1 : nrow(diamonds), Nsamp)
 diamonds_train = diamonds[train_indices, ]
 ```
 
-
-
 Let's built a model with all second-order interactions
 
 ```{r}
@@ -281,7 +328,7 @@ sd(y_test)
 sd(e_test) / sd(y_test)
 ```
 
-This is not only "overfitting"; it is an absolute trainwreck if you can do better using the null model (average of y) instead of your model.
+This is not only "overfitting"; it is an absolute trainwreck! This means you can do better using the null model (average of y) instead of this model.
 
 So let us employ stepwise to get a good model. We need predictors to start with. How about `. * . * .` --- there's nothing intrinsically wrong with this. Let's create the model matrix:
 
@@ -353,7 +400,7 @@ ggplot(simulation_results) +
 
 We can kind of see what the optimal model is above. If we want an exact procedure, we'd probably fit a separate smoothing regression to the oos results and analytically find the arg-minimum, $j^*$. That number will then be fed into the model matrix to create the right feature set and the final model will be produced with all the data.
 
-Note that we will need a third split to honestly assess future performance as the test set above became our selection set because I was being sloppy.
+Can we honestly assess future performance now? No... we needed to keep a third set hanging around. This you will do for a lab exercise.
 
 
 
