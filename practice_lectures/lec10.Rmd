@@ -236,8 +236,6 @@ names(which.min(s_e_s))
 
 We can go further and fit more and more models but we should always be careful that we don't fit too many as we may optimize to the selection set. Here, we are lucky since the selection set is large (~11,000 observations) so this is not too much of a fear.
 
-If we had more time in class, we would investigate how we can build better models by looking at the regressions controlled for all other variables. It is an art! 
-
 But you can see the problem - how can we build a good model??
 
 The answer to this is non-parametric regression. But first, we will cover two other important topics before we get there.
@@ -267,6 +265,149 @@ mod_final = lm(price ~
 ```
 
 No evaluation is done on the final model. It is only used to predict future diamonds' prices.
+
+Two improvements using CV to the above:
+
+* To reduce variance in the selection process, you make a CV of the selection set. 
+* To reduce variance in the testing process, you make an outer CV of the test set. This is a lot more coding!
+
+# MLR for Linear Model Selection
+
+Not as nice as I would've liked. But I've figured it out by creating my own custom code. Still better then doing two loops of CV yourself! 
+
+First, we create the task:
+
+```{r}
+modeling_task = makeRegrTask(data = diamonds, target = "price") #instantiate the task
+```
+
+We now pick the linear models we wish to investigate. Each entry is the r.h.s of the formula that is passed to lm.
+
+```{r}
+ALL_LINEAR_MODELS = c(
+  ".", 
+  "carat * .", 
+  ". * ."
+  )
+```
+
+Now we create a new learner which is a wrapper for the linear model with a custom formula. We need to specify learning parameters, a training function (build g) and a predict function. Then we need to add theese functions to the namespace in a way mlr understands.
+
+```{r}
+makeRLearner.regr.custom_ols = function() {
+  makeRLearnerRegr(
+    cl = "regr.custom_ols",
+    package = "base",
+    par.set = makeParamSet(
+      makeDiscreteLearnerParam(id = "formula_rhs", default = ".", values = ALL_LINEAR_MODELS)
+    ),
+    properties = c("numerics", "factors", "ordered"),
+    name = "Custom OLS with a Formula",
+    short.name = "custom_ols"
+  )
+}
+
+trainLearner.regr.custom_ols = function(.learner, .task, .subset, .weights = NULL, ...){
+  formula = as.formula(paste(
+    getTaskDesc(.task)$target,
+    "~",
+    list(...)$formula_rhs #this is passed in the ... as an extra argment
+  ))
+  
+  lm(formula, data = getTaskData(.task, .subset))
+}
+
+predictLearner.regr.custom_ols = function (.learner, .model, .newdata, ...){
+    predict(.model$learner.model, newdata = .newdata, ...)
+}
+
+registerS3method("makeRLearner", "regr.custom_ols", makeRLearner.regr.custom_ols)
+registerS3method("trainLearner", "regr.custom_ols", trainLearner.regr.custom_ols)
+registerS3method("predictLearner", "regr.custom_ols", predictLearner.regr.custom_ols)
+```
+
+Now we create the "inner loop". Here, we cross validate over the different models. We do this by specifying a "tune wrapper" since technically each formula is considered a tuning paramter / hyperparameter the linear model on this task.
+
+```{r}
+all_models = makeParamSet(
+  makeDiscreteParam(id = "formula_rhs", default = ".", values = ALL_LINEAR_MODELS)
+)
+inner_loop = makeResampleDesc("CV", iters = 3)
+lrn = makeTuneWrapper("regr.custom_ols", #instantiate the OLS learner algorithm
+        resampling = inner_loop, 
+        par.set = all_models, 
+        control = makeTuneControlGrid(), 
+        measures = list(rmse))
+```
+
+We now create the outer loop and execute:
+
+```{r}
+outer_loop = makeResampleDesc("CV", iters = 5)
+r = resample(lrn, modeling_task, resampling = outer_loop, extract = getTuneResult, measures = list(rmse))
+```
+
+Now we look at the results a bunch of different ways:
+
+```{r}
+r #overall estimate of oos error of the whole procedure if it were used on all of $\mathbb{D}$
+print(getNestedTuneResultsOptPathDf(r)) #results of each inner validation over all outer iterations
+r$extract #"winning" model for each outer iteration
+```
+
+See https://mlr.mlr-org.com/articles/tutorial/nested_resampling.html? for info on inner and outer loop CV.
+
+# MLR for Hyperparameter Selection
+
+We load the breast cancer dataset from earlier in the class.
+
+```{r}
+cancer = MASS::biopsy %>%
+  select(-ID) %>% #drop the useless ID column
+  na.omit #drop all rows that are missing
+modeling_task = makeClassifTask(data = cancer, target = "class") #instantiate the task
+```
+
+We now create the SVM using package `e1071` which plugs nicely into `mlr`.
+
+```{r}
+pacman::p_load(e1071)
+algorithm = makeLearner("classif.svm", kernel = "linear")
+```
+
+Now we create the inner loop where we try many different values of the hyperparameter.
+
+```{r}
+all_lambdas = 2^(seq(-10, 10, by = 0.5))
+all_hyperparams = makeParamSet(
+  makeDiscreteParam(id = "cost", default = 1, values = all_lambdas)
+)
+inner = makeResampleDesc("CV", iters = 3)
+lrn = makeTuneWrapper("classif.svm", 
+                      resampling = inner, 
+                      par.set = all_hyperparams, 
+                      control = makeTuneControlGrid(),
+                      measures = list(mmce))
+length(all_lambdas)
+```
+
+Now we create the outer loop and execute
+
+```{r}
+outer = makeResampleDesc("CV", iters = 5)
+r = resample(lrn, modeling_task, 
+            resampling = outer, 
+            extract = getTuneResult,
+            measures = list(mmce))
+```
+
+Now we look at the results a bunch of different ways:
+
+```{r}
+r #overall estimate of oos error of the whole procedure if it were used on all of $\mathbb{D}$
+print(getNestedTuneResultsOptPathDf(r)) #results of each inner validation over all outer iterations
+r$extract #"winning" model for each outer iteration
+```
 
 
 # Forward Stepwise Linear Model Construction
@@ -401,7 +542,4 @@ ggplot(simulation_results) +
 We can kind of see what the optimal model is above. If we want an exact procedure, we'd probably fit a separate smoothing regression to the oos results and analytically find the arg-minimum, $j^*$. That number will then be fed into the model matrix to create the right feature set and the final model will be produced with all the data.
 
 Can we honestly assess future performance now? No... we needed to keep a third set hanging around. This you will do for a lab exercise.
-
-
-
 
