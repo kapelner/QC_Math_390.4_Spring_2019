@@ -24,10 +24,10 @@ My lectures can be listened to as youtube tracks and lecture notes are also scan
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec22kap.pdf)
 * Lecture 21 [(audio)](https://youtu.be/bFuBCrvAtMU)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec21.Rmd) 
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec20kap.pdf) -->
+* Lecture 20 [(audio)](https://youtu.be/)
+  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec11.Rmd) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec20kap.pdf)
-* Lecture 20 [(audio)](https://youtu.be/M7p9Ze4QdlQ)
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec20.Rmd) 
-  - Theory Notes [(Ounon Kondi)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec20kondi.pdf) [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec20kap.pdf) -->
 * Lecture 19 [(audio)](https://youtu.be/8ZcMXMSI1Co)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec10.Rmd) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec19kap.pdf)
@@ -108,7 +108,8 @@ My lectures can be listened to as youtube tracks and lecture notes are also scan
 
 * Midterm I is Tues, March 5 (in class). [(exam)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/exams/midterm1/midterm1.pdf) [(solutions)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/exams/midterm1/midterm1_solutions.pdf)
 
-* Midterm II is Thurs, April 11 (in class).
+* Midterm II is Thurs, April 11 (in class). [(exam)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/exams/midterm2/midterm2.pdf) [(solutions)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/exams/midterm2/midterm2_solutions.pdf)
+
 
 * Final Exam is Tuesday, May 21 11AM-1PM (in class, KY283)
 

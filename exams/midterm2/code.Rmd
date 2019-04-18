@@ -1,0 +1,64 @@
+```{r}
+pacman::p_load(tidyverse)
+```
+
+Problem 3
+
+
+```{r}
+cars = MASS::Cars93
+str(cars)
+anova_mod = lm(Price ~ Type, cars)
+coef(anova_mod)
+anova_mod = lm(Price ~ 0 + Type, cars)
+coef(anova_mod)
+
+ggplot(cars) +
+  geom_point(aes(x = Horsepower, y = Price, shape = Type))
+ggsave("price_vs_horsepower_by_type.pdf", width = 6, height = 3, units = "in")
+
+anova_mod = lm(Price ~ Horsepower * Type, cars)
+coef(anova_mod)
+```
+
+Problem 4
+
+
+```{r}
+n = 100
+x = runif(n, 0, 1)
+X = cbind(1, x)
+beta = c(1, 1)
+delta = rnorm(n, 0, 0.1)
+y = X %*% beta + delta
+mod1 = lm(y ~ 0 + X)
+
+ggplot(data.frame(x = x, y = y)) + 
+  geom_point(aes(x = x, y = y))
+ggsave("scatter.pdf", height = 6, width = 3, unit = "in")
+x_prime = x + rnorm(n, mean = 0, sd = 1e-6)
+X = cbind(X, x_prime)
+mod2 = lm(y ~ 0 + X)
+
+
+mod3 = lm(y ~ poly(x, 6))
+```
+
+Problem 7
+
+```{r}
+
+D = ggplot2::txhousing
+dim(D)
+summary(D)
+D %<>% mutate(city = factor(city))
+
+pacman::p_load(mlr)  
+modeling_task = makeRegrTask(data = D, target = "volume")
+algorithm = makeLearner("regr.lm")
+validation = makeResampleDesc("CV", iters = 5)
+resample(algorithm, modeling_task, validation, measures = list(rmse))$aggr
+
+X = model.matrix(volume ~ . * . * ., D)
+```
+

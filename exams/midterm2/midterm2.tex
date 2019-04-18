@@ -1,0 +1,483 @@
+\documentclass[12pt]{article}
+
+\include{preamble}
+
+\title{Math 390.4 / 650.3 Spring 2019 \\ Midterm Examination Two}
+\author{Professor Adam Kapelner}
+
+\date{Thursday, April 18, 2019}
+
+\begin{document}
+\maketitle
+
+\noindent Full Name \line(1,0){410}
+
+\thispagestyle{empty}
+
+\section*{Code of Academic Integrity}
+
+\footnotesize
+Since the college is an academic community, its fundamental purpose is the pursuit of knowledge. Essential to the success of this educational mission is a commitment to the principles of academic integrity. Every member of the college community is responsible for upholding the highest standards of honesty at all times. Students, as members of the community, are also responsible for adhering to the principles and spirit of the following Code of Academic Integrity.
+
+Activities that have the effect or intention of interfering with education, pursuit of knowledge, or fair evaluation of a student's performance are prohibited. Examples of such activities include but are not limited to the following definitions:
+
+\paragraph{Cheating} Using or attempting to use unauthorized assistance, material, or study aids in examinations or other academic work or preventing, or attempting to prevent, another from using authorized assistance, material, or study aids. Example: using an unauthorized cheat sheet in a quiz or exam, altering a graded exam and resubmitting it for a better grade, etc.
+\\
+
+\noindent I acknowledge and agree to uphold this Code of Academic Integrity. \\
+
+\begin{center}
+\line(1,0){250} ~~~ \line(1,0){100}\\
+~~~~~~~~~~~~~~~~~~~~~signature~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ date
+\end{center}
+
+\normalsize
+
+\section*{Instructions}
+
+This exam is 110 minutes and closed-book. You are allowed \textbf{one} page (front and back) of a \qu{cheat sheet.} You may use a graphing calculator of your choice. Please read the questions carefully. If the question reads \qu{compute,} this means the solution will be a number otherwise you can leave the answer in \textit{any} widely accepted mathematical notation which could be resolved to an exact or approximate number with the use of a computer. I advise you to skip problems marked \qu{[Extra Credit]} until you have finished the other questions on the exam, then loop back and plug in all the holes. I also advise you to use pencil. The exam is 100 points total plus extra credit. Partial credit will be granted for incomplete answers on most of the questions. \fbox{Box} in your final answers. Good luck!
+
+\pagebreak
+
+\problem Below are some theoretical questions related to OLS.
+
+\benum
+\subquestionwithpoints{5} Let $\w \in \reals^{p+1}$ be a vector, let $\y \in \reals^n$ be a vector constant with respect to $\w$ and let $\X \in \reals^{n \times (p + 1)}$ be a full-rank matrix constant with respect to $\w$. Find the $\w$ that solves the following equation by showing all steps:
+
+\beqn
+\partialop{\w}{\y^\top \y - 2\w \X^\top \y + \w^\top \X^\top \X \w} = 0
+\eeqn\spc{10}
+\eenum
+
+\problem We continue now with questions related to OLS. Let $\b \in \reals^{p+1}$ be the vector found in 1(a), let $\y \in \reals^n$ be a constant vector, let $\X \in \reals^{n \times (p + 1)}$ be a constant full-rank matrix where the first column equals $\onevec_n$ and let $\H$ be the orthogonal projection matrix that we spoke about in class. Let $\yhat \in \reals^n$ be the orthogonal projection of $\y$ using $\H$ and let $\e \in \reals^n$ be the difference of $\y$ and its orthogonal projection using $\H$. Further, let SST$ := \normsq{\y - \ybar}$, SSR$ := \normsq{\yhat - \ybar}$ and SSE$ := \normsq{\e}$.
+
+\benum
+
+\subquestionwithpoints{3} Prove $\H$ is symmetric. \spc{6}
+
+\subquestionwithpoints{3} Compute $\normsq{Proj_{\colsp{\X}}(\onevec_n)}$. Justify each non-trivial step. \spc{6}
+
+\subquestionwithpoints{2} Let $\theta$ be the angle between $\y$ and $\yhat$. As the number of columns grows larger and $\X$ remains full rank, what value does $\cos{\theta}$ converge to? \spc{1}
+
+\subquestionwithpoints{2} Let $\Q$ denote $\X$ orthogonalized using the Gram-Schmidt algorithm. What is the dimension of $\Q$?\spc{1}
+
+\subquestionwithpoints{3} Let $\q_{\cdot j}$ denote the $j$th column of $\Q$. Find $\q_{\cdot 1}$. \spc{3}
+
+
+\subquestionwithpoints{3} Find $\normsq{\q_{\cdot 3}^\top\H}$. \spc{6}
+
+\subquestionwithpoints{3} If you add one column to $\X$ and it remains full rank and recompute $\yhat$, circle all quantities below that change:
+
+
+\begin{enumerate}[i)]
+\item $n$
+\item $p$
+\item $\b$
+\item SST
+\item SSR
+\item SSE
+\item $\dim\bracks{\H}$
+\item rank$\bracks{\H}$
+\item $Proj_{\colsp{\X}}(\y)$
+\end{enumerate}
+
+\eenum
+
+\problem This question is about modeling price of cars in the \texttt{cars} dataset:
+
+\lstset{basicstyle=\scriptsize}
+\begin{lstlisting}
+> dim(cars)
+[1] 93 27
+> summary(cars)
+    Manufacturer     Model         Type      Min.Price         Price      
+ Chevrolet: 8    100    : 1   Compact:16   Min.   : 6.70   Min.   : 7.40  
+ Ford     : 8    190E   : 1   Large  :11   1st Qu.:10.80   1st Qu.:12.20  
+ Dodge    : 6    240    : 1   Midsize:22   Median :14.70   Median :17.70  
+ Mazda    : 5    300E   : 1   Small  :21   Mean   :17.13   Mean   :19.51  
+ Pontiac  : 5    323    : 1   Sporty :14   3rd Qu.:20.30   3rd Qu.:23.30  
+ Buick    : 4    535i   : 1   Van    : 9   Max.   :45.40   Max.   :61.90  
+ (Other)  :57    (Other):87                                               
+   Max.Price       MPG.city      MPG.highway                  AirBags  
+ Min.   : 7.9   Min.   :15.00   Min.   :20.00   Driver & Passenger:16  
+ 1st Qu.:14.7   1st Qu.:18.00   1st Qu.:26.00   Driver only       :43  
+ Median :19.6   Median :21.00   Median :28.00   None              :34  
+ Mean   :21.9   Mean   :22.37   Mean   :29.09                          
+ 3rd Qu.:25.3   3rd Qu.:25.00   3rd Qu.:31.00                          
+ Max.   :80.0   Max.   :46.00   Max.   :50.00                          
+                                                                       
+ DriveTrain  Cylinders    EngineSize      Horsepower         RPM      
+ 4WD  :10   3     : 3   Min.   :1.000   Min.   : 55.0   Min.   :3800  
+ Front:67   4     :49   1st Qu.:1.800   1st Qu.:103.0   1st Qu.:4800  
+ Rear :16   5     : 2   Median :2.400   Median :140.0   Median :5200  
+            6     :31   Mean   :2.668   Mean   :143.8   Mean   :5281  
+            8     : 7   3rd Qu.:3.300   3rd Qu.:170.0   3rd Qu.:5750  
+            rotary: 1   Max.   :5.700   Max.   :300.0   Max.   :6500  
+                                                                      
+  Rev.per.mile  Man.trans.avail Fuel.tank.capacity   Passengers   
+ Min.   :1320   No :32          Min.   : 9.20      Min.   :2.000  
+ 1st Qu.:1985   Yes:61          1st Qu.:14.50      1st Qu.:4.000  
+ Median :2340                   Median :16.40      Median :5.000  
+ Mean   :2332                   Mean   :16.66      Mean   :5.086  
+ 3rd Qu.:2565                   3rd Qu.:18.80      3rd Qu.:6.000  
+ Max.   :3755                   Max.   :27.00      Max.   :8.000  
+                                                                  
+     Length        Wheelbase         Width        Turn.circle    Rear.seat.room 
+ Min.   :141.0   Min.   : 90.0   Min.   :60.00   Min.   :32.00   Min.   :19.00  
+ 1st Qu.:174.0   1st Qu.: 98.0   1st Qu.:67.00   1st Qu.:37.00   1st Qu.:26.00  
+ Median :183.0   Median :103.0   Median :69.00   Median :39.00   Median :27.50  
+ Mean   :183.2   Mean   :103.9   Mean   :69.38   Mean   :38.96   Mean   :27.83  
+ 3rd Qu.:192.0   3rd Qu.:110.0   3rd Qu.:72.00   3rd Qu.:41.00   3rd Qu.:30.00  
+ Max.   :219.0   Max.   :119.0   Max.   :78.00   Max.   :45.00   Max.   :36.00  
+                                                                 NAs   :2      
+  Luggage.room       Weight         Origin              Make   
+ Min.   : 6.00   Min.   :1695   USA    :48   Acura Integra: 1  
+ 1st Qu.:12.00   1st Qu.:2620   non-USA:45   Acura Legend : 1  
+ Median :14.00   Median :3040                Audi 100     : 1  
+ Mean   :13.89   Mean   :3073                Audi 90      : 1  
+ 3rd Qu.:15.00   3rd Qu.:3525                BMW 535i     : 1  
+ Max.   :22.00   Max.   :4105                Buick Century: 1  
+ NAs   :11                                  (Other)      :87 
+\end{lstlisting}
+
+
+Below are the outputs for a few different OLS models for variable \texttt{price}:
+
+\begin{itemize}
+\item[\fbox{Model 1}]
+
+\begin{verbatim}
+(Intercept)   TypeLarge TypeMidsize   TypeSmall  TypeSporty     TypeVan 
+  18.212500    6.087500    9.005682   -8.045833    1.180357    0.887500 
+\end{verbatim}
+\item[\fbox{Model 2}]
+\begin{verbatim}
+TypeCompact   TypeLarge TypeMidsize   TypeSmall  TypeSporty     TypeVan 
+   18.21250    24.30000    27.21818    10.16667    19.39286    19.10000
+\end{verbatim}
+\end{itemize}
+
+
+
+\benum
+\subquestionwithpoints{2} What is the \texttt{R} code used to fit Model 1?\spc{1}
+
+\subquestionwithpoints{2} Which model \emph{most likely} has higher $R^2$?
+
+\begin{enumerate}[i)]
+\item Model 1
+\item Model 2
+\item They have equal $R^2$
+\item Not enough information to tell
+\end{enumerate}
+
+\subquestionwithpoints{2} Which model \emph{most likely} has higher oos$R^2$?
+
+\begin{enumerate}[i)]
+\item Model 1
+\item Model 2
+\item They have equal oos$R^2$
+\item Not enough information to tell
+\end{enumerate}
+
+
+\subquestionwithpoints{4} Assume the dataframe \texttt{cars} is sorted by variable \texttt{Type} in ascending alphabetical order of the factor level name. Find $\X^\top \X$ explicitly for Model 2.\spc{5}
+
+Consider the following plot:
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=6in]{price_vs_horsepower_by_type}
+\end{figure}
+
+\subquestionwithpoints{4} Write ggplot code (as best as you can) to generate this figure.  \spc{5}
+
+Consider the following OLS linear model for target variable \texttt{price}:
+
+\begin{itemize}
+\item[\fbox{Model 3}]
+
+\begin{verbatim}
+           (Intercept)             Horsepower 
+            1.45938866             0.12788635 
+             TypeLarge            TypeMidsize 
+            5.13487179            -4.98652796 
+             TypeSmall             TypeSporty 
+            2.42815602             2.23460382 
+               TypeVan   Horsepower:TypeLarge 
+           25.53605395            -0.02922214 
+Horsepower:TypeMidsize   Horsepower:TypeSmall 
+            0.04973893            -0.05888501 
+ Horsepower:TypeSporty     Horsepower:TypeVan 
+           -0.02985597            -0.1807183
+\end{verbatim}
+\end{itemize}
+\subquestionwithpoints{2} What is the \texttt{R} code used to fit Model 3?\spc{1}
+
+\subquestionwithpoints{1} Which model \emph{most likely} has higher $R^2$?
+
+\begin{enumerate}[i)]
+\item Model 2
+\item Model 3
+\item They have equal $R^2$
+\item Not enough information to tell
+\end{enumerate}
+
+\subquestionwithpoints{2} Which model \emph{most likely} has higher oos$R^2$?
+
+\begin{enumerate}[i)]
+\item Model 2
+\item Model 3
+\item They have equal oos$R^2$
+\item Not enough information to tell
+\end{enumerate}
+
+\subquestionwithpoints{3} Interpret the number -0.1807183 for term \texttt{Horsepower:TypeVan} in Model 3.\spc{3}
+
+\eenum
+
+\problem This question is about OLS again. For the questions concerned with out of sample, consider running the code using split-sample or gathering future data under stationarity. Consider the following code:
+
+\lstset{basicstyle=\normalsize}
+\begin{lstlisting}
+n = 100
+x = runif(n, 0, 1)
+X = cbind(1, x)
+beta = c(1, 1)
+delta = rnorm(n, mean = 0, sd = 0.1)
+y = X % * % beta + delta
+
+mod1 = lm(y ~ 0 + X)
+\end{lstlisting}
+
+\benum
+
+\subquestionwithpoints{2} What is $f(x)$ in this case? $f$ is defined as we did in class.\spc{2}
+
+\subquestionwithpoints{3} Circle all the following that are true for \texttt{mod1}.
+
+\begin{enumerate}[i)]
+\item $\b$ will be very close to $\beta$
+\item $\b$ will not be very close to $\beta$
+\item $s_e$ will be very small
+\item $s_e$ will not be very small
+\item oos$s_e$ will be very small
+\item oos$s_e$ will not be very small
+\end{enumerate}
+
+Now consider running the following code after running the first chunk of code:\\
+
+\begin{lstlisting}
+x_prime = x + rnorm(n, mean = 0, sd = 1e-6)
+X = cbind(X, x_prime)
+mod2 = lm(y ~ 0 + X)
+\end{lstlisting}
+
+\subquestionwithpoints{1} In the case of model 2, what is $p$?\spc{1}
+
+\subquestionwithpoints{4} Circle all the following that are true for \texttt{mod2}.
+
+\begin{enumerate}[i)]
+\item $\b$ will be very close to $\beta$
+\item $\b$ will not be very close to $\beta$
+\item $s_e$ will be very small
+\item $s_e$ will not be very small
+\item oos$s_e$ will be very small
+\item oos$s_e$ will not be very small
+\end{enumerate}
+
+Now consider running the following code after running the two previous chunks of code:\\
+
+\begin{lstlisting}
+mod3 = lm(y ~ poly(x, 6))
+\end{lstlisting}
+
+\subquestionwithpoints{4} Circle all the following that are true for \texttt{mod3}.
+
+\begin{enumerate}[i)]
+\item $\b$ will be very close to $\beta$
+\item $\b$ will not be very close to $\beta$
+\item $s_e$ will be very small
+\item $s_e$ will not be very small
+\item oos$s_e$ will be very small
+\item oos$s_e$ will not be very small
+\end{enumerate}
+
+\eenum
+
+\problem This question is about the concept of model validation and the strategy we discussed in class. Let's say we divide scramble the rows of $\mathbb{D}$ then create a partition 
+
+\beqn
+\mathbb{D} = \fivevec{\mathbb{D}_{\text{train}}}{\text{------}}{\mathbb{D}_{\text{select}}}{\text{------}}{\mathbb{D}_{\text{test}}}
+\eeqn
+
+\noindent in a 3:1:1 ratio train : select : test (in number of rows). 
+
+We then fit $g_1 = \mathcal{A}(\mathcal{H}, \mathbb{D}_{\text{train}})$, $g_2 = \mathcal{A}(\mathcal{H}, \mathbb{D}_{\text{test}})$ and $g_{\text{final}} = \mathcal{A}(\mathcal{H}, \mathbb{D})$. Which of the following statement(s) can be employed as a means of \textit{honest} model validation?
+
+\benum
+\subquestionwithpoints{3} We wish to select a model out of $M$ candidate models $g_1, g_2, \ldots, g_M$. Which of the following are recommended strategies of doing so?
+
+\begin{enumerate}[i)]
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{train}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{train}}$.
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}$ and then choosing the model with lowest error on $\mathbb{D}$.
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{select}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{select}}$.
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{select}}$ and then $\mathbb{D}_{\text{test}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{test}}$.
+\end{enumerate}
+
+\subquestionwithpoints{3} We wish to select a model out of $M$ candidate models $g_1, g_2, \ldots, g_M$ and then provide an estimate of model generalization error. Which of the following are recommended strategies of doing so?
+
+\begin{enumerate}[i)]
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{select}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{select}}$ and providing the estimate of that error.
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{select}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{select}}$ and then testing on $\mathbb{D}$ and providing the estimate using that error.
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{select}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{select}}$ and then testing on $\mathbb{D}_{\text{test}}$ and providing the estimate using that error.
+\item Fitting $g_1, g_2, \ldots, g_M$ to $\mathbb{D}_{\text{train}}$ and then testing on $\mathbb{D}_{\text{select}}$ and then $\mathbb{D}_{\text{test}}$ and then choosing the model with lowest error on $\mathbb{D}_{\text{test}}$ and providing the estimate using that error.
+\end{enumerate}
+
+\subquestionwithpoints{2} Would your answer in (b) be able to provide an estimate of the variability in the generalization error? Yes / No.\spc{-0.5}
+
+Consider the selection of the model $g_1, g_2, \ldots, g_M$ to be termed \qu{tuning}. Imagine we used the protocol pictured below.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=6in]{nested_resampling.png}
+\end{figure}
+
+\subquestionwithpoints{3} What are the number of folds in the inner loop and the outer loop \textit{in our problem} respecting the ratio given in the problem description?\spc{3}
+
+\subquestionwithpoints{4} What are the two main advantages of the protocol above over the answer you gave in (b)?\spc{3}
+
+
+
+
+\eenum
+
+\problem Consider the following code:
+
+\begin{lstlisting}
+compute_distance_matrix = function(X){
+  n = nrow(X)
+  D = matrix(NA, n, n)
+  for (i_1 in 1 : (n - 1)){
+    for (i_2 in (i_1 + 1) : n){
+      D[i_1, i_2] = sqrt(sum((X[i_1, ] - X[i_2, ])^2))
+    }
+  }
+  D
+}
+
+pacman::p_load(Rcpp)
+cppFunction('
+  NumericMatrix compute_distance_matrix_cpp(NumericMatrix X) {
+    int n = X.nrow();
+    int p = X.ncol();
+    NumericMatrix D(n, n);
+    std::fill(D.begin(), D.end(), NA_REAL);
+
+    for (int i_1 = 0; i_1 < (n - 1); i_1++){
+      for (int i_2 = i_1 + 1; i_2 < n; i_2++){
+        int sqd_diff = 0;
+        for (int j = 0; j < p; j++){
+          sqd_diff += pow(X(i_1, j) - X(i_2, j), 2);
+        }
+        D(i_1, i_2) = sqrt(sqd_diff); 
+      }
+    }
+    return D;
+  }
+')
+\end{lstlisting}
+
+\noindent We now profile both functions using a matrix $\X$ that has $n$ in the 100's via the code: \\
+
+\begin{lstlisting}
+system.time({
+  D = compute_distance_matrix(X)
+})
+system.time({
+  D = compute_distance_matrix_cpp(X)
+})
+\end{lstlisting}
+
+\benum
+
+\subquestionwithpoints{2} Which function registers a faster profiling time and by how much? Provide a multiple.\spc{1}
+
+\subquestionwithpoints{2} Explain why this should be.\spc{3}
+
+\subquestionwithpoints{2} You wish to recode the \texttt{R} function \texttt{sort} using \texttt{Rcpp}. Assume your C++ code is bug-free. Is this endeavor fruitful? Why or why not?\spc{3}
+\eenum
+
+\problem Consider the following dataset:
+
+\lstset{basicstyle=\footnotesize}
+\begin{lstlisting}
+> pacman::p_load(ggplot2, dplyr, magrittr)
+> D = ggplot2::txhousing
+> dim(D)
+[1] 8602    9
+> summary(D)
+    city                year          month       
+ Length:8602        Min.   :2000   Min.   : 1.000  
+ Class :character   1st Qu.:2003   1st Qu.: 3.000  
+ Mode  :character   Median :2007   Median : 6.000  
+                    Mean   :2007   Mean   : 6.406  
+                    3rd Qu.:2011   3rd Qu.: 9.000  
+                    Max.   :2015   Max.   :12.000  
+                                                   
+     sales            volume              median      
+ Min.   :   6.0   Min.   :8.350e+05   Min.   : 50000  
+ 1st Qu.:  86.0   1st Qu.:1.084e+07   1st Qu.:100000  
+ Median : 169.0   Median :2.299e+07   Median :123800  
+ Mean   : 549.6   Mean   :1.069e+08   Mean   :128131  
+ 3rd Qu.: 467.0   3rd Qu.:7.512e+07   3rd Qu.:150000  
+ Max.   :8945.0   Max.   :2.568e+09   Max.   :304200  
+ NAs   :568     NAs   :568       NAs   :616     
+    listings       inventory           date     
+ Min.   :    0   Min.   : 0.000   Min.   :2000  
+ 1st Qu.:  682   1st Qu.: 4.900   1st Qu.:2004  
+ Median : 1283   Median : 6.200   Median :2008  
+ Mean   : 3217   Mean   : 7.175   Mean   :2008  
+ 3rd Qu.: 2954   3rd Qu.: 8.150   3rd Qu.:2012  
+ Max.   :43107   Max.   :55.900   Max.   :2016  
+ NAs   :1424     NAs   :1467                   
+\end{lstlisting}
+\vspace{-1cm}
+
+\benum
+
+\subquestionwithpoints{2} Write \texttt{dplyr} code below to update \texttt{D} to convert the city variable into a nominal factor variable. \spc{2}
+
+\subquestionwithpoints{5} Write \texttt{dplyr} code below to update \texttt{D} to create a new character variable called \texttt{month\_date} which has a string timestamp with format MM/YYYY, then sort by date (earliest first) and then drop columns \texttt{month}, \texttt{year} and \texttt{date}. \spc{4}
+
+\subquestionwithpoints{2} Write \texttt{dplyr} code below to \qu{windsorize} \texttt{D} on the \texttt{volume} variable. This means it will only contain rows that are between the 5\%ile and 95\%ile of volumes. \spc{2}
+
+\subquestionwithpoints{3} Write \texttt{dplyr} code below to summarize the data in \texttt{D} by providing the average volume in each month. \spc{2}
+
+We now wish to predict the target \texttt{volume} based on the other variables as features. Consider the following code after the first chunk has been executed:
+
+\begin{lstlisting}
+> D % <> % na.omit
+> pacman::p_load(mlr)  
+> modeling_task = makeRegrTask(data = D, target = "volume")
+> algorithm = makeLearner("regr.lm")
+> validation = makeResampleDesc("CV", iters = 5)
+> resample(algorithm, modeling_task, validation, measures = list(rmse))$aggr
+34120325
+\end{lstlisting}
+
+\subquestionwithpoints{3} Interpret the output, 34120325, as best as you can. \spc{2}
+
+\subquestionwithpoints{2} What simple transformation can be done to one of the variables in the dataset that would likely increase predictive performance?\spc{2}
+
+Consider the following code:
+
+\begin{lstlisting}
+> X = model.matrix(volume ~ . * . * ., D)
+\end{lstlisting}
+
+
+\subquestionwithpoints{2} In one sentence (or less) answer the following: which procedure could you use to build a model predicting \texttt{volume} based on the features now found in the design matrix \texttt{X}?\spc{2}
+\eenum
+
+\end{document}
