@@ -545,7 +545,7 @@ g_bagged = g_bagged / num_trees #average of all models
 #now plot
 ggplot(data.frame(x = x, f = f_x, g_bagged = g_bagged)) + 
   geom_line(aes(x, f), col = "darkgreen") + 
-  geom_line(aes(x, g_bagged), col = "red")
+  geom_line(aes(x, g_bagged), col = "blue")
 ```
   
 That's pretty good considering the plot of the raw data from above.
