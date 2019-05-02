@@ -436,13 +436,13 @@ This is small - why??
 
 It's because trees are so expressive and have such model complexity that they can nail almost any true $f$ function!
 
-That means the MSE save the irreducible noise is coming from the variance. Let's look at all lines:
+That means the MSE save the irreducible noise is coming from the variance. Let's look at one of the lines:
 
 ```{r}
 plot_obj = ggplot(data.frame(x = x)) + 
   xlim(xmin, xmax) #+ ylim(xmin^2, xmax^2)
 
-for (nsim in 1 : min(Nsim, 100)){ #otherwise takes too long
+for (nsim in 1 : min(Nsim, 1)){ #otherwise takes too long
   g_nsim = training_gs[[nsim]]
   g_x = predict(g_nsim, data.frame(x = x))
   plot_obj = plot_obj + geom_line(data = data.frame(x = x, y = g_x), aes(x = x, y = y), col = "blue")
