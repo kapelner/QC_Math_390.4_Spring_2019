@@ -354,7 +354,7 @@ And load the tree package:
 ```{r}
 options(java.parameters = "-Xmx4000m")
 # pacman::p_install_gh("kapelner/YARF", subdir = "YARF", ref = "dev")
-pacman::p_load(YARF)
+pacman::p_load(YARF, tidyverse)
 ```
 
 Now let's generate lots of different datasets and fit many tree models. Note there's a new argument `calculate_oob_error = FALSE`. This is here for speed only. Ignore this for now as we will go over what this means later in detail.
@@ -555,7 +555,7 @@ Now let's see if this is truly better than one tree. The way to do this is gener
 To do this, we employ a convenience method called `YARFBAG`. We first define a number of trees in the "bag":
 
 ```{r}
-num_trees = 250 #previously called "T"
+num_trees = 250 #called "M" in class
 ```
 
 And then we run the same simulation as we did above with one tree.
@@ -685,3 +685,205 @@ sigsq + expe_bias_g_sq + expe_var_g
 ```
 
 We have a better algorithm!
+
+# Bagged Trees vs. a Linear Model
+
+First we'll load the packages and data:
+
+```{r}
+rm(list = ls())
+options(java.parameters = "-Xmx8000m")
+# pacman::p_install_gh("kapelner/YARF", subdir = "YARF", ref = "dev")
+# pacman::p_load(YARF, ggplot2)
+library(YARF)
+diamonds_sample = diamonds[sample(1 : nrow(diamonds), 2000), ]
+boston = MASS::Boston
+cancer = MASS::biopsy
+cancer$ID = NULL
+cancer = na.omit(cancer)
+pacman::p_load_gh("coatless/ucidata")
+data(adult)
+adult = na.omit(adult) #kill any observations with missingness
+adult_sample = adult[sample(1 : nrow(adult), 2000), ]
+```
+
+Let's look at the boston housing data first
+
+```{r}
+prop_test = 0.1
+test_indices = sample(1 : nrow(boston), round(prop_test * nrow(boston)))
+boston_test = boston[test_indices, ]
+y_test = boston_test$medv
+X_test = boston_test
+X_test$medv = NULL
+train_indices = setdiff(1 : nrow(boston), test_indices)
+boston_train = boston[train_indices, ]
+y_train = boston_train$medv
+X_train = boston_train
+X_train$medv = NULL
+
+mod_lin = lm(y_train ~ ., X_train)
+y_hat_test_lin = predict(mod_lin, X_test)
+s_e_lin = sd(y_test - y_hat_test_lin)
+s_e_lin
+
+num_trees = 500
+mod_bag = YARFBAG(X_train, y_train, num_trees = num_trees, calculate_oob_error = FALSE)
+y_hat_test_bag = predict(mod_bag, X_test)
+s_e_bag = sd(y_test - y_hat_test_bag)
+s_e_bag
+
+cat("oos standard error reduction:", (1 - s_e_bag / s_e_lin) * 100, "%\n")
+```
+
+How much room was there to improve?
+
+```{r}
+summary(mod_lin)$r.squared
+```
+
+Whole lot of room to improve! That extra 26% or so of unexplained variance is split between bias and irreducible error due to unknown information. The bagged trees can get rid of the bias and minimize variance while doing so. And it did a great job!
+
+Now the diamonds data:
+
+```{r}
+n_train = 500
+
+training_indices = sample(1 : nrow(diamonds), n_train)
+diamonds_train = diamonds[training_indices, ]
+y_train = diamonds_train$price
+X_train = diamonds_train
+X_train$price = NULL
+
+
+test_indices = setdiff(1 : nrow(diamonds), training_indices)
+diamonds_test = diamonds[test_indices, ]
+y_test = diamonds_test$price
+X_test = diamonds_test
+X_test$price = NULL
+
+
+mod_lin = lm(y_train ~ ., X_train)
+y_hat_test_lin = predict(mod_lin, X_test)
+s_e_lin = sd(y_test - y_hat_test_lin)
+s_e_lin
+
+mod_bag = YARFBAG(X_train, y_train, calculate_oob_error = FALSE)
+y_hat_test_bag = predict(mod_bag, X_test)
+s_e_bag = sd(y_test - y_hat_test_bag)
+s_e_bag
+
+cat("oos standard error reduction:", (1 - s_e_bag / s_e_lin) * 100, "%\n")
+```
+
+```{r}
+summary(mod_lin)$r.squared
+```
+
+Not a whole lot of room to improve! That extra 8% of unexplained variance is split between bias and irreducible error due to unknown information. But it did the best it can. It is likely what's remaining is due to information we are not privy to.
+
+
+# Validation in Bagging?
+
+We are using the "bootstrap" to get the trees. Can we do model validation in the same step? 
+
+The answer is yes. For every tree, there was a bootstrap sample of the training set used to build the tree. But there are observations in $\mathbb{D}$ that are not in the bootstrap sample! About 1/3 on average are left out i.e. "out of bag (oob)". Over many trees, there are different oob subsets than become the full data set. So you actually have validation in a way on the whole dataset kind of like K-fold cross validation. Supposedly this validation is similar to K=2 in terms of performance. It is what everyone seems to use. 
+
+Let's load the data and packages from last class and plot the data:
+
+```{r}
+rm(list = ls())
+n_train = 100
+n_test = 500
+xmin = 0
+xmax = 10
+sigsq = 0.09
+num_trees = 500
+x_train = runif(n_train, xmin, xmax)
+delta_train = rnorm(n_train, 0, sqrt(sigsq))
+y_train = sin(x_train) + delta_train
+ggplot(data.frame(x = x_train, y = y_train)) + geom_point(aes(x, y))
+```
+
+Let's look at one bagged tree model and compute OOB errors after construction:
+
+```{r}
+bagged_tree_mod = YARFBAG(data.frame(x = x_train), y_train, num_trees = num_trees) #TRUE is the default! Why? It's something you want to know!
+bagged_tree_mod
+```
+
+How did this work? Let's look at the oob sets:
+
+```{r}
+cat("bootstrap indices:")
+sort(bagged_tree_mod$bootstrap_indices[[1]])
+cat("oob:")
+sort(setdiff(1 : n_train, bagged_tree_mod$bootstrap_indices[[1]]))
+cat("bootstrap indices:")
+bagged_tree_mod$bootstrap_indices[[2]]
+cat("oob:")
+setdiff(1 : n_train, bagged_tree_mod$bootstrap_indices[[2]])
+```
+
+It took predictions on each tree on the oob set, averaged by observation across trees and then averaged across observation averages.
+
+
+# Random Forests
+
+
+What do we have now? We have model selection is done within training. And training and validation are done in a single step! No more costly K-fold CV with 3 splits!
+
+But can it get any better? YES. As you saw, the variance terms can be shrunk further the more decorrelated the trees become. We do this now by introducing randomness into the splits by choosing only a subset of the features to split on randomly. The trees are then grown as normal. Then the we model average many trees via bagging. And that's random forests!
+
+Quick demo with the boston housing data and oob validation:
+
+```{r}
+rm(list = ls())
+boston = MASS::Boston
+y = boston$medv
+X = boston
+X$medv = NULL
+
+mod_bag = YARFBAG(X, y, num_trees = 500)
+mod_bag
+mod_rf = YARF(X, y, num_trees = 500)
+mod_rf
+```
+
+Gain in decorrelation?
+
+```{r}
+cat("gain: ", (mod_rf$pseudo_rsq_oob - mod_bag$pseudo_rsq_oob) / mod_bag$pseudo_rsq_oob * 100, "%\n")
+```
+
+For this example, not much. How about on the diamonds dataset?
+
+```{r}
+diamonds = ggplot2::diamonds
+
+rm(list = ls())
+num_trees = 500
+n_train = 500
+
+training_indices = sample(1 : nrow(diamonds), n_train)
+diamonds_train = diamonds[training_indices, ]
+y_train = diamonds_train$price
+X_train = diamonds_train
+X_train$price = NULL
+
+mod_bag = YARFBAG(X_train, y_train, num_trees = num_trees, calculate_oob_error = FALSE)
+mod_rf = YARF(X_train, y_train, num_trees = num_trees, calculate_oob_error = FALSE)
+
+test_indices = setdiff(1 : nrow(diamonds), training_indices)
+diamonds_test = diamonds[test_indices, ]
+y_test = diamonds_test$price
+X_test = diamonds_test
+X_test$price = NULL
+
+mse_bag = sum((y_test = predict(mod_bag, X_test))^2) / nrow(X_test)
+mse_rf = sum((y_test = predict(mod_rf, X_test))^2) / nrow(X_test)
+cat("gain: ", (mse_bag - mse_rf) / mse_bag * 100, "%\n")
+```
+
+Also, not much, but real.
+
