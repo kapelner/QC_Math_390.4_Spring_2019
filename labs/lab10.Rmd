@@ -5,4 +5,158 @@ output: pdf_document
 date: "11:59PM May 12, 2019"
 ---
 
+First load the tree-building package:
+
+```{r}
+options(java.parameters = "-Xmx4000m")
+# pacman::p_install_gh("kapelner/YARF", subdir = "YARF", ref = "dev")
+pacman::p_load(YARF)
+```
+
+Let's take a look at the simulated sine curve data (i.e. the illustration I drew on the board last class)
+
+```{r}
+pacman::p_load(tidyverse)
+n_train = 500
+x_max = 10
+x_train = runif(n_train, 0, x_max)
+y_train = sin(x_train) + rnorm(n_train, 0, 0.3)
+ggplot(data.frame(x = x_train, y = y_train), aes(x, y)) + geom_point(lwd=0.6) 
+```
+
+create a test set from the this data generating process with size 1000.
+
+```{r}
+#TO-DO
+```
+
+
+Fit a linear model to this dataset and test out of sample to get an idea of the generalization error.
+
+```{r}
+#TO-DO
+```
+
+Fit a tree to this dataset where nodesize is 25.
+
+```{r}
+#TO-DO
+```
+
+How many nodes and how deep is this tree?
+
+```{r}
+#TO-DO
+```
+
+Create an image of this tree's nodes and split rules.
+
+```{r}
+#TO-DO
+```
+
+Test this tree model's performance out of sample to get an idea of the generalization error.
+
+```{r}
+#TO-DO
+```
+
+Fit a tree to this dataset where nodesize is 1 and test out of sample.
+
+```{r}
+#TO-DO
+```
+
+Create M = 200 bootstrap samples of the data and save in a list.
+
+```{r}
+#TO-DO
+```
+
+Create a bag of M trees model where nodesize = 5 (the regression default).
+
+```{r}
+#TO-DO
+```
+
+Test this bagged model out of sample.
+
+```{r}
+#TO-DO
+```
+
+Using the bootstrapped samples, find the oob error. This is hard!
+
+```{r}
+#TO-DO
+```
+
+Fit a random forest model to the data. Report oob error.
+
+```{r}
+#TO-DO
+```
+
+Test the random forest model out of sample. Is this error lower than the bagged model? Is the error similar to its oob error?
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+```{r}
+#TO-DO
+```
+
+
+
+
+
+```{r}
+#TO-DO
+```
+
 
