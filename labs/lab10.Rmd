@@ -27,62 +27,91 @@ ggplot(data.frame(x = x_train, y = y_train), aes(x, y)) + geom_point(lwd=0.6)
 create a test set from the this data generating process with size 1000.
 
 ```{r}
-#TO-DO
+n_test = 1000
+x_test = runif(n_test, 0, x_max)
+y_test = sin(x_test) + rnorm(n_test, 0, 0.3)
+ggplot(data.frame(x = x_test, y = y_test), aes(x, y)) + geom_point(lwd=0.6) 
 ```
 
 
 Fit a linear model to this dataset and test out of sample to get an idea of the generalization error.
 
 ```{r}
-#TO-DO
+linear_mod = lm(y_train ~ x_train)
+se_oos = sd(y_test - predict(linear_mod, data.frame(x_train = x_test)))
+se_oos
 ```
 
 Fit a tree to this dataset where nodesize is 25.
 
 ```{r}
-#TO-DO
+tree_mod = YARFCART(data.frame(x = x_train), y_train, nodesize = 25)
 ```
 
 How many nodes and how deep is this tree?
 
 ```{r}
-#TO-DO
+get_tree_num_nodes_leaves_max_depths(tree_mod)
 ```
 
 Create an image of this tree's nodes and split rules.
 
 ```{r}
-#TO-DO
+illustrate_trees(tree_mod, max_depth = 4)
 ```
 
 Test this tree model's performance out of sample to get an idea of the generalization error.
 
 ```{r}
-#TO-DO
+se_oos = sd(y_test - predict(tree_mod, data.frame(x = x_test)))
+se_oos
 ```
 
 Fit a tree to this dataset where nodesize is 1 and test out of sample.
 
 ```{r}
-#TO-DO
+tree_mod = YARFCART(data.frame(x = x_train), y_train, nodesize = 1)
+get_tree_num_nodes_leaves_max_depths(tree_mod)
+se_oos = sd(y_test - predict(tree_mod, data.frame(x = x_test)))
+se_oos
 ```
 
 Create M = 200 bootstrap samples of the data and save in a list.
 
 ```{r}
-#TO-DO
+M = 200
+bootstrap_x_train = list()
+bootstrap_y_train = list()
+
+for(i in 1:M){
+  bootstrap_indices = sample(1 : n_train, replace = TRUE, size = n_train)
+  bootstrap_x_train[[i]] = x_train[bootstrap_indices]
+  bootstrap_y_train[[i]] = y_train[bootstrap_indices]
+}
 ```
 
 Create a bag of M trees model where nodesize = 5 (the regression default). Use the call of `YARFCART`.
 
 ```{r}
-#TO-DO
+tree_mods = list()
+for (k in 1 : M){
+  tree_mods[[k]] = YARFCART(data.frame(x = bootstrap_x_train[[k]]), bootstrap_y_train[[k]], nodesize = 5, calculate_oob_error = FALSE)
+}
 ```
 
 Test this bagged model out of sample.
 
 ```{r}
-#TO-DO
+y_test_hats = matrix(NA, nrow = n_test, ncol = M)
+
+for(k in 1 : M){
+  y_test_hats[, k] = predict(tree_mods[[k]], data.frame(x = x_test))
+  
+}
+y_test_hats = rowMeans(y_test_hats)
+
+se_oos = sd(y_test - y_test_hats)
+se_oos
 ```
 
 Using the bootstrapped samples, find the oob error. This is hard!
@@ -148,4 +177,3 @@ Load the `nycflights13` data and join the weather table to airport in the four w
 Explain in English what each of these joins is doing.
 
 #TO-DO
-
