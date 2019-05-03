@@ -1,9 +1,88 @@
 ---
 title: "Practice Lecture 13 MATH 390.4 Queens College"
 author: "Professor Adam Kapelner"
-date: "May ??, 2019"
+date: "May 7, 2019"
 ---
 
+# Joins
+
+```{r}
+pacman::p_load(nycflights13, tidyverse, magrittr)
+data(weather)
+str(weather)
+data(airports)
+str(airports)
+```
+
+Note how the weather and airports datasets contain a common feature: name of airport. It is called `FAA` in airports and `origin` in weather.
+
+First we rename the column in weather to match the column in airports and sort:
+
+```{r}
+weather %<>% rename(faa = origin)
+airports %<>% arrange(faa)
+weather %<>% arrange(faa)
+```
+
+As a preview to missingness:
+
+```{r}
+str(weather)
+summary(weather)
+```
+
+We also pare down the datasets so we can see the joins more clearly:
+
+```{r}
+airports %<>% select(faa, lat, lon)
+weather %<>% select(faa, time_hour, temp, humid, wind_speed, pressure, wind_gust)
+```
+
+
+
+Some features just aren't measured that often e.g. `wind_gust`.
+
+Let's do some joins. 
+
+```{r}
+head(airports)
+head(weather)
+airports_and_weather = left_join(airports, weather, by = "faa")
+airports_and_weather %>% sample_n(500)
+```
+
+
+```{r}
+head(airports)
+head(weather)
+airports_and_weather = right_join(airports, weather, by = "faa")
+airports_and_weather %>% sample_n(500)
+```
+
+```{r}
+head(airports)
+head(weather)
+airports_and_weather = inner_join(airports, weather, by = "faa")
+airports_and_weather %>% sample_n(500)
+```
+
+Just an example... drop `EWR` from airports:
+
+```{r}
+
+```
+
+
+```{r}
+head(airports)
+head(weather)
+airports_and_weather = full_join(airports, weather, by = "faa")
+airports_and_weather %>% sample_n(500) %>% arrange(faa)
+```
+
+There is also `semi_join` and `anti_join` that do the opposite of joining. In my experience, these use cases are limited.
+
+# Missingness
 
 
 #Confusion Tables

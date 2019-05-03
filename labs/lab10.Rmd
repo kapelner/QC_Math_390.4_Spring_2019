@@ -73,7 +73,7 @@ Create M = 200 bootstrap samples of the data and save in a list.
 #TO-DO
 ```
 
-Create a bag of M trees model where nodesize = 5 (the regression default).
+Create a bag of M trees model where nodesize = 5 (the regression default). Use the call of `YARFCART`.
 
 ```{r}
 #TO-DO
@@ -91,72 +91,61 @@ Using the bootstrapped samples, find the oob error. This is hard!
 #TO-DO
 ```
 
-Fit a random forest model to the data. Report oob error.
+Fit a random forest model (RF) to the data. Report oob error.
 
 ```{r}
 #TO-DO
 ```
 
-Test the random forest model out of sample. Is this error lower than the bagged model? Is the error similar to its oob error?
+Test the RF model out of sample. Is this error lower than the bagged model? Is the error similar to its oob error?
 
 ```{r}
 #TO-DO
 ```
 
-
-
-```{r}
-#TO-DO
-```
-
-
+Load the `diamonds' dataset. Sample 1,000 rows for training and 1,000 rows for testing.
 
 ```{r}
 #TO-DO
 ```
 
-
-
-```{r}
-#TO-DO
-```
-
-
+Build a linear model and test.
 
 ```{r}
 #TO-DO
 ```
 
+Build a bagged model and test. You can use `YARFBAG`.
 
+```{r}
+#TO-DO
+```
 
+Build a RF model and test. You can use `YARF`.
 
 
 ```{r}
 #TO-DO
 ```
 
+Explain why the gains are small from linear regression -> bagged trees -> random Forests
 
+#TO-DO
 
+Use `mlr` to build a RF model that is optimally tuned for the hyperparameter `mtry` and test out of sample.
+
+```{r}
+#TO-DO
+```
+
+Load the `nycflights13` data and join the weather table to airport in the four ways we learned about. 
 
 
 ```{r}
 #TO-DO
 ```
 
+Explain in English what each of these joins is doing.
 
-
-
-
-```{r}
 #TO-DO
-```
-
-
-
-
-
-```{r}
-#TO-DO
-```
-
 
