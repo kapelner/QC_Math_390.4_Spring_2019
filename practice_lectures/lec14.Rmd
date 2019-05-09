@@ -1,0 +1,17 @@
+---
+title: "lec14.Rmd"
+author: "Adam Kapelner"
+date: "May 9, 2019"
+output: html_document
+---
+
+
+# Missingness
+
+Take a look at the weather dataset again:
+
+```{r}
+pacman::p_load(nycflights13, tidyverse, magrittr)
+data(weather)
+str(weather)
+```
