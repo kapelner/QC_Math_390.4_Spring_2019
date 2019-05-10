@@ -100,7 +100,8 @@ My lectures can be listened to as youtube tracks and lecture notes are also scan
 
 ## Writing Assignments
 
-* Assignment 1 [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01/w01.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01.pdf) (due 4/18)
+* Final Project [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/w01.pdf) (due 5/24)
+* Modeling Essay [(download)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/final_project.pdf?raw=true) [(view)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/writing_assignments/final_project.pdf) (due 4/18)
 
 
 ## Exams
