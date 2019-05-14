@@ -6,12 +6,12 @@ This is the course homepage for Math 390.4 (and Masters level 650.3) for the Spr
 
 My lectures can be listened to as youtube tracks and lecture notes are also scanned in as PDF files contributed by students and myself.
 
-<!--
-* Lecture 26 [(audio)](https://youtu.be/)
-  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec26.Rmd)
+<!-- -->
+* Lecture 26 [(audio)](https://youtu.be/zjda1bV6h6Y)
+  - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec14.Rmd)
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec26kap.pdf)
-* Lecture 25 [(audio)](https://youtu.be/)
-  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec25kap.pdf) -->
+* Lecture 25 [(audio)](https://youtu.be/uuO5q60eYJ8)
+  - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec25kap.pdf)
 * Lecture 24 [(audio)](https://youtu.be/nNv38iPb-qc)
   - [Practice Notes](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/practice_lectures/lec13.Rmd) 
   - Theory Notes [(Prof)](https://github.com/kapelner/QC_Math_390.4_Spring_2019/blob/master/lectures/lec24kap.pdf) 
