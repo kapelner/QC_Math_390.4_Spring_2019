@@ -96,7 +96,9 @@ linear_mod_impute_and_missing_dummies = lm(y ~ ., Xnew)
 summary(linear_mod_impute_and_missing_dummies)
 ```
 
-Now we have 13.5%. I bet that gain is statistically significant but it wasn't such a meaningful gain in real world terms. This is just an illustration of best practice. It didn't necessarily have to "work".
+Is this a better model?? Are they even comparable? How to compare them? I'm not sure... certainly an R^2 comparison is the wrong way to compare.
+
+Note: this is just an illustration of best practice. It didn't necessarily have to "work".
 
 It is hard to compare the two models since the first model was built with 23,000 observations and this was built with the full 26,000 observations. Those extra 3,000 are the most difficult to predict on. This is complicated...
 
